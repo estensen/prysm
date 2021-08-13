@@ -147,7 +147,7 @@ func (s *Service) subscribeWithBase(topic string, validator pubsub.ValidatorEx, 
 		for {
 			msg, err := sub.Next(s.ctx)
 			if err != nil {
-				// This should only happen when the context is cancelled or subscription is cancelled.
+				// This should only happen when the context is canceled or subscription is canceled.
 				if err != pubsub.ErrSubscriptionCancelled { // Only log a warning on unexpected errors.
 					log.WithError(err).Warn("Subscription next failed")
 				}

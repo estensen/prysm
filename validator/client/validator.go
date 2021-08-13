@@ -426,9 +426,9 @@ func (v *validator) CheckDoppelGanger(ctx context.Context) error {
 	return buildDuplicateError(resp.Responses)
 }
 
-func buildDuplicateError(respones []*ethpb.DoppelGangerResponse_ValidatorResponse) error {
+func buildDuplicateError(responses []*ethpb.DoppelGangerResponse_ValidatorResponse) error {
 	duplicates := make([][]byte, 0)
-	for _, valRes := range respones {
+	for _, valRes := range responses {
 		if valRes.DuplicateExists {
 			copiedKey := [48]byte{}
 			copy(copiedKey[:], valRes.PublicKey)

@@ -1073,7 +1073,7 @@ func TestBlocksQueue_stuckInUnfavourableFork(t *testing.T) {
 		mode:                modeNonConstrained,
 	})
 
-	// Populate database with blocks from unfavourable fork i.e. branch that leads to dead end.
+	// Populate database with blocks from unfavorable fork i.e. branch that leads to dead end.
 	for _, blk := range chain1[1:] {
 		parentRoot := bytesutil.ToBytes32(blk.Block.ParentRoot)
 		// Save block only if parent root is already in database or cache.
@@ -1085,7 +1085,7 @@ func TestBlocksQueue_stuckInUnfavourableFork(t *testing.T) {
 	require.Equal(t, types.Slot(len(chain1)-1), mc.HeadSlot())
 	hook := logTest.NewGlobal()
 
-	t.Run("unfavourable fork and no alternative branches", func(t *testing.T) {
+	t.Run("unfavorable fork and no alternative branches", func(t *testing.T) {
 		defer hook.Reset()
 		// Reset all machines.
 		require.NoError(t, queue.smm.removeAllStateMachines())
@@ -1143,7 +1143,7 @@ func TestBlocksQueue_stuckInUnfavourableFork(t *testing.T) {
 		assert.LogsContain(t, hook, "No alternative blocks found for peer")
 	})
 
-	t.Run("unfavourable fork and alternative branches exist", func(t *testing.T) {
+	t.Run("unfavorable fork and alternative branches exist", func(t *testing.T) {
 		defer hook.Reset()
 		// Reset all machines.
 		require.NoError(t, queue.smm.removeAllStateMachines())

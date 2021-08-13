@@ -76,7 +76,7 @@ func NewGenerator() *Rand {
 // NewDeterministicGenerator returns a random generator which is only seeded with crypto/rand,
 // but is deterministic otherwise (given seed, produces given results, deterministically).
 // Panics if crypto/rand input cannot be read.
-// Use this method for performance, where deterministic pseudo-random behaviour is enough.
+// Use this method for performance, where deterministic pseudo-random behavior is enough.
 // Otherwise, rely on NewGenerator().
 func NewDeterministicGenerator() *Rand {
 	randGen := NewGenerator()

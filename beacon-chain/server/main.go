@@ -25,7 +25,7 @@ var (
 	debug                   = flag.Bool("debug", false, "Enable debug logging")
 	allowedOrigins          = flag.String("corsdomain", "localhost:4242", "A comma separated list of CORS domains to allow")
 	enableDebugRPCEndpoints = flag.Bool("enable-debug-rpc-endpoints", false, "Enable debug rpc endpoints such as /eth/v1alpha1/beacon/state")
-	grpcMaxMsgSize          = flag.Int("grpc-max-msg-size", 1<<22, "Integer to define max recieve message call size")
+	grpcMaxMsgSize          = flag.Int("grpc-max-msg-size", 1<<22, "Integer to define max receive message call size")
 )
 
 func init() {

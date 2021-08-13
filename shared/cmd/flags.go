@@ -166,7 +166,7 @@ var (
 	// P2PDenyList defines a list of CIDR subnets to disallow connections from them.
 	P2PDenyList = &cli.StringSliceFlag{
 		Name: "p2p-denylist",
-		Usage: "The CIDR subnets for denying certainy peer connections. " +
+		Usage: "The CIDR subnets for denying certainty peer connections. " +
 			"Using \"private\" would deny all private subnets. Example: " +
 			"192.168.0.0/16 would deny connections from peers on your local network only. The " +
 			"default is to accept all connections.",
@@ -216,7 +216,7 @@ var (
 	// GrpcMaxCallRecvMsgSizeFlag defines the max call message size for GRPC
 	GrpcMaxCallRecvMsgSizeFlag = &cli.IntFlag{
 		Name:  "grpc-max-msg-size",
-		Usage: "Integer to define max recieve message call size (default: 4194304 (for 4MB))",
+		Usage: "Integer to define max receive message call size (default: 4194304 (for 4MB))",
 		Value: 1 << 22,
 	}
 	// AcceptTosFlag specifies user acceptance of ToS for non-interactive environments.

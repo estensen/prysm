@@ -968,7 +968,7 @@ func TestServer_StreamIndexedAttestations_OK(t *testing.T) {
 				mockStream.EXPECT().Send(att).Do(func(arg0 interface{}) {
 					exitRoutine <- true
 				})
-				t.Log("cancelled")
+				t.Log("canceled")
 			} else {
 				mockStream.EXPECT().Send(att)
 				attsSent++

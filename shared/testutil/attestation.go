@@ -201,7 +201,7 @@ func GenerateAttestations(
 }
 
 // HydrateAttestation hydrates an attestation object with correct field length sizes
-// to comply with fssz marshalling and unmarshalling rules.
+// to comply with fssz marshaling and unmarshalling rules.
 func HydrateAttestation(a *ethpb.Attestation) *ethpb.Attestation {
 	if a.Signature == nil {
 		a.Signature = make([]byte, 96)
@@ -217,7 +217,7 @@ func HydrateAttestation(a *ethpb.Attestation) *ethpb.Attestation {
 }
 
 // HydrateV1Attestation hydrates a v1 attestation object with correct field length sizes
-// to comply with fssz marshalling and unmarshalling rules.
+// to comply with fssz marshaling and unmarshalling rules.
 func HydrateV1Attestation(a *attv1.Attestation) *attv1.Attestation {
 	if a.Signature == nil {
 		a.Signature = make([]byte, 96)
@@ -233,7 +233,7 @@ func HydrateV1Attestation(a *attv1.Attestation) *attv1.Attestation {
 }
 
 // HydrateAttestationData hydrates an attestation data object with correct field length sizes
-// to comply with fssz marshalling and unmarshalling rules.
+// to comply with fssz marshaling and unmarshalling rules.
 func HydrateAttestationData(d *ethpb.AttestationData) *ethpb.AttestationData {
 	if d.BeaconBlockRoot == nil {
 		d.BeaconBlockRoot = make([]byte, 32)
@@ -254,7 +254,7 @@ func HydrateAttestationData(d *ethpb.AttestationData) *ethpb.AttestationData {
 }
 
 // HydrateV1AttestationData hydrates a v1 attestation data object with correct field length sizes
-// to comply with fssz marshalling and unmarshalling rules.
+// to comply with fssz marshaling and unmarshalling rules.
 func HydrateV1AttestationData(d *attv1.AttestationData) *attv1.AttestationData {
 	if d.BeaconBlockRoot == nil {
 		d.BeaconBlockRoot = make([]byte, 32)
@@ -275,7 +275,7 @@ func HydrateV1AttestationData(d *attv1.AttestationData) *attv1.AttestationData {
 }
 
 // HydrateIndexedAttestation hydrates an indexed attestation with correct field length sizes
-// to comply with fssz marshalling and unmarshalling rules.
+// to comply with fssz marshaling and unmarshalling rules.
 func HydrateIndexedAttestation(a *ethpb.IndexedAttestation) *ethpb.IndexedAttestation {
 	if a.Signature == nil {
 		a.Signature = make([]byte, 96)

@@ -437,7 +437,7 @@ func TestWaitForActivation_RemoteKeymanager(t *testing.T) {
 		assert.LogsContain(t, hook, "Validator activated")
 	})
 
-	t.Run("cancelled", func(t *testing.T) {
+	t.Run("canceled", func(t *testing.T) {
 		ctx, cancel := context.WithCancel(context.Background())
 
 		tickerChan := make(chan types.Slot)

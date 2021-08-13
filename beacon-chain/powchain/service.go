@@ -548,7 +548,7 @@ func (s *Service) waitForConnection() {
 			s.runError = errNotSynced
 			log.Debug("Eth1 node is currently syncing")
 		case <-s.ctx.Done():
-			log.Debug("Received cancelled context,closing existing powchain service")
+			log.Debug("Received canceled context,closing existing powchain service")
 			return
 		}
 	}

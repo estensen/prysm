@@ -960,7 +960,7 @@ func TestService_setBadBlock_DoesntSetWithContextErr(t *testing.T) {
 	cancel()
 	s.setBadBlock(ctx, root)
 	if s.hasBadBlock(root) {
-		t.Error("Set bad root with cancelled context")
+		t.Error("Set bad root with canceled context")
 	}
 }
 

@@ -35,7 +35,7 @@ type Endpoint struct {
 	GetResponse        interface{}     // The struct corresponding to the JSON structure used in a GET response.
 	Err                ErrorJson       // The struct corresponding to the error that should be returned in case of a request failure.
 	Hooks              HookCollection  // A collection of functions that can be invoked at various stages of the request/response cycle.
-	CustomHandlers     []CustomHandler // Functions that will be executed instead of the default request/response behaviour.
+	CustomHandlers     []CustomHandler // Functions that will be executed instead of the default request/response behavior.
 }
 
 // DefaultEndpoint returns an Endpoint with default configuration, e.g. DefaultErrorJson for error handling.
@@ -52,7 +52,7 @@ type QueryParam struct {
 	Enum bool
 }
 
-// Hook is a function that can be invoked at various stages of the request/response cycle, leading to custom behaviour for a specific endpoint.
+// Hook is a function that can be invoked at various stages of the request/response cycle, leading to custom behavior for a specific endpoint.
 type Hook = func(endpoint Endpoint, w http.ResponseWriter, req *http.Request) ErrorJson
 
 // CustomHandler is a function that can be invoked at the very beginning of the request,

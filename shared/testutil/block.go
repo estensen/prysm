@@ -383,7 +383,7 @@ func randValIndex(bState state.BeaconState) (types.ValidatorIndex, error) {
 }
 
 // HydrateSignedBeaconHeader hydrates a signed beacon block header with correct field length sizes
-// to comply with fssz marshalling and unmarshalling rules.
+// to comply with fssz marshaling and unmarshalling rules.
 func HydrateSignedBeaconHeader(h *ethpb.SignedBeaconBlockHeader) *ethpb.SignedBeaconBlockHeader {
 	if h.Signature == nil {
 		h.Signature = make([]byte, params.BeaconConfig().BLSSignatureLength)
@@ -393,7 +393,7 @@ func HydrateSignedBeaconHeader(h *ethpb.SignedBeaconBlockHeader) *ethpb.SignedBe
 }
 
 // HydrateBeaconHeader hydrates a beacon block header with correct field length sizes
-// to comply with fssz marshalling and unmarshalling rules.
+// to comply with fssz marshaling and unmarshalling rules.
 func HydrateBeaconHeader(h *ethpb.BeaconBlockHeader) *ethpb.BeaconBlockHeader {
 	if h == nil {
 		h = &ethpb.BeaconBlockHeader{}
@@ -411,7 +411,7 @@ func HydrateBeaconHeader(h *ethpb.BeaconBlockHeader) *ethpb.BeaconBlockHeader {
 }
 
 // HydrateSignedBeaconBlock hydrates a signed beacon block with correct field length sizes
-// to comply with fssz marshalling and unmarshalling rules.
+// to comply with fssz marshaling and unmarshalling rules.
 func HydrateSignedBeaconBlock(b *ethpb.SignedBeaconBlock) *ethpb.SignedBeaconBlock {
 	if b.Signature == nil {
 		b.Signature = make([]byte, params.BeaconConfig().BLSSignatureLength)
@@ -421,7 +421,7 @@ func HydrateSignedBeaconBlock(b *ethpb.SignedBeaconBlock) *ethpb.SignedBeaconBlo
 }
 
 // HydrateBeaconBlock hydrates a beacon block with correct field length sizes
-// to comply with fssz marshalling and unmarshalling rules.
+// to comply with fssz marshaling and unmarshalling rules.
 func HydrateBeaconBlock(b *ethpb.BeaconBlock) *ethpb.BeaconBlock {
 	if b == nil {
 		b = &ethpb.BeaconBlock{}
@@ -437,7 +437,7 @@ func HydrateBeaconBlock(b *ethpb.BeaconBlock) *ethpb.BeaconBlock {
 }
 
 // HydrateBeaconBlockBody hydrates a beacon block body with correct field length sizes
-// to comply with fssz marshalling and unmarshalling rules.
+// to comply with fssz marshaling and unmarshalling rules.
 func HydrateBeaconBlockBody(b *ethpb.BeaconBlockBody) *ethpb.BeaconBlockBody {
 	if b == nil {
 		b = &ethpb.BeaconBlockBody{}
@@ -458,7 +458,7 @@ func HydrateBeaconBlockBody(b *ethpb.BeaconBlockBody) *ethpb.BeaconBlockBody {
 }
 
 // HydrateV1SignedBeaconBlock hydrates a signed beacon block with correct field length sizes
-// to comply with fssz marshalling and unmarshalling rules.
+// to comply with fssz marshaling and unmarshalling rules.
 func HydrateV1SignedBeaconBlock(b *v1.SignedBeaconBlock) *v1.SignedBeaconBlock {
 	if b.Signature == nil {
 		b.Signature = make([]byte, params.BeaconConfig().BLSSignatureLength)
@@ -468,7 +468,7 @@ func HydrateV1SignedBeaconBlock(b *v1.SignedBeaconBlock) *v1.SignedBeaconBlock {
 }
 
 // HydrateV1BeaconBlock hydrates a beacon block with correct field length sizes
-// to comply with fssz marshalling and unmarshalling rules.
+// to comply with fssz marshaling and unmarshalling rules.
 func HydrateV1BeaconBlock(b *v1.BeaconBlock) *v1.BeaconBlock {
 	if b == nil {
 		b = &v1.BeaconBlock{}
@@ -484,7 +484,7 @@ func HydrateV1BeaconBlock(b *v1.BeaconBlock) *v1.BeaconBlock {
 }
 
 // HydrateV1BeaconBlockBody hydrates a beacon block body with correct field length sizes
-// to comply with fssz marshalling and unmarshalling rules.
+// to comply with fssz marshaling and unmarshalling rules.
 func HydrateV1BeaconBlockBody(b *v1.BeaconBlockBody) *v1.BeaconBlockBody {
 	if b == nil {
 		b = &v1.BeaconBlockBody{}
@@ -505,7 +505,7 @@ func HydrateV1BeaconBlockBody(b *v1.BeaconBlockBody) *v1.BeaconBlockBody {
 }
 
 // HydrateSignedBeaconBlockAltair hydrates a signed beacon block with correct field length sizes
-// to comply with fssz marshalling and unmarshalling rules.
+// to comply with fssz marshaling and unmarshalling rules.
 func HydrateSignedBeaconBlockAltair(b *ethpb.SignedBeaconBlockAltair) *ethpb.SignedBeaconBlockAltair {
 	if b.Signature == nil {
 		b.Signature = make([]byte, params.BeaconConfig().BLSSignatureLength)
@@ -515,7 +515,7 @@ func HydrateSignedBeaconBlockAltair(b *ethpb.SignedBeaconBlockAltair) *ethpb.Sig
 }
 
 // HydrateBeaconBlockAltair hydrates a beacon block with correct field length sizes
-// to comply with fssz marshalling and unmarshalling rules.
+// to comply with fssz marshaling and unmarshalling rules.
 func HydrateBeaconBlockAltair(b *ethpb.BeaconBlockAltair) *ethpb.BeaconBlockAltair {
 	if b == nil {
 		b = &ethpb.BeaconBlockAltair{}
@@ -531,7 +531,7 @@ func HydrateBeaconBlockAltair(b *ethpb.BeaconBlockAltair) *ethpb.BeaconBlockAlta
 }
 
 // HydrateBeaconBlockBodyAltair hydrates a beacon block body with correct field length sizes
-// to comply with fssz marshalling and unmarshalling rules.
+// to comply with fssz marshaling and unmarshalling rules.
 func HydrateBeaconBlockBodyAltair(b *ethpb.BeaconBlockBodyAltair) *ethpb.BeaconBlockBodyAltair {
 	if b == nil {
 		b = &ethpb.BeaconBlockBodyAltair{}

@@ -149,7 +149,7 @@ func defaultBlockTopicParams() *pubsub.TopicScoreParams {
 	meshWeight := -0.717
 	if !meshDeliveryIsScored {
 		// Set the mesh weight as zero as a temporary measure, so as to prevent
-		// the average nodes from being penalised.
+		// the average nodes from being penalized.
 		meshWeight = 0
 	}
 	return &pubsub.TopicScoreParams{
@@ -191,7 +191,7 @@ func defaultAggregateTopicParams(activeValidators uint64) (*pubsub.TopicScorePar
 	meshCap := 4 * meshThreshold
 	if !meshDeliveryIsScored {
 		// Set the mesh weight as zero as a temporary measure, so as to prevent
-		// the average nodes from being penalised.
+		// the average nodes from being penalized.
 		meshWeight = 0
 	}
 	return &pubsub.TopicScoreParams{
@@ -255,7 +255,7 @@ func defaultAggregateSubnetTopicParams(activeValidators uint64) (*pubsub.TopicSc
 	meshCap := 4 * meshThreshold
 	if !meshDeliveryIsScored {
 		// Set the mesh weight as zero as a temporary measure, so as to prevent
-		// the average nodes from being penalised.
+		// the average nodes from being penalized.
 		meshWeight = 0
 	}
 	return &pubsub.TopicScoreParams{

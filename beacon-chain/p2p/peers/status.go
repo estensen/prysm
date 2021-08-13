@@ -715,7 +715,7 @@ func (p *Status) PeersToPrune() []peer.ID {
 		}
 	}
 
-	// Sort in descending order to favour pruning peers with a
+	// Sort in descending order to favor pruning peers with a
 	// higher bad response count.
 	sort.Slice(peersToPrune, func(i, j int) bool {
 		return peersToPrune[i].badResp > peersToPrune[j].badResp
