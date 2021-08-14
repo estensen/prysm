@@ -9,7 +9,7 @@ import (
 
 // Endpoint is an endpoint with authorization data.
 type Endpoint struct {
-	Url  string
+	URL  string
 	Auth AuthorizationData
 }
 
@@ -21,7 +21,7 @@ type AuthorizationData struct {
 
 // Equals compares two endpoints for equality.
 func (e Endpoint) Equals(other Endpoint) bool {
-	return e.Url == other.Url && e.Auth.Equals(other.Auth)
+	return e.URL == other.URL && e.Auth.Equals(other.Auth)
 }
 
 // Equals compares two authorization data objects for equality.

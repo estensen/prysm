@@ -97,8 +97,8 @@ func (g *Gateway) WithMaxCallRecvMsgSize(size uint64) *Gateway {
 	return g
 }
 
-// WithApiMiddleware allows adding API Middleware proxy to the gateway.
-func (g *Gateway) WithApiMiddleware(address string, endpointFactory EndpointFactory) *Gateway {
+// WithAPIMiddleware allows adding API Middleware proxy to the gateway.
+func (g *Gateway) WithAPIMiddleware(address string, endpointFactory EndpointFactory) *Gateway {
 	g.apiMiddlewareAddr = address
 	g.apiMiddlewareEndpointFactory = endpointFactory
 	return g
@@ -153,7 +153,7 @@ func (g *Gateway) Start() {
 	}()
 
 	if g.apiMiddlewareAddr != "" && g.apiMiddlewareEndpointFactory != nil && !g.apiMiddlewareEndpointFactory.IsNil() {
-		go g.registerApiMiddleware()
+		go g.registerAPIMiddleware()
 	}
 }
 
@@ -271,8 +271,8 @@ func (g *Gateway) dialUnix(ctx context.Context, addr string) (*grpc.ClientConn, 
 	return grpc.DialContext(ctx, addr, opts...)
 }
 
-func (g *Gateway) registerApiMiddleware() {
-	proxy := &ApiProxyMiddleware{
+func (g *Gateway) registerAPIMiddleware() {
+	proxy := &APIProxyMiddleware{
 		GatewayAddress:  g.gatewayAddr,
 		ProxyAddress:    g.apiMiddlewareAddr,
 		EndpointCreator: g.apiMiddlewareEndpointFactory,

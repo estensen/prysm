@@ -50,7 +50,7 @@ func TestSSZRequested(t *testing.T) {
 }
 
 func TestPrepareSSZRequestForProxying(t *testing.T) {
-	middleware := &gateway.ApiProxyMiddleware{
+	middleware := &gateway.APIProxyMiddleware{
 		GatewayAddress: "http://gateway.example",
 	}
 	endpoint := gateway.Endpoint{
@@ -59,23 +59,23 @@ func TestPrepareSSZRequestForProxying(t *testing.T) {
 	var body bytes.Buffer
 	request := httptest.NewRequest("GET", "http://foo.example", &body)
 
-	errJson := prepareSSZRequestForProxying(middleware, endpoint, request, "/ssz")
-	require.Equal(t, true, errJson == nil)
+	errJSON := prepareSSZRequestForProxying(middleware, endpoint, request, "/ssz")
+	require.Equal(t, true, errJSON == nil)
 	assert.Equal(t, "/ssz", request.URL.Path)
 }
 
 func TestSerializeMiddlewareResponseIntoSSZ(t *testing.T) {
 	t.Run("ok", func(t *testing.T) {
-		ssz, errJson := serializeMiddlewareResponseIntoSSZ(base64EncodedFoo)
-		require.Equal(t, true, errJson == nil)
+		ssz, errJSON := serializeMiddlewareResponseIntoSSZ(base64EncodedFoo)
+		require.Equal(t, true, errJSON == nil)
 		assert.DeepEqual(t, []byte("foo"), ssz)
 	})
 
 	t.Run("invalid_data", func(t *testing.T) {
-		_, errJson := serializeMiddlewareResponseIntoSSZ("invalid")
-		require.Equal(t, false, errJson == nil)
-		assert.Equal(t, true, strings.Contains(errJson.Msg(), "could not decode response body into base64"))
-		assert.Equal(t, http.StatusInternalServerError, errJson.StatusCode())
+		_, errJSON := serializeMiddlewareResponseIntoSSZ("invalid")
+		require.Equal(t, false, errJSON == nil)
+		assert.Equal(t, true, strings.Contains(errJSON.Msg(), "could not decode response body into base64"))
+		assert.Equal(t, http.StatusInternalServerError, errJSON.StatusCode())
 	})
 }
 
@@ -84,15 +84,15 @@ func TestWriteSSZResponseHeaderAndBody(t *testing.T) {
 		response := &http.Response{
 			Header: http.Header{
 				"Foo": []string{"foo"},
-				"Grpc-Metadata-" + grpcutils.HttpCodeMetadataKey: []string{"204"},
+				"Grpc-Metadata-" + grpcutils.HTTPCodeMetadataKey: []string{"204"},
 			},
 		}
 		responseSsz := []byte("ssz")
 		writer := httptest.NewRecorder()
 		writer.Body = &bytes.Buffer{}
 
-		errJson := writeSSZResponseHeaderAndBody(response, writer, responseSsz, "test.ssz")
-		require.Equal(t, true, errJson == nil)
+		errJSON := writeSSZResponseHeaderAndBody(response, writer, responseSsz, "test.ssz")
+		require.Equal(t, true, errJSON == nil)
 		v, ok := writer.Header()["Foo"]
 		require.Equal(t, true, ok, "header not found")
 		require.Equal(t, 1, len(v), "wrong number of header values")
@@ -121,8 +121,8 @@ func TestWriteSSZResponseHeaderAndBody(t *testing.T) {
 		writer := httptest.NewRecorder()
 		writer.Body = &bytes.Buffer{}
 
-		errJson := writeSSZResponseHeaderAndBody(response, writer, responseSsz, "test.ssz")
-		require.Equal(t, true, errJson == nil)
+		errJSON := writeSSZResponseHeaderAndBody(response, writer, responseSsz, "test.ssz")
+		require.Equal(t, true, errJSON == nil)
 		assert.Equal(t, 204, writer.Code)
 	})
 
@@ -130,17 +130,17 @@ func TestWriteSSZResponseHeaderAndBody(t *testing.T) {
 		response := &http.Response{
 			Header: http.Header{
 				"Foo": []string{"foo"},
-				"Grpc-Metadata-" + grpcutils.HttpCodeMetadataKey: []string{"invalid"},
+				"Grpc-Metadata-" + grpcutils.HTTPCodeMetadataKey: []string{"invalid"},
 			},
 		}
 		responseSsz := []byte("ssz")
 		writer := httptest.NewRecorder()
 		writer.Body = &bytes.Buffer{}
 
-		errJson := writeSSZResponseHeaderAndBody(response, writer, responseSsz, "test.ssz")
-		require.Equal(t, false, errJson == nil)
-		assert.Equal(t, true, strings.Contains(errJson.Msg(), "could not parse status code"))
-		assert.Equal(t, http.StatusInternalServerError, errJson.StatusCode())
+		errJSON := writeSSZResponseHeaderAndBody(response, writer, responseSsz, "test.ssz")
+		require.Equal(t, false, errJSON == nil)
+		assert.Equal(t, true, strings.Contains(errJSON.Msg(), "could not parse status code"))
+		assert.Equal(t, http.StatusInternalServerError, errJSON.StatusCode())
 	})
 }
 
@@ -170,8 +170,8 @@ func TestReceiveEvents(t *testing.T) {
 		cancel()
 	}()
 
-	errJson := receiveEvents(ch, w, req)
-	assert.Equal(t, true, errJson == nil)
+	errJSON := receiveEvents(ch, w, req)
+	assert.Equal(t, true, errJSON == nil)
 }
 
 func TestReceiveEvents_EventNotSupported(t *testing.T) {
@@ -188,9 +188,9 @@ func TestReceiveEvents_EventNotSupported(t *testing.T) {
 		ch <- msg
 	}()
 
-	errJson := receiveEvents(ch, w, req)
-	require.NotNil(t, errJson)
-	assert.Equal(t, "Event type 'not_supported' not supported", errJson.Msg())
+	errJSON := receiveEvents(ch, w, req)
+	require.NotNil(t, errJSON)
+	assert.Equal(t, "Event type 'not_supported' not supported", errJSON.Msg())
 }
 
 func TestReceiveEvents_TrailingSpace(t *testing.T) {
@@ -219,8 +219,8 @@ func TestReceiveEvents_TrailingSpace(t *testing.T) {
 		cancel()
 	}()
 
-	errJson := receiveEvents(ch, w, req)
-	assert.Equal(t, true, errJson == nil)
+	errJSON := receiveEvents(ch, w, req)
+	assert.Equal(t, true, errJSON == nil)
 	assert.Equal(t, `event: finalized_checkpoint
 data: {"block":"0x666f6f","state":"0x666f6f","epoch":"1"}
 
@@ -242,8 +242,8 @@ func TestWriteEvent(t *testing.T) {
 	w := httptest.NewRecorder()
 	w.Body = &bytes.Buffer{}
 
-	errJson := writeEvent(msg, w, &eventFinalizedCheckpointJson{})
-	require.Equal(t, true, errJson == nil)
+	errJSON := writeEvent(msg, w, &eventFinalizedCheckpointJson{})
+	require.Equal(t, true, errJSON == nil)
 	written := w.Body.String()
 	assert.Equal(t, "event: test_event\ndata: {\"block\":\"0x666f6f\",\"state\":\"0x666f6f\",\"epoch\":\"1\"}\n\n", written)
 }

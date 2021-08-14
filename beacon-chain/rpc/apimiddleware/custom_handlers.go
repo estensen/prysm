@@ -20,29 +20,29 @@ import (
 type sszConfig struct {
 	sszPath      string
 	fileName     string
-	responseJson sszResponseJson
+	responseJSON sszResponseJson
 }
 
-func handleGetBeaconStateSSZ(m *gateway.ApiProxyMiddleware, endpoint gateway.Endpoint, w http.ResponseWriter, req *http.Request) (handled bool) {
+func handleGetBeaconStateSSZ(m *gateway.APIProxyMiddleware, endpoint gateway.Endpoint, w http.ResponseWriter, req *http.Request) (handled bool) {
 	config := sszConfig{
 		sszPath:      "/eth/v1/debug/beacon/states/{state_id}/ssz",
 		fileName:     "beacon_state.ssz",
-		responseJson: &beaconStateSSZResponseJson{},
+		responseJSON: &beaconStateSSZResponseJson{},
 	}
 	return handleGetSSZ(m, endpoint, w, req, config)
 }
 
-func handleGetBeaconBlockSSZ(m *gateway.ApiProxyMiddleware, endpoint gateway.Endpoint, w http.ResponseWriter, req *http.Request) (handled bool) {
+func handleGetBeaconBlockSSZ(m *gateway.APIProxyMiddleware, endpoint gateway.Endpoint, w http.ResponseWriter, req *http.Request) (handled bool) {
 	config := sszConfig{
 		sszPath:      "/eth/v1/beacon/blocks/{block_id}/ssz",
 		fileName:     "beacon_block.ssz",
-		responseJson: &blockSSZResponseJson{},
+		responseJSON: &blockSSZResponseJson{},
 	}
 	return handleGetSSZ(m, endpoint, w, req, config)
 }
 
 func handleGetSSZ(
-	m *gateway.ApiProxyMiddleware,
+	m *gateway.APIProxyMiddleware,
 	endpoint gateway.Endpoint,
 	w http.ResponseWriter,
 	req *http.Request,
@@ -52,43 +52,43 @@ func handleGetSSZ(
 		return false
 	}
 
-	if errJson := prepareSSZRequestForProxying(m, endpoint, req, config.sszPath); errJson != nil {
-		gateway.WriteError(w, errJson, nil)
+	if errJSON := prepareSSZRequestForProxying(m, endpoint, req, config.sszPath); errJSON != nil {
+		gateway.WriteError(w, errJSON, nil)
 		return true
 	}
-	grpcResponse, errJson := gateway.ProxyRequest(req)
-	if errJson != nil {
-		gateway.WriteError(w, errJson, nil)
+	grpcResponse, errJSON := gateway.ProxyRequest(req)
+	if errJSON != nil {
+		gateway.WriteError(w, errJSON, nil)
 		return true
 	}
-	grpcResponseBody, errJson := gateway.ReadGrpcResponseBody(grpcResponse.Body)
-	if errJson != nil {
-		gateway.WriteError(w, errJson, nil)
+	grpcResponseBody, errJSON := gateway.ReadGrpcResponseBody(grpcResponse.Body)
+	if errJSON != nil {
+		gateway.WriteError(w, errJSON, nil)
 		return true
 	}
-	if errJson := gateway.DeserializeGrpcResponseBodyIntoErrorJson(endpoint.Err, grpcResponseBody); errJson != nil {
-		gateway.WriteError(w, errJson, nil)
+	if errJSON := gateway.DeserializeGrpcResponseBodyIntoErrorJSON(endpoint.Err, grpcResponseBody); errJSON != nil {
+		gateway.WriteError(w, errJSON, nil)
 		return true
 	}
 	if endpoint.Err.Msg() != "" {
 		gateway.HandleGrpcResponseError(endpoint.Err, grpcResponse, w)
 		return true
 	}
-	if errJson := gateway.DeserializeGrpcResponseBodyIntoContainer(grpcResponseBody, config.responseJson); errJson != nil {
-		gateway.WriteError(w, errJson, nil)
+	if errJSON := gateway.DeserializeGrpcResponseBodyIntoContainer(grpcResponseBody, config.responseJSON); errJSON != nil {
+		gateway.WriteError(w, errJSON, nil)
 		return true
 	}
-	responseSsz, errJson := serializeMiddlewareResponseIntoSSZ(config.responseJson.SSZData())
-	if errJson != nil {
-		gateway.WriteError(w, errJson, nil)
+	responseSsz, errJSON := serializeMiddlewareResponseIntoSSZ(config.responseJSON.SSZData())
+	if errJSON != nil {
+		gateway.WriteError(w, errJSON, nil)
 		return true
 	}
-	if errJson := writeSSZResponseHeaderAndBody(grpcResponse, w, responseSsz, config.fileName); errJson != nil {
-		gateway.WriteError(w, errJson, nil)
+	if errJSON := writeSSZResponseHeaderAndBody(grpcResponse, w, responseSsz, config.fileName); errJSON != nil {
+		gateway.WriteError(w, errJSON, nil)
 		return true
 	}
-	if errJson := gateway.Cleanup(grpcResponse.Body); errJson != nil {
-		gateway.WriteError(w, errJson, nil)
+	if errJSON := gateway.Cleanup(grpcResponse.Body); errJSON != nil {
+		gateway.WriteError(w, errJSON, nil)
 		return true
 	}
 
@@ -108,7 +108,7 @@ func sszRequested(req *http.Request) bool {
 	return false
 }
 
-func prepareSSZRequestForProxying(m *gateway.ApiProxyMiddleware, endpoint gateway.Endpoint, req *http.Request, sszPath string) gateway.ErrorJson {
+func prepareSSZRequestForProxying(m *gateway.APIProxyMiddleware, endpoint gateway.Endpoint, req *http.Request, sszPath string) gateway.ErrorJSON {
 	req.URL.Scheme = "http"
 	req.URL.Host = m.GatewayAddress
 	req.RequestURI = ""
@@ -116,7 +116,7 @@ func prepareSSZRequestForProxying(m *gateway.ApiProxyMiddleware, endpoint gatewa
 	return gateway.HandleURLParameters(endpoint.Path, req, []string{})
 }
 
-func serializeMiddlewareResponseIntoSSZ(data string) (sszResponse []byte, errJson gateway.ErrorJson) {
+func serializeMiddlewareResponseIntoSSZ(data string) (sszResponse []byte, errJSON gateway.ErrorJSON) {
 	// Serialize the SSZ part of the deserialized value.
 	b, err := base64.StdEncoding.DecodeString(data)
 	if err != nil {
@@ -125,12 +125,12 @@ func serializeMiddlewareResponseIntoSSZ(data string) (sszResponse []byte, errJso
 	return b, nil
 }
 
-func writeSSZResponseHeaderAndBody(grpcResp *http.Response, w http.ResponseWriter, responseSsz []byte, fileName string) gateway.ErrorJson {
+func writeSSZResponseHeaderAndBody(grpcResp *http.Response, w http.ResponseWriter, responseSsz []byte, fileName string) gateway.ErrorJSON {
 	var statusCodeHeader string
 	for h, vs := range grpcResp.Header {
 		// We don't want to expose any gRPC metadata in the HTTP response, so we skip forwarding metadata headers.
 		if strings.HasPrefix(h, "Grpc-Metadata") {
-			if h == "Grpc-Metadata-"+grpcutils.HttpCodeMetadataKey {
+			if h == "Grpc-Metadata-"+grpcutils.HTTPCodeMetadataKey {
 				statusCodeHeader = vs[0]
 			}
 		} else {
@@ -157,7 +157,7 @@ func writeSSZResponseHeaderAndBody(grpcResp *http.Response, w http.ResponseWrite
 	return nil
 }
 
-func handleEvents(m *gateway.ApiProxyMiddleware, _ gateway.Endpoint, w http.ResponseWriter, req *http.Request) (handled bool) {
+func handleEvents(m *gateway.APIProxyMiddleware, _ gateway.Endpoint, w http.ResponseWriter, req *http.Request) (handled bool) {
 	sseClient := sse.NewClient("http://" + m.GatewayAddress + req.URL.RequestURI())
 	eventChan := make(chan *sse.Event)
 
@@ -170,16 +170,16 @@ func handleEvents(m *gateway.ApiProxyMiddleware, _ gateway.Endpoint, w http.Resp
 		return
 	}
 
-	errJson := receiveEvents(eventChan, w, req)
-	if errJson != nil {
-		gateway.WriteError(w, errJson, nil)
+	errJSON := receiveEvents(eventChan, w, req)
+	if errJSON != nil {
+		gateway.WriteError(w, errJSON, nil)
 	}
 
 	sseClient.Unsubscribe(eventChan)
 	return true
 }
 
-func receiveEvents(eventChan <-chan *sse.Event, w http.ResponseWriter, req *http.Request) gateway.ErrorJson {
+func receiveEvents(eventChan <-chan *sse.Event, w http.ResponseWriter, req *http.Request) gateway.ErrorJSON {
 	for {
 		select {
 		case msg := <-eventChan:
@@ -218,17 +218,17 @@ func receiveEvents(eventChan <-chan *sse.Event, w http.ResponseWriter, req *http
 			case "error":
 				data = &eventErrorJson{}
 			default:
-				return &gateway.DefaultErrorJson{
+				return &gateway.DefaultErrorJSON{
 					Message: fmt.Sprintf("Event type '%s' not supported", string(msg.Event)),
 					Code:    http.StatusInternalServerError,
 				}
 			}
 
-			if errJson := writeEvent(msg, w, data); errJson != nil {
-				return errJson
+			if errJSON := writeEvent(msg, w, data); errJSON != nil {
+				return errJSON
 			}
-			if errJson := flushEvent(w); errJson != nil {
-				return errJson
+			if errJSON := flushEvent(w); errJSON != nil {
+				return errJSON
 			}
 		case <-req.Context().Done():
 			return nil
@@ -236,16 +236,16 @@ func receiveEvents(eventChan <-chan *sse.Event, w http.ResponseWriter, req *http
 	}
 }
 
-func writeEvent(msg *sse.Event, w http.ResponseWriter, data interface{}) gateway.ErrorJson {
+func writeEvent(msg *sse.Event, w http.ResponseWriter, data interface{}) gateway.ErrorJSON {
 	if err := json.Unmarshal(msg.Data, data); err != nil {
 		return gateway.InternalServerError(err)
 	}
-	if errJson := gateway.ProcessMiddlewareResponseFields(data); errJson != nil {
-		return errJson
+	if errJSON := gateway.ProcessMiddlewareResponseFields(data); errJSON != nil {
+		return errJSON
 	}
-	dataJson, errJson := gateway.SerializeMiddlewareResponseIntoJson(data)
-	if errJson != nil {
-		return errJson
+	dataJSON, errJSON := gateway.SerializeMiddlewareResponseIntoJSON(data)
+	if errJSON != nil {
+		return errJSON
 	}
 
 	w.Header().Set("Content-Type", "text/event-stream")
@@ -259,7 +259,7 @@ func writeEvent(msg *sse.Event, w http.ResponseWriter, data interface{}) gateway
 	if _, err := w.Write([]byte("\ndata: ")); err != nil {
 		return gateway.InternalServerError(err)
 	}
-	if _, err := w.Write(dataJson); err != nil {
+	if _, err := w.Write(dataJSON); err != nil {
 		return gateway.InternalServerError(err)
 	}
 	if _, err := w.Write([]byte("\n\n")); err != nil {
@@ -269,10 +269,10 @@ func writeEvent(msg *sse.Event, w http.ResponseWriter, data interface{}) gateway
 	return nil
 }
 
-func flushEvent(w http.ResponseWriter) gateway.ErrorJson {
+func flushEvent(w http.ResponseWriter) gateway.ErrorJSON {
 	flusher, ok := w.(http.Flusher)
 	if !ok {
-		return &gateway.DefaultErrorJson{Message: fmt.Sprintf("Flush not supported in %T", w), Code: http.StatusInternalServerError}
+		return &gateway.DefaultErrorJSON{Message: fmt.Sprintf("Flush not supported in %T", w), Code: http.StatusInternalServerError}
 	}
 	flusher.Flush()
 	return nil

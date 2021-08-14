@@ -51,7 +51,7 @@ func TestGateway_Customized(t *testing.T) {
 		WithRemoteCert(cert).
 		WithAllowedOrigins(origins).
 		WithMaxCallRecvMsgSize(size).
-		WithApiMiddleware(middlewareAddr, endpointFactory)
+		WithAPIMiddleware(middlewareAddr, endpointFactory)
 
 	assert.Equal(t, mux, g.mux)
 	assert.Equal(t, cert, g.remoteCert)

@@ -70,9 +70,9 @@ var (
 		Usage: "The port on which the gateway server runs on",
 		Value: 3500,
 	}
-	// EthApiPort specifies the port which runs the official Ethereum REST API.
+	// EthAPIPort specifies the port which runs the official Ethereum REST API.
 	// Serves JSON values conforming to the specification: https://ethereum.github.io/eth2.0-APIs/
-	EthApiPort = &cli.IntFlag{
+	EthAPIPort = &cli.IntFlag{
 		Name:  "eth-api-port",
 		Usage: "The port which exposes a REST API conforming to the official Ethereum API specification.",
 		Value: 3501,

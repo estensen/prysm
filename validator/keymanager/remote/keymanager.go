@@ -49,7 +49,7 @@ type KeymanagerOpts struct {
 // certificate authority certs, client certs, and client keys
 // for TLS gRPC connections.
 type CertificateConfig struct {
-	RequireTls     bool   `json:"require_tls"`
+	RequireTLS     bool   `json:"require_tls"`
 	ClientCertPath string `json:"crt_path"`
 	ClientKeyPath  string `json:"key_path"`
 	CACertPath     string `json:"ca_crt_path"`
@@ -79,7 +79,7 @@ func NewKeymanager(_ context.Context, cfg *SetupConfig) (*Keymanager, error) {
 
 	var clientCreds credentials.TransportCredentials
 
-	if cfg.Opts.RemoteCertificate.RequireTls {
+	if cfg.Opts.RemoteCertificate.RequireTLS {
 		if cfg.Opts.RemoteCertificate.ClientCertPath == "" {
 			return nil, errors.New("client certificate is required")
 		}
@@ -115,7 +115,7 @@ func NewKeymanager(_ context.Context, cfg *SetupConfig) (*Keymanager, error) {
 		// Receive large messages without erroring.
 		grpc.WithDefaultCallOptions(grpc.MaxCallRecvMsgSize(cfg.MaxMessageSize)),
 	}
-	if cfg.Opts.RemoteCertificate.RequireTls {
+	if cfg.Opts.RemoteCertificate.RequireTLS {
 		// Require TLS with client certificate.
 		grpcOpts = append(grpcOpts, grpc.WithTransportCredentials(clientCreds))
 	} else {
@@ -149,7 +149,7 @@ func UnmarshalOptionsFile(r io.ReadCloser) (*KeymanagerOpts, error) {
 		}
 	}()
 	opts := &KeymanagerOpts{
-		RemoteCertificate: &CertificateConfig{RequireTls: true},
+		RemoteCertificate: &CertificateConfig{RequireTLS: true},
 	}
 	if err := json.Unmarshal(enc, opts); err != nil {
 		return nil, errors.Wrap(err, "could not JSON unmarshal")
@@ -171,10 +171,10 @@ func (opts *KeymanagerOpts) String() string {
 		log.Error(err)
 		return ""
 	}
-	strRequireTls := fmt.Sprintf(
-		"%s: %t\n", au.BrightMagenta("Require TLS"), opts.RemoteCertificate.RequireTls,
+	strRequireTLS := fmt.Sprintf(
+		"%s: %t\n", au.BrightMagenta("Require TLS"), opts.RemoteCertificate.RequireTLS,
 	)
-	if _, err := b.WriteString(strRequireTls); err != nil {
+	if _, err := b.WriteString(strRequireTLS); err != nil {
 		log.Error(err)
 		return ""
 	}

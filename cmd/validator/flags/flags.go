@@ -240,8 +240,8 @@ var (
 		Usage: "Host:port of a gRPC server for a remote keymanager",
 		Value: "",
 	}
-	// DisableRemoteSignerTlsFlag disables TLS when connecting to a remote signer.
-	DisableRemoteSignerTlsFlag = &cli.BoolFlag{
+	// DisableRemoteSignerTLSFlag disables TLS when connecting to a remote signer.
+	DisableRemoteSignerTLSFlag = &cli.BoolFlag{
 		Name:  "disable-remote-signer-tls",
 		Usage: "Disables TLS when connecting to a remote signer. (WARNING! This will result in insecure requests!)",
 		Value: false,

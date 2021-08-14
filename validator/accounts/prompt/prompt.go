@@ -65,7 +65,7 @@ func InputDirectory(cliCtx *cli.Context, promptText string, flag *cli.StringFlag
 // InputRemoteKeymanagerConfig via the cli.
 func InputRemoteKeymanagerConfig(cliCtx *cli.Context) (*remote.KeymanagerOpts, error) {
 	addr := cliCtx.String(flags.GrpcRemoteAddressFlag.Name)
-	requireTls := !cliCtx.Bool(flags.DisableRemoteSignerTlsFlag.Name)
+	requireTLS := !cliCtx.Bool(flags.DisableRemoteSignerTLSFlag.Name)
 	crt := cliCtx.String(flags.RemoteSignerCertPathFlag.Name)
 	key := cliCtx.String(flags.RemoteSignerKeyPathFlag.Name)
 	ca := cliCtx.String(flags.RemoteSignerCACertPathFlag.Name)
@@ -80,7 +80,7 @@ func InputRemoteKeymanagerConfig(cliCtx *cli.Context) (*remote.KeymanagerOpts, e
 			return nil, err
 		}
 	}
-	if requireTls && crt == "" {
+	if requireTLS && crt == "" {
 		crt, err = promptutil.ValidatePrompt(
 			os.Stdin,
 			"Path to TLS crt (such as /path/to/client.crt)",
@@ -89,7 +89,7 @@ func InputRemoteKeymanagerConfig(cliCtx *cli.Context) (*remote.KeymanagerOpts, e
 			return nil, err
 		}
 	}
-	if requireTls && key == "" {
+	if requireTLS && key == "" {
 		key, err = promptutil.ValidatePrompt(
 			os.Stdin,
 			"Path to TLS key (such as /path/to/client.key)",
@@ -98,7 +98,7 @@ func InputRemoteKeymanagerConfig(cliCtx *cli.Context) (*remote.KeymanagerOpts, e
 			return nil, err
 		}
 	}
-	if requireTls && ca == "" {
+	if requireTLS && ca == "" {
 		ca, err = promptutil.ValidatePrompt(
 			os.Stdin,
 			"Path to certificate authority (CA) crt (such as /path/to/ca.crt)",
@@ -130,7 +130,7 @@ func InputRemoteKeymanagerConfig(cliCtx *cli.Context) (*remote.KeymanagerOpts, e
 
 	newCfg := &remote.KeymanagerOpts{
 		RemoteCertificate: &remote.CertificateConfig{
-			RequireTls:     requireTls,
+			RequireTLS:     requireTLS,
 			ClientCertPath: crtPath,
 			ClientKeyPath:  keyPath,
 			CACertPath:     caPath,

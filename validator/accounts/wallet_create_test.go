@@ -224,7 +224,7 @@ func TestCreateWallet_Remote(t *testing.T) {
 	walletDir, _, walletPasswordFile := setupWalletAndPasswordsDir(t)
 	wantCfg := &remote.KeymanagerOpts{
 		RemoteCertificate: &remote.CertificateConfig{
-			RequireTls:     true,
+			RequireTLS:     true,
 			ClientCertPath: "/tmp/client.crt",
 			ClientKeyPath:  "/tmp/client.key",
 			CACertPath:     "/tmp/ca.crt",

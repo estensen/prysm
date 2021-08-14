@@ -99,7 +99,7 @@ func TestNewRemoteKeymanager(t *testing.T) {
 			name: "NoClientCertificate",
 			opts: &KeymanagerOpts{
 				RemoteCertificate: &CertificateConfig{
-					RequireTls: true,
+					RequireTLS: true,
 				},
 			},
 			err: "client certificate is required",
@@ -108,7 +108,7 @@ func TestNewRemoteKeymanager(t *testing.T) {
 			name: "NoClientKey",
 			opts: &KeymanagerOpts{
 				RemoteCertificate: &CertificateConfig{
-					RequireTls:     true,
+					RequireTLS:     true,
 					ClientCertPath: "/foo/client.crt",
 					ClientKeyPath:  "",
 				},
@@ -119,7 +119,7 @@ func TestNewRemoteKeymanager(t *testing.T) {
 			name: "MissingClientKey",
 			opts: &KeymanagerOpts{
 				RemoteCertificate: &CertificateConfig{
-					RequireTls:     true,
+					RequireTLS:     true,
 					ClientCertPath: "/foo/client.crt",
 					ClientKeyPath:  "/foo/client.key",
 					CACertPath:     "",
@@ -133,7 +133,7 @@ func TestNewRemoteKeymanager(t *testing.T) {
 			clientKey:  validClientKey,
 			opts: &KeymanagerOpts{
 				RemoteCertificate: &CertificateConfig{
-					RequireTls: true,
+					RequireTLS: true,
 				},
 			},
 			err: "failed to obtain client's certificate and/or key: tls: failed to find any PEM data in certificate input",
@@ -144,7 +144,7 @@ func TestNewRemoteKeymanager(t *testing.T) {
 			clientKey:  `bad`,
 			opts: &KeymanagerOpts{
 				RemoteCertificate: &CertificateConfig{
-					RequireTls: true,
+					RequireTLS: true,
 				},
 			},
 			err: "failed to obtain client's certificate and/or key: tls: failed to find any PEM data in key input",
@@ -155,7 +155,7 @@ func TestNewRemoteKeymanager(t *testing.T) {
 			clientKey:  validClientKey,
 			opts: &KeymanagerOpts{
 				RemoteCertificate: &CertificateConfig{
-					RequireTls: true,
+					RequireTLS: true,
 					CACertPath: `bad`,
 				},
 			},
@@ -200,7 +200,7 @@ func TestNewRemoteKeymanager(t *testing.T) {
 func TestNewRemoteKeymanager_TlsDisabled(t *testing.T) {
 	opts := &KeymanagerOpts{
 		RemoteCertificate: &CertificateConfig{
-			RequireTls: false,
+			RequireTLS: false,
 		},
 	}
 	_, err := NewKeymanager(context.Background(), &SetupConfig{Opts: opts, MaxMessageSize: 1})
@@ -317,7 +317,7 @@ func TestRemoteKeymanager_FetchValidatingPublicKeys(t *testing.T) {
 }
 
 func TestUnmarshalOptionsFile_DefaultRequireTls(t *testing.T) {
-	optsWithoutTls := struct {
+	optsWithoutTLS := struct {
 		RemoteCertificate struct {
 			ClientCertPath string
 			ClientKeyPath  string
@@ -325,7 +325,7 @@ func TestUnmarshalOptionsFile_DefaultRequireTls(t *testing.T) {
 		}
 	}{}
 	var buffer bytes.Buffer
-	b, err := json.Marshal(optsWithoutTls)
+	b, err := json.Marshal(optsWithoutTLS)
 	require.NoError(t, err)
 	_, err = buffer.Write(b)
 	require.NoError(t, err)
@@ -333,7 +333,7 @@ func TestUnmarshalOptionsFile_DefaultRequireTls(t *testing.T) {
 
 	opts, err := UnmarshalOptionsFile(r)
 	assert.NoError(t, err)
-	assert.Equal(t, true, opts.RemoteCertificate.RequireTls)
+	assert.Equal(t, true, opts.RemoteCertificate.RequireTLS)
 }
 
 func TestReloadPublicKeys(t *testing.T) {

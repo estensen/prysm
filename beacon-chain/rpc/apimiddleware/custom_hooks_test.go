@@ -20,16 +20,16 @@ func TestWrapAttestationArray(t *testing.T) {
 			PostRequest: &submitAttestationRequestJson{},
 		}
 		unwrappedAtts := []*attestationJson{{AggregationBits: "1010"}}
-		unwrappedAttsJson, err := json.Marshal(unwrappedAtts)
+		unwrappedAttsJSON, err := json.Marshal(unwrappedAtts)
 		require.NoError(t, err)
 
 		var body bytes.Buffer
-		_, err = body.Write(unwrappedAttsJson)
+		_, err = body.Write(unwrappedAttsJSON)
 		require.NoError(t, err)
 		request := httptest.NewRequest("POST", "http://foo.example", &body)
 
-		errJson := wrapAttestationsArray(endpoint, nil, request)
-		require.Equal(t, true, errJson == nil)
+		errJSON := wrapAttestationsArray(endpoint, nil, request)
+		require.Equal(t, true, errJSON == nil)
 		wrappedAtts := &submitAttestationRequestJson{}
 		require.NoError(t, json.NewDecoder(request.Body).Decode(wrappedAtts))
 		require.Equal(t, 1, len(wrappedAtts.Data), "wrong number of wrapped items")
@@ -45,10 +45,10 @@ func TestWrapAttestationArray(t *testing.T) {
 		require.NoError(t, err)
 		request := httptest.NewRequest("POST", "http://foo.example", &body)
 
-		errJson := wrapAttestationsArray(endpoint, nil, request)
-		require.Equal(t, false, errJson == nil)
-		assert.Equal(t, true, strings.Contains(errJson.Msg(), "could not decode body"))
-		assert.Equal(t, http.StatusInternalServerError, errJson.StatusCode())
+		errJSON := wrapAttestationsArray(endpoint, nil, request)
+		require.Equal(t, false, errJSON == nil)
+		assert.Equal(t, true, strings.Contains(errJSON.Msg(), "could not decode body"))
+		assert.Equal(t, http.StatusInternalServerError, errJSON.StatusCode())
 	})
 }
 
@@ -58,16 +58,16 @@ func TestWrapValidatorIndicesArray(t *testing.T) {
 			PostRequest: &attesterDutiesRequestJson{},
 		}
 		unwrappedIndices := []string{"1", "2"}
-		unwrappedIndicesJson, err := json.Marshal(unwrappedIndices)
+		unwrappedIndicesJSON, err := json.Marshal(unwrappedIndices)
 		require.NoError(t, err)
 
 		var body bytes.Buffer
-		_, err = body.Write(unwrappedIndicesJson)
+		_, err = body.Write(unwrappedIndicesJSON)
 		require.NoError(t, err)
 		request := httptest.NewRequest("POST", "http://foo.example", &body)
 
-		errJson := wrapValidatorIndicesArray(endpoint, nil, request)
-		require.Equal(t, true, errJson == nil)
+		errJSON := wrapValidatorIndicesArray(endpoint, nil, request)
+		require.Equal(t, true, errJSON == nil)
 		wrappedIndices := &attesterDutiesRequestJson{}
 		require.NoError(t, json.NewDecoder(request.Body).Decode(wrappedIndices))
 		require.Equal(t, 2, len(wrappedIndices.Index), "wrong number of wrapped items")
@@ -90,8 +90,8 @@ func TestWrapSignedAggregateAndProofArray(t *testing.T) {
 		require.NoError(t, err)
 		request := httptest.NewRequest("POST", "http://foo.example", &body)
 
-		errJson := wrapSignedAggregateAndProofArray(endpoint, nil, request)
-		require.Equal(t, true, errJson == nil)
+		errJSON := wrapSignedAggregateAndProofArray(endpoint, nil, request)
+		require.Equal(t, true, errJSON == nil)
 		wrappedAggss := &submitAggregateAndProofsRequestJson{}
 		require.NoError(t, json.NewDecoder(request.Body).Decode(wrappedAggss))
 		require.Equal(t, 1, len(wrappedAggss.Data), "wrong number of wrapped items")
@@ -107,10 +107,10 @@ func TestWrapSignedAggregateAndProofArray(t *testing.T) {
 		require.NoError(t, err)
 		request := httptest.NewRequest("POST", "http://foo.example", &body)
 
-		errJson := wrapSignedAggregateAndProofArray(endpoint, nil, request)
-		require.Equal(t, false, errJson == nil)
-		assert.Equal(t, true, strings.Contains(errJson.Msg(), "could not decode body"))
-		assert.Equal(t, http.StatusInternalServerError, errJson.StatusCode())
+		errJSON := wrapSignedAggregateAndProofArray(endpoint, nil, request)
+		require.Equal(t, false, errJSON == nil)
+		assert.Equal(t, true, strings.Contains(errJSON.Msg(), "could not decode body"))
+		assert.Equal(t, http.StatusInternalServerError, errJSON.StatusCode())
 	})
 }
 
@@ -134,8 +134,8 @@ func TestWrapBeaconCommitteeSubscriptionsArray(t *testing.T) {
 		require.NoError(t, err)
 		request := httptest.NewRequest("POST", "http://foo.example", &body)
 
-		errJson := wrapBeaconCommitteeSubscriptionsArray(endpoint, nil, request)
-		require.Equal(t, true, errJson == nil)
+		errJSON := wrapBeaconCommitteeSubscriptionsArray(endpoint, nil, request)
+		require.Equal(t, true, errJSON == nil)
 		wrappedAggss := &submitBeaconCommitteeSubscriptionsRequestJson{}
 		require.NoError(t, json.NewDecoder(request.Body).Decode(wrappedAggss))
 		require.Equal(t, 1, len(wrappedAggss.Data), "wrong number of wrapped items")
@@ -155,10 +155,10 @@ func TestWrapBeaconCommitteeSubscriptionsArray(t *testing.T) {
 		require.NoError(t, err)
 		request := httptest.NewRequest("POST", "http://foo.example", &body)
 
-		errJson := wrapBeaconCommitteeSubscriptionsArray(endpoint, nil, request)
-		require.Equal(t, false, errJson == nil)
-		assert.Equal(t, true, strings.Contains(errJson.Msg(), "could not decode body"))
-		assert.Equal(t, http.StatusInternalServerError, errJson.StatusCode())
+		errJSON := wrapBeaconCommitteeSubscriptionsArray(endpoint, nil, request)
+		require.Equal(t, false, errJSON == nil)
+		assert.Equal(t, true, strings.Contains(errJSON.Msg(), "could not decode body"))
+		assert.Equal(t, http.StatusInternalServerError, errJSON.StatusCode())
 	})
 }
 

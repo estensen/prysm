@@ -48,7 +48,7 @@ func main() {
 		fmt.Sprintf("%s:%d", *host, *port),
 	).WithAllowedOrigins(strings.Split(*allowedOrigins, ",")).
 		WithMaxCallRecvMsgSize(uint64(*grpcMaxMsgSize)).
-		WithApiMiddleware(fmt.Sprintf("%s:%d", *host, *ethAPIPort), &apimiddleware.BeaconEndpointFactory{})
+		WithAPIMiddleware(fmt.Sprintf("%s:%d", *host, *ethAPIPort), &apimiddleware.BeaconEndpointFactory{})
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("/swagger/", gateway.SwaggerServer())

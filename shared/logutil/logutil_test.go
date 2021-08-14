@@ -8,7 +8,7 @@ import (
 
 var urltests = []struct {
 	url       string
-	maskedUrl string
+	maskedURL string
 }{
 	{"https://a:b@xyz.net", "https://***@xyz.net"},
 	{"https://eth-goerli.alchemyapi.io/v2/tOZG5mjl3.zl_nZdZTNIBUzsDq62R_dkOtY",
@@ -21,6 +21,6 @@ var urltests = []struct {
 
 func TestMaskCredentialsLogging(t *testing.T) {
 	for _, test := range urltests {
-		require.Equal(t, MaskCredentialsLogging(test.url), test.maskedUrl)
+		require.Equal(t, MaskCredentialsLogging(test.url), test.maskedURL)
 	}
 }

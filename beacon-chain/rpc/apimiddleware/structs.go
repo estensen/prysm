@@ -550,7 +550,7 @@ type eventChainReorgJson struct {
 
 // submitAttestationsErrorJson is a JSON representation of the error returned when submitting attestations.
 type submitAttestationsErrorJson struct {
-	gateway.DefaultErrorJson
+	gateway.DefaultErrorJSON
 	Failures []*singleAttestationVerificationFailureJson `json:"failures"`
 }
 

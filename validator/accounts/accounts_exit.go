@@ -254,16 +254,16 @@ func displayExitInfo(rawExitedKeys [][]byte, trimmedExitedKeys []string) {
 	if len(rawExitedKeys) > 0 {
 		urlFormattedPubKeys := make([]string, len(rawExitedKeys))
 		for i, key := range rawExitedKeys {
-			var baseUrl string
+			var baseURL string
 			if params.BeaconConfig().ConfigName == params.ConfigNames[params.Pyrmont] {
-				baseUrl = "https://pyrmont.beaconcha.in/validator/"
+				baseURL = "https://pyrmont.beaconcha.in/validator/"
 			} else if params.BeaconConfig().ConfigName == params.ConfigNames[params.Prater] {
-				baseUrl = "https://prater.beaconcha.in/validator/"
+				baseURL = "https://prater.beaconcha.in/validator/"
 			} else {
-				baseUrl = "https://beaconcha.in/validator/"
+				baseURL = "https://beaconcha.in/validator/"
 			}
 			// Remove '0x' prefix
-			urlFormattedPubKeys[i] = baseUrl + hexutil.Encode(key)[2:]
+			urlFormattedPubKeys[i] = baseURL + hexutil.Encode(key)[2:]
 		}
 
 		ifaceKeys := make([]interface{}, len(urlFormattedPubKeys))
