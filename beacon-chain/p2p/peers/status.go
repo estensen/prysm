@@ -214,7 +214,7 @@ func (p *Status) IsAboveInboundLimit() bool {
 	for _, peerData := range p.store.Peers() {
 		if peerData.ConnState == PeerConnected &&
 			peerData.Direction == network.DirInbound {
-			totalInbound += 1
+			totalInbound++
 		}
 	}
 	inboundLimit := int(float64(p.ConnectedPeerLimit()) * InboundRatio)
@@ -811,7 +811,7 @@ func (p *Status) addIpToTracker(pid peer.ID) {
 		return
 	}
 	stringIP := ip.String()
-	p.ipTracker[stringIP] += 1
+	p.ipTracker[stringIP]++
 }
 
 func (p *Status) tallyIPTracker() {
@@ -829,7 +829,7 @@ func (p *Status) tallyIPTracker() {
 			continue
 		}
 		stringIP := ip.String()
-		tracker[stringIP] += 1
+		tracker[stringIP]++
 	}
 	p.ipTracker = tracker
 }

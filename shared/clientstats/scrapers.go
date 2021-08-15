@@ -278,9 +278,9 @@ func populateValidatorStats(pf metricMap) ValidatorStats {
 	} else {
 		for _, m := range f.Metric {
 			if statusIsActive(int64(m.Gauge.GetValue())) {
-				vs.ValidatorActive += 1
+				vs.ValidatorActive++
 			}
-			vs.ValidatorTotal += 1
+			vs.ValidatorTotal++
 		}
 	}
 
