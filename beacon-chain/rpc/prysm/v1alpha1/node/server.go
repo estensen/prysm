@@ -117,14 +117,14 @@ func (ns *Server) GetHost(_ context.Context, _ *empty.Empty) (*ethpb.HostData, e
 
 	return &ethpb.HostData{
 		Addresses: stringAddr,
-		PeerId:    ns.PeerManager.PeerID().String(),
+		PeerID:    ns.PeerManager.PeerID().String(),
 		Enr:       enr,
 	}, nil
 }
 
 // GetPeer returns the data known about the peer defined by the provided peer id.
 func (ns *Server) GetPeer(_ context.Context, peerReq *ethpb.PeerRequest) (*ethpb.Peer, error) {
-	pid, err := peer.Decode(peerReq.PeerId)
+	pid, err := peer.Decode(peerReq.PeerID)
 	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, "Unable to parse provided peer id: %v", err)
 	}
@@ -162,7 +162,7 @@ func (ns *Server) GetPeer(_ context.Context, peerReq *ethpb.PeerRequest) (*ethpb
 		Address:         addr.String(),
 		Direction:       pbDirection,
 		ConnectionState: ethpb.ConnectionState(connState),
-		PeerId:          peerReq.PeerId,
+		PeerID:          peerReq.PeerID,
 		Enr:             enr,
 	}, nil
 }
@@ -210,7 +210,7 @@ func (ns *Server) ListPeers(ctx context.Context, _ *empty.Empty) (*ethpb.Peers, 
 			Address:         address,
 			Direction:       pbDirection,
 			ConnectionState: ethpb.ConnectionState_CONNECTED,
-			PeerId:          pid.String(),
+			PeerID:          pid.String(),
 			Enr:             enr,
 		})
 	}

@@ -17,9 +17,9 @@ import (
 func TestWrapAttestationArray(t *testing.T) {
 	t.Run("ok", func(t *testing.T) {
 		endpoint := gateway.Endpoint{
-			PostRequest: &submitAttestationRequestJson{},
+			PostRequest: &submitAttestationRequestJSON{},
 		}
-		unwrappedAtts := []*attestationJson{{AggregationBits: "1010"}}
+		unwrappedAtts := []*attestationJSON{{AggregationBits: "1010"}}
 		unwrappedAttsJSON, err := json.Marshal(unwrappedAtts)
 		require.NoError(t, err)
 
@@ -30,7 +30,7 @@ func TestWrapAttestationArray(t *testing.T) {
 
 		errJSON := wrapAttestationsArray(endpoint, nil, request)
 		require.Equal(t, true, errJSON == nil)
-		wrappedAtts := &submitAttestationRequestJson{}
+		wrappedAtts := &submitAttestationRequestJSON{}
 		require.NoError(t, json.NewDecoder(request.Body).Decode(wrappedAtts))
 		require.Equal(t, 1, len(wrappedAtts.Data), "wrong number of wrapped items")
 		assert.Equal(t, "1010", wrappedAtts.Data[0].AggregationBits)
@@ -38,7 +38,7 @@ func TestWrapAttestationArray(t *testing.T) {
 
 	t.Run("invalid_body", func(t *testing.T) {
 		endpoint := gateway.Endpoint{
-			PostRequest: &submitAttestationRequestJson{},
+			PostRequest: &submitAttestationRequestJSON{},
 		}
 		var body bytes.Buffer
 		_, err := body.Write([]byte("invalid"))
@@ -55,7 +55,7 @@ func TestWrapAttestationArray(t *testing.T) {
 func TestWrapValidatorIndicesArray(t *testing.T) {
 	t.Run("ok", func(t *testing.T) {
 		endpoint := gateway.Endpoint{
-			PostRequest: &attesterDutiesRequestJson{},
+			PostRequest: &attesterDutiesRequestJSON{},
 		}
 		unwrappedIndices := []string{"1", "2"}
 		unwrappedIndicesJSON, err := json.Marshal(unwrappedIndices)
@@ -68,7 +68,7 @@ func TestWrapValidatorIndicesArray(t *testing.T) {
 
 		errJSON := wrapValidatorIndicesArray(endpoint, nil, request)
 		require.Equal(t, true, errJSON == nil)
-		wrappedIndices := &attesterDutiesRequestJson{}
+		wrappedIndices := &attesterDutiesRequestJSON{}
 		require.NoError(t, json.NewDecoder(request.Body).Decode(wrappedIndices))
 		require.Equal(t, 2, len(wrappedIndices.Index), "wrong number of wrapped items")
 		assert.Equal(t, "1", wrappedIndices.Index[0])
@@ -79,20 +79,20 @@ func TestWrapValidatorIndicesArray(t *testing.T) {
 func TestWrapSignedAggregateAndProofArray(t *testing.T) {
 	t.Run("ok", func(t *testing.T) {
 		endpoint := gateway.Endpoint{
-			PostRequest: &submitAggregateAndProofsRequestJson{},
+			PostRequest: &submitAggregateAndProofsRequestJSON{},
 		}
 		unwrappedAggs := []*signedAggregateAttestationAndProofJson{{Signature: "sig"}}
-		unwrappedAggsJson, err := json.Marshal(unwrappedAggs)
+		unwrappedAggsJSON, err := json.Marshal(unwrappedAggs)
 		require.NoError(t, err)
 
 		var body bytes.Buffer
-		_, err = body.Write(unwrappedAggsJson)
+		_, err = body.Write(unwrappedAggsJSON)
 		require.NoError(t, err)
 		request := httptest.NewRequest("POST", "http://foo.example", &body)
 
 		errJSON := wrapSignedAggregateAndProofArray(endpoint, nil, request)
 		require.Equal(t, true, errJSON == nil)
-		wrappedAggss := &submitAggregateAndProofsRequestJson{}
+		wrappedAggss := &submitAggregateAndProofsRequestJSON{}
 		require.NoError(t, json.NewDecoder(request.Body).Decode(wrappedAggss))
 		require.Equal(t, 1, len(wrappedAggss.Data), "wrong number of wrapped items")
 		assert.Equal(t, "sig", wrappedAggss.Data[0].Signature)
@@ -100,7 +100,7 @@ func TestWrapSignedAggregateAndProofArray(t *testing.T) {
 
 	t.Run("invalid_body", func(t *testing.T) {
 		endpoint := gateway.Endpoint{
-			PostRequest: &submitAggregateAndProofsRequestJson{},
+			PostRequest: &submitAggregateAndProofsRequestJSON{},
 		}
 		var body bytes.Buffer
 		_, err := body.Write([]byte("invalid"))
@@ -117,26 +117,26 @@ func TestWrapSignedAggregateAndProofArray(t *testing.T) {
 func TestWrapBeaconCommitteeSubscriptionsArray(t *testing.T) {
 	t.Run("ok", func(t *testing.T) {
 		endpoint := gateway.Endpoint{
-			PostRequest: &submitBeaconCommitteeSubscriptionsRequestJson{},
+			PostRequest: &submitBeaconCommitteeSubscriptionsRequestJSON{},
 		}
-		unwrappedSubs := []*beaconCommitteeSubscribeJson{{
+		unwrappedSubs := []*beaconCommitteeSubscribeJSON{{
 			ValidatorIndex:   "1",
 			CommitteeIndex:   "1",
 			CommitteesAtSlot: "1",
 			Slot:             "1",
 			IsAggregator:     true,
 		}}
-		unwrappedSubsJson, err := json.Marshal(unwrappedSubs)
+		unwrappedSubsJSON, err := json.Marshal(unwrappedSubs)
 		require.NoError(t, err)
 
 		var body bytes.Buffer
-		_, err = body.Write(unwrappedSubsJson)
+		_, err = body.Write(unwrappedSubsJSON)
 		require.NoError(t, err)
 		request := httptest.NewRequest("POST", "http://foo.example", &body)
 
 		errJSON := wrapBeaconCommitteeSubscriptionsArray(endpoint, nil, request)
 		require.Equal(t, true, errJSON == nil)
-		wrappedAggss := &submitBeaconCommitteeSubscriptionsRequestJson{}
+		wrappedAggss := &submitBeaconCommitteeSubscriptionsRequestJSON{}
 		require.NoError(t, json.NewDecoder(request.Body).Decode(wrappedAggss))
 		require.Equal(t, 1, len(wrappedAggss.Data), "wrong number of wrapped items")
 		assert.Equal(t, "1", wrappedAggss.Data[0].ValidatorIndex)
@@ -148,7 +148,7 @@ func TestWrapBeaconCommitteeSubscriptionsArray(t *testing.T) {
 
 	t.Run("invalid_body", func(t *testing.T) {
 		endpoint := gateway.Endpoint{
-			PostRequest: &submitBeaconCommitteeSubscriptionsRequestJson{},
+			PostRequest: &submitBeaconCommitteeSubscriptionsRequestJSON{},
 		}
 		var body bytes.Buffer
 		_, err := body.Write([]byte("invalid"))
@@ -164,43 +164,43 @@ func TestWrapBeaconCommitteeSubscriptionsArray(t *testing.T) {
 
 func TestPrepareGraffiti(t *testing.T) {
 	endpoint := gateway.Endpoint{
-		PostRequest: &beaconBlockContainerJson{
-			Message: &beaconBlockJson{
-				Body: &beaconBlockBodyJson{},
+		PostRequest: &beaconBlockContainerJSON{
+			Message: &beaconBlockJSON{
+				Body: &beaconBlockBodyJSON{},
 			},
 		},
 	}
 
 	t.Run("32_bytes", func(t *testing.T) {
-		endpoint.PostRequest.(*beaconBlockContainerJson).Message.Body.Graffiti = string(bytesutil.PadTo([]byte("foo"), 32))
+		endpoint.PostRequest.(*beaconBlockContainerJSON).Message.Body.Graffiti = string(bytesutil.PadTo([]byte("foo"), 32))
 
 		prepareGraffiti(endpoint, nil, nil)
 		assert.Equal(
 			t,
 			"0x666f6f0000000000000000000000000000000000000000000000000000000000",
-			endpoint.PostRequest.(*beaconBlockContainerJson).Message.Body.Graffiti,
+			endpoint.PostRequest.(*beaconBlockContainerJSON).Message.Body.Graffiti,
 		)
 	})
 
 	t.Run("less_than_32_bytes", func(t *testing.T) {
-		endpoint.PostRequest.(*beaconBlockContainerJson).Message.Body.Graffiti = "foo"
+		endpoint.PostRequest.(*beaconBlockContainerJSON).Message.Body.Graffiti = "foo"
 
 		prepareGraffiti(endpoint, nil, nil)
 		assert.Equal(
 			t,
 			"0x666f6f0000000000000000000000000000000000000000000000000000000000",
-			endpoint.PostRequest.(*beaconBlockContainerJson).Message.Body.Graffiti,
+			endpoint.PostRequest.(*beaconBlockContainerJSON).Message.Body.Graffiti,
 		)
 	})
 
 	t.Run("more_than_32_bytes", func(t *testing.T) {
-		endpoint.PostRequest.(*beaconBlockContainerJson).Message.Body.Graffiti = string(bytesutil.PadTo([]byte("foo"), 33))
+		endpoint.PostRequest.(*beaconBlockContainerJSON).Message.Body.Graffiti = string(bytesutil.PadTo([]byte("foo"), 33))
 
 		prepareGraffiti(endpoint, nil, nil)
 		assert.Equal(
 			t,
 			"0x666f6f0000000000000000000000000000000000000000000000000000000000",
-			endpoint.PostRequest.(*beaconBlockContainerJson).Message.Body.Graffiti,
+			endpoint.PostRequest.(*beaconBlockContainerJSON).Message.Body.Graffiti,
 		)
 	})
 }

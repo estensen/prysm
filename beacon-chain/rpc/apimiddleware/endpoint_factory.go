@@ -62,114 +62,114 @@ func (f *BeaconEndpointFactory) Create(path string) (*gateway.Endpoint, error) {
 	endpoint := gateway.DefaultEndpoint()
 	switch path {
 	case "/eth/v1/beacon/genesis":
-		endpoint.GetResponse = &genesisResponseJson{}
+		endpoint.GetResponse = &genesisResponseJSON{}
 	case "/eth/v1/beacon/states/{state_id}/root":
-		endpoint.GetResponse = &stateRootResponseJson{}
+		endpoint.GetResponse = &stateRootResponseJSON{}
 	case "/eth/v1/beacon/states/{state_id}/fork":
-		endpoint.GetResponse = &stateForkResponseJson{}
+		endpoint.GetResponse = &stateForkResponseJSON{}
 	case "/eth/v1/beacon/states/{state_id}/finality_checkpoints":
-		endpoint.GetResponse = &stateFinalityCheckpointResponseJson{}
+		endpoint.GetResponse = &stateFinalityCheckpointResponseJSON{}
 	case "/eth/v1/beacon/states/{state_id}/validators":
 		endpoint.RequestQueryParams = []gateway.QueryParam{{Name: "id", Hex: true}, {Name: "status", Enum: true}}
-		endpoint.GetResponse = &stateValidatorsResponseJson{}
+		endpoint.GetResponse = &stateValidatorsResponseJSON{}
 	case "/eth/v1/beacon/states/{state_id}/validators/{validator_id}":
-		endpoint.GetResponse = &stateValidatorResponseJson{}
+		endpoint.GetResponse = &stateValidatorResponseJSON{}
 	case "/eth/v1/beacon/states/{state_id}/validator_balances":
 		endpoint.RequestQueryParams = []gateway.QueryParam{{Name: "id", Hex: true}}
-		endpoint.GetResponse = &validatorBalancesResponseJson{}
+		endpoint.GetResponse = &validatorBalancesResponseJSON{}
 	case "/eth/v1/beacon/states/{state_id}/committees":
 		endpoint.RequestQueryParams = []gateway.QueryParam{{Name: "epoch"}, {Name: "index"}, {Name: "slot"}}
-		endpoint.GetResponse = &stateCommitteesResponseJson{}
+		endpoint.GetResponse = &stateCommitteesResponseJSON{}
 	case "/eth/v1/beacon/headers":
 		endpoint.RequestQueryParams = []gateway.QueryParam{{Name: "slot"}, {Name: "parent_root", Hex: true}}
-		endpoint.GetResponse = &blockHeadersResponseJson{}
+		endpoint.GetResponse = &blockHeadersResponseJSON{}
 	case "/eth/v1/beacon/headers/{block_id}":
-		endpoint.GetResponse = &blockHeaderResponseJson{}
+		endpoint.GetResponse = &blockHeaderResponseJSON{}
 	case "/eth/v1/beacon/blocks":
-		endpoint.PostRequest = &beaconBlockContainerJson{}
+		endpoint.PostRequest = &beaconBlockContainerJSON{}
 		endpoint.Hooks = gateway.HookCollection{
 			OnPostDeserializeRequestBodyIntoContainer: []gateway.Hook{prepareGraffiti},
 		}
 	case "/eth/v1/beacon/blocks/{block_id}":
-		endpoint.GetResponse = &blockResponseJson{}
+		endpoint.GetResponse = &blockResponseJSON{}
 		endpoint.CustomHandlers = []gateway.CustomHandler{handleGetBeaconBlockSSZ}
 	case "/eth/v1/beacon/blocks/{block_id}/root":
-		endpoint.GetResponse = &blockRootResponseJson{}
+		endpoint.GetResponse = &blockRootResponseJSON{}
 	case "/eth/v1/beacon/blocks/{block_id}/attestations":
-		endpoint.GetResponse = &blockAttestationsResponseJson{}
+		endpoint.GetResponse = &blockAttestationsResponseJSON{}
 	case "/eth/v1/beacon/pool/attestations":
 		endpoint.RequestQueryParams = []gateway.QueryParam{{Name: "slot"}, {Name: "committee_index"}}
-		endpoint.GetResponse = &attestationsPoolResponseJson{}
-		endpoint.PostRequest = &submitAttestationRequestJson{}
+		endpoint.GetResponse = &attestationsPoolResponseJSON{}
+		endpoint.PostRequest = &submitAttestationRequestJSON{}
 		endpoint.Err = &submitAttestationsErrorJson{}
 		endpoint.Hooks = gateway.HookCollection{
 			OnPreDeserializeRequestBodyIntoContainer: []gateway.Hook{wrapAttestationsArray},
 		}
 	case "/eth/v1/beacon/pool/attester_slashings":
-		endpoint.PostRequest = &attesterSlashingJson{}
-		endpoint.GetResponse = &attesterSlashingsPoolResponseJson{}
+		endpoint.PostRequest = &attesterSlashingJSON{}
+		endpoint.GetResponse = &attesterSlashingsPoolResponseJSON{}
 	case "/eth/v1/beacon/pool/proposer_slashings":
-		endpoint.PostRequest = &proposerSlashingJson{}
-		endpoint.GetResponse = &proposerSlashingsPoolResponseJson{}
+		endpoint.PostRequest = &proposerSlashingJSON{}
+		endpoint.GetResponse = &proposerSlashingsPoolResponseJSON{}
 	case "/eth/v1/beacon/pool/voluntary_exits":
-		endpoint.PostRequest = &signedVoluntaryExitJson{}
-		endpoint.GetResponse = &voluntaryExitsPoolResponseJson{}
+		endpoint.PostRequest = &signedVoluntaryExitJSON{}
+		endpoint.GetResponse = &voluntaryExitsPoolResponseJSON{}
 	case "/eth/v1/node/identity":
-		endpoint.GetResponse = &identityResponseJson{}
+		endpoint.GetResponse = &identityResponseJSON{}
 	case "/eth/v1/node/peers":
 		endpoint.RequestQueryParams = []gateway.QueryParam{{Name: "state", Enum: true}, {Name: "direction", Enum: true}}
-		endpoint.GetResponse = &peersResponseJson{}
+		endpoint.GetResponse = &peersResponseJSON{}
 	case "/eth/v1/node/peers/{peer_id}":
 		endpoint.RequestURLLiterals = []string{"peer_id"}
-		endpoint.GetResponse = &peerResponseJson{}
+		endpoint.GetResponse = &peerResponseJSON{}
 	case "/eth/v1/node/peer_count":
-		endpoint.GetResponse = &peerCountResponseJson{}
+		endpoint.GetResponse = &peerCountResponseJSON{}
 	case "/eth/v1/node/version":
-		endpoint.GetResponse = &versionResponseJson{}
+		endpoint.GetResponse = &versionResponseJSON{}
 	case "/eth/v1/node/syncing":
-		endpoint.GetResponse = &syncingResponseJson{}
+		endpoint.GetResponse = &syncingResponseJSON{}
 	case "/eth/v1/node/health":
 		// Use default endpoint
 	case "/eth/v1/debug/beacon/states/{state_id}":
-		endpoint.GetResponse = &beaconStateResponseJson{}
+		endpoint.GetResponse = &beaconStateResponseJSON{}
 		endpoint.CustomHandlers = []gateway.CustomHandler{handleGetBeaconStateSSZ}
 	case "/eth/v1/debug/beacon/heads":
-		endpoint.GetResponse = &forkChoiceHeadsResponseJson{}
+		endpoint.GetResponse = &forkChoiceHeadsResponseJSON{}
 	case "/eth/v1/config/fork_schedule":
-		endpoint.GetResponse = &forkScheduleResponseJson{}
+		endpoint.GetResponse = &forkScheduleResponseJSON{}
 	case "/eth/v1/config/deposit_contract":
-		endpoint.GetResponse = &depositContractResponseJson{}
+		endpoint.GetResponse = &depositContractResponseJSON{}
 	case "/eth/v1/config/spec":
-		endpoint.GetResponse = &specResponseJson{}
+		endpoint.GetResponse = &specResponseJSON{}
 	case "/eth/v1/events":
 		endpoint.CustomHandlers = []gateway.CustomHandler{handleEvents}
 	case "/eth/v1/validator/duties/attester/{epoch}":
-		endpoint.PostRequest = &attesterDutiesRequestJson{}
-		endpoint.PostResponse = &attesterDutiesResponseJson{}
+		endpoint.PostRequest = &attesterDutiesRequestJSON{}
+		endpoint.PostResponse = &attesterDutiesResponseJSON{}
 		endpoint.RequestURLLiterals = []string{"epoch"}
 		endpoint.Hooks = gateway.HookCollection{
 			OnPreDeserializeRequestBodyIntoContainer: []gateway.Hook{wrapValidatorIndicesArray},
 		}
 	case "/eth/v1/validator/duties/proposer/{epoch}":
-		endpoint.GetResponse = &proposerDutiesResponseJson{}
+		endpoint.GetResponse = &proposerDutiesResponseJSON{}
 		endpoint.RequestURLLiterals = []string{"epoch"}
 	case "/eth/v1/validator/blocks/{slot}":
-		endpoint.GetResponse = &produceBlockResponseJson{}
+		endpoint.GetResponse = &produceBlockResponseJSON{}
 		endpoint.RequestURLLiterals = []string{"slot"}
 		endpoint.RequestQueryParams = []gateway.QueryParam{{Name: "randao_reveal", Hex: true}, {Name: "graffiti", Hex: true}}
 	case "/eth/v1/validator/attestation_data":
-		endpoint.GetResponse = &produceAttestationDataResponseJson{}
+		endpoint.GetResponse = &produceAttestationDataResponseJSON{}
 		endpoint.RequestQueryParams = []gateway.QueryParam{{Name: "slot"}, {Name: "committee_index"}}
 	case "/eth/v1/validator/aggregate_attestation":
-		endpoint.GetResponse = &aggregateAttestationResponseJson{}
+		endpoint.GetResponse = &aggregateAttestationResponseJSON{}
 		endpoint.RequestQueryParams = []gateway.QueryParam{{Name: "attestation_data_root", Hex: true}, {Name: "slot"}}
 	case "/eth/v1/validator/beacon_committee_subscriptions":
-		endpoint.PostRequest = &submitAggregateAndProofsRequestJson{}
+		endpoint.PostRequest = &submitAggregateAndProofsRequestJSON{}
 		endpoint.Hooks = gateway.HookCollection{
 			OnPreDeserializeRequestBodyIntoContainer: []gateway.Hook{wrapBeaconCommitteeSubscriptionsArray},
 		}
 	case "/eth/v1/validator/aggregate_and_proofs":
-		endpoint.PostRequest = &submitAggregateAndProofsRequestJson{}
+		endpoint.PostRequest = &submitAggregateAndProofsRequestJSON{}
 		endpoint.Hooks = gateway.HookCollection{
 			OnPreDeserializeRequestBodyIntoContainer: []gateway.Hook{wrapSignedAggregateAndProofArray},
 		}

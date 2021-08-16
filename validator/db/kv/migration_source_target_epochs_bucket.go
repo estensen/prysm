@@ -95,7 +95,7 @@ func (s *Store) migrateSourceTargetEpochsBucketUp(ctx context.Context) error {
 	})
 }
 
-func (s *Store) migrateSourceTargetEpochsBucketDown(ctx context.Context) error {
+func (s *Store) migrateSourceTargetEpochsBucketDown(_ context.Context) error {
 	return s.db.Update(func(tx *bolt.Tx) error {
 		bkt := tx.Bucket(pubKeysBucket)
 		err := bkt.ForEach(func(k, _ []byte) error {

@@ -2,132 +2,132 @@ package apimiddleware
 
 import "github.com/prysmaticlabs/prysm/shared/gateway"
 
-// genesisResponseJson is used in /beacon/genesis API endpoint.
-type genesisResponseJson struct {
-	Data *genesisResponse_GenesisJson `json:"data"`
+// genesisResponseJSON is used in /beacon/genesis API endpoint.
+type genesisResponseJSON struct {
+	Data *genesisResponseGenesisJSON `json:"data"`
 }
 
-// genesisResponse_GenesisJson is used in /beacon/genesis API endpoint.
-type genesisResponse_GenesisJson struct {
+// genesisResponseGenesisJSON is used in /beacon/genesis API endpoint.
+type genesisResponseGenesisJSON struct {
 	GenesisTime           string `json:"genesis_time" time:"true"`
 	GenesisValidatorsRoot string `json:"genesis_validators_root" hex:"true"`
 	GenesisForkVersion    string `json:"genesis_fork_version" hex:"true"`
 }
 
-// stateRootResponseJson is used in /beacon/states/{state_id}/root API endpoint.
-type stateRootResponseJson struct {
-	Data *stateRootResponse_StateRootJson `json:"data"`
+// stateRootResponseJSON is used in /beacon/states/{state_id}/root API endpoint.
+type stateRootResponseJSON struct {
+	Data *stateRootResponseStateRootJSON `json:"data"`
 }
 
-// stateRootResponse_StateRootJson is used in /beacon/states/{state_id}/root API endpoint.
-type stateRootResponse_StateRootJson struct {
+// stateRootResponseStateRootJSON is used in /beacon/states/{state_id}/root API endpoint.
+type stateRootResponseStateRootJSON struct {
 	StateRoot string `json:"root" hex:"true"`
 }
 
-// stateForkResponseJson is used in /beacon/states/{state_id}/fork API endpoint.
-type stateForkResponseJson struct {
+// stateForkResponseJSON is used in /beacon/states/{state_id}/fork API endpoint.
+type stateForkResponseJSON struct {
 	Data *forkJson `json:"data"`
 }
 
-// stateFinalityCheckpointResponseJson is used in /beacon/states/{state_id}/finality_checkpoints API endpoint.
-type stateFinalityCheckpointResponseJson struct {
-	Data *stateFinalityCheckpointResponse_StateFinalityCheckpointJson `json:"data"`
+// stateFinalityCheckpointResponseJSON is used in /beacon/states/{state_id}/finality_checkpoints API endpoint.
+type stateFinalityCheckpointResponseJSON struct {
+	Data *stateFinalityCheckpointResponseStateFinalityCheckpointJSON `json:"data"`
 }
 
-// stateFinalityCheckpointResponse_StateFinalityCheckpointJson is used in /beacon/states/{state_id}/finality_checkpoints API endpoint.
-type stateFinalityCheckpointResponse_StateFinalityCheckpointJson struct {
-	PreviousJustified *checkpointJson `json:"previous_justified"`
-	CurrentJustified  *checkpointJson `json:"current_justified"`
-	Finalized         *checkpointJson `json:"finalized"`
+// stateFinalityCheckpointResponseStateFinalityCheckpointJSON is used in /beacon/states/{state_id}/finality_checkpoints API endpoint.
+type stateFinalityCheckpointResponseStateFinalityCheckpointJSON struct {
+	PreviousJustified *checkpointJSON `json:"previous_justified"`
+	CurrentJustified  *checkpointJSON `json:"current_justified"`
+	Finalized         *checkpointJSON `json:"finalized"`
 }
 
-// stateValidatorResponseJson is used in /beacon/states/{state_id}/validators API endpoint.
-type stateValidatorsResponseJson struct {
-	Data []*validatorContainerJson `json:"data"`
+// stateValidatorResponseJSON is used in /beacon/states/{state_id}/validators API endpoint.
+type stateValidatorsResponseJSON struct {
+	Data []*validatorContainerJSON `json:"data"`
 }
 
-// stateValidatorResponseJson is used in /beacon/states/{state_id}/validators/{validator_id} API endpoint.
-type stateValidatorResponseJson struct {
-	Data *validatorContainerJson `json:"data"`
+// stateValidatorResponseJSON is used in /beacon/states/{state_id}/validators/{validator_id} API endpoint.
+type stateValidatorResponseJSON struct {
+	Data *validatorContainerJSON `json:"data"`
 }
 
-// validatorBalancesResponseJson is used in /beacon/states/{state_id}/validator_balances API endpoint.
-type validatorBalancesResponseJson struct {
-	Data []*validatorBalanceJson `json:"data"`
+// validatorBalancesResponseJSON is used in /beacon/states/{state_id}/validator_balances API endpoint.
+type validatorBalancesResponseJSON struct {
+	Data []*validatorBalanceJSON `json:"data"`
 }
 
-// stateCommitteesResponseJson is used in /beacon/states/{state_id}/committees API endpoint.
-type stateCommitteesResponseJson struct {
-	Data []*committeeJson `json:"data"`
+// stateCommitteesResponseJSON is used in /beacon/states/{state_id}/committees API endpoint.
+type stateCommitteesResponseJSON struct {
+	Data []*committeeJSON `json:"data"`
 }
 
-// blockHeadersResponseJson is used in /beacon/headers API endpoint.
-type blockHeadersResponseJson struct {
-	Data []*blockHeaderContainerJson `json:"data"`
+// blockHeadersResponseJSON is used in /beacon/headers API endpoint.
+type blockHeadersResponseJSON struct {
+	Data []*blockHeaderContainerJSON `json:"data"`
 }
 
-// blockHeaderResponseJson is used in /beacon/headers/{block_id} API endpoint.
-type blockHeaderResponseJson struct {
-	Data *blockHeaderContainerJson `json:"data"`
+// blockHeaderResponseJSON is used in /beacon/headers/{block_id} API endpoint.
+type blockHeaderResponseJSON struct {
+	Data *blockHeaderContainerJSON `json:"data"`
 }
 
-// blockResponseJson is used in /beacon/blocks/{block_id} API endpoint.
-type blockResponseJson struct {
-	Data *beaconBlockContainerJson `json:"data"`
+// blockResponseJSON is used in /beacon/blocks/{block_id} API endpoint.
+type blockResponseJSON struct {
+	Data *beaconBlockContainerJSON `json:"data"`
 }
 
-// blockRootResponseJson is used in /beacon/blocks/{block_id}/root API endpoint.
-type blockRootResponseJson struct {
-	Data *blockRootContainerJson `json:"data"`
+// blockRootResponseJSON is used in /beacon/blocks/{block_id}/root API endpoint.
+type blockRootResponseJSON struct {
+	Data *blockRootContainerJSON `json:"data"`
 }
 
-// blockAttestationsResponseJson is used in /beacon/blocks/{block_id}/attestations API endpoint.
-type blockAttestationsResponseJson struct {
-	Data []*attestationJson `json:"data"`
+// blockAttestationsResponseJSON is used in /beacon/blocks/{block_id}/attestations API endpoint.
+type blockAttestationsResponseJSON struct {
+	Data []*attestationJSON `json:"data"`
 }
 
-// attestationsPoolResponseJson is used in /beacon/pool/attestations GET API endpoint.
-type attestationsPoolResponseJson struct {
-	Data []*attestationJson `json:"data"`
+// attestationsPoolResponseJSON is used in /beacon/pool/attestations GET API endpoint.
+type attestationsPoolResponseJSON struct {
+	Data []*attestationJSON `json:"data"`
 }
 
-// submitAttestationRequestJson is used in /beacon/pool/attestations POST API endpoint.
-type submitAttestationRequestJson struct {
-	Data []*attestationJson `json:"data"`
+// submitAttestationRequestJSON is used in /beacon/pool/attestations POST API endpoint.
+type submitAttestationRequestJSON struct {
+	Data []*attestationJSON `json:"data"`
 }
 
-// attesterSlashingsPoolResponseJson is used in /beacon/pool/attester_slashings API endpoint.
-type attesterSlashingsPoolResponseJson struct {
-	Data []*attesterSlashingJson `json:"data"`
+// attesterSlashingsPoolResponseJSON is used in /beacon/pool/attester_slashings API endpoint.
+type attesterSlashingsPoolResponseJSON struct {
+	Data []*attesterSlashingJSON `json:"data"`
 }
 
-// proposerSlashingsPoolResponseJson is used in /beacon/pool/proposer_slashings API endpoint.
-type proposerSlashingsPoolResponseJson struct {
-	Data []*proposerSlashingJson `json:"data"`
+// proposerSlashingsPoolResponseJSON is used in /beacon/pool/proposer_slashings API endpoint.
+type proposerSlashingsPoolResponseJSON struct {
+	Data []*proposerSlashingJSON `json:"data"`
 }
 
-// voluntaryExitsPoolResponseJson is used in /beacon/pool/voluntary_exits API endpoint.
-type voluntaryExitsPoolResponseJson struct {
-	Data []*signedVoluntaryExitJson `json:"data"`
+// voluntaryExitsPoolResponseJSON is used in /beacon/pool/voluntary_exits API endpoint.
+type voluntaryExitsPoolResponseJSON struct {
+	Data []*signedVoluntaryExitJSON `json:"data"`
 }
 
-// identityResponseJson is used in /node/identity API endpoint.
-type identityResponseJson struct {
-	Data *identityJson `json:"data"`
+// identityResponseJSON is used in /node/identity API endpoint.
+type identityResponseJSON struct {
+	Data *identityJSON `json:"data"`
 }
 
-// peersResponseJson is used in /node/peers API endpoint.
-type peersResponseJson struct {
-	Data []*peerJson `json:"data"`
+// peersResponseJSON is used in /node/peers API endpoint.
+type peersResponseJSON struct {
+	Data []*peerJSON `json:"data"`
 }
 
-// peerResponseJson is used in /node/peers/{peer_id} API endpoint.
-type peerResponseJson struct {
-	Data *peerJson `json:"data"`
+// peerResponseJSON is used in /node/peers/{peer_id} API endpoint.
+type peerResponseJSON struct {
+	Data *peerJSON `json:"data"`
 }
 
-// peerCountResponseJson is used in /node/peer_count API endpoint.
-type peerCountResponseJson struct {
+// peerCountResponseJSON is used in /node/peer_count API endpoint.
+type peerCountResponseJSON struct {
 	Data peerCountResponse_PeerCountJson `json:"data"`
 }
 
@@ -139,80 +139,80 @@ type peerCountResponse_PeerCountJson struct {
 	Disconnecting string `json:"disconnecting"`
 }
 
-// versionResponseJson is used in /node/version API endpoint.
-type versionResponseJson struct {
-	Data *versionJson `json:"data"`
+// versionResponseJSON is used in /node/version API endpoint.
+type versionResponseJSON struct {
+	Data *versionJSON `json:"data"`
 }
 
-// syncingResponseJson is used in /node/syncing API endpoint.
-type syncingResponseJson struct {
+// syncingResponseJSON is used in /node/syncing API endpoint.
+type syncingResponseJSON struct {
 	Data *syncInfoJson `json:"data"`
 }
 
-// beaconStateResponseJson is used in /debug/beacon/states/{state_id} API endpoint.
-type beaconStateResponseJson struct {
+// beaconStateResponseJSON is used in /debug/beacon/states/{state_id} API endpoint.
+type beaconStateResponseJSON struct {
 	Data *beaconStateJson `json:"data"`
 }
 
-// forkChoiceHeadsResponseJson is used in /debug/beacon/heads API endpoint.
-type forkChoiceHeadsResponseJson struct {
+// forkChoiceHeadsResponseJSON is used in /debug/beacon/heads API endpoint.
+type forkChoiceHeadsResponseJSON struct {
 	Data []*forkChoiceHeadJson `json:"data"`
 }
 
-// forkScheduleResponseJson is used in /config/fork_schedule API endpoint.
-type forkScheduleResponseJson struct {
+// forkScheduleResponseJSON is used in /config/fork_schedule API endpoint.
+type forkScheduleResponseJSON struct {
 	Data []*forkJson `json:"data"`
 }
 
-// depositContractResponseJson is used in /config/deposit_contract API endpoint.
-type depositContractResponseJson struct {
+// depositContractResponseJSON is used in /config/deposit_contract API endpoint.
+type depositContractResponseJSON struct {
 	Data *depositContractJson `json:"data"`
 }
 
-// specResponseJson is used in /config/spec API endpoint.
-type specResponseJson struct {
+// specResponseJSON is used in /config/spec API endpoint.
+type specResponseJSON struct {
 	Data interface{} `json:"data"`
 }
 
-// attesterDutiesRequestJson is used in /validator/duties/attester/{epoch} API endpoint.
-type attesterDutiesRequestJson struct {
+// attesterDutiesRequestJSON is used in /validator/duties/attester/{epoch} API endpoint.
+type attesterDutiesRequestJSON struct {
 	Index []string `json:"index"`
 }
 
-// attesterDutiesResponseJson is used in /validator/duties/attester/{epoch} API endpoint.
-type attesterDutiesResponseJson struct {
+// attesterDutiesResponseJSON is used in /validator/duties/attester/{epoch} API endpoint.
+type attesterDutiesResponseJSON struct {
 	DependentRoot string              `json:"dependent_root" hex:"true"`
 	Data          []*attesterDutyJson `json:"data"`
 }
 
-// proposerDutiesResponseJson is used in /validator/duties/proposer/{epoch} API endpoint.
-type proposerDutiesResponseJson struct {
+// proposerDutiesResponseJSON is used in /validator/duties/proposer/{epoch} API endpoint.
+type proposerDutiesResponseJSON struct {
 	DependentRoot string              `json:"dependent_root" hex:"true"`
 	Data          []*proposerDutyJson `json:"data"`
 }
 
-// produceBlockResponseJson is used in /validator/blocks/{slot} API endpoint.
-type produceBlockResponseJson struct {
-	Data *beaconBlockJson `json:"data"`
+// produceBlockResponseJSON is used in /validator/blocks/{slot} API endpoint.
+type produceBlockResponseJSON struct {
+	Data *beaconBlockJSON `json:"data"`
 }
 
-// produceAttestationDataResponseJson is used in /validator/attestation_data API endpoint.
-type produceAttestationDataResponseJson struct {
-	Data *attestationDataJson `json:"data"`
+// produceAttestationDataResponseJSON is used in /validator/attestation_data API endpoint.
+type produceAttestationDataResponseJSON struct {
+	Data *attestationDataJSON `json:"data"`
 }
 
-// aggregateAttestationResponseJson is used in /validator/aggregate_attestation API endpoint.
-type aggregateAttestationResponseJson struct {
-	Data *attestationJson `json:"data"`
+// aggregateAttestationResponseJSON is used in /validator/aggregate_attestation API endpoint.
+type aggregateAttestationResponseJSON struct {
+	Data *attestationJSON `json:"data"`
 }
 
-// submitBeaconCommitteeSubscriptionsRequestJson is used in /validator/beacon_committee_subscriptions
-type submitBeaconCommitteeSubscriptionsRequestJson struct {
-	Data []*beaconCommitteeSubscribeJson `json:"data"`
+// submitBeaconCommitteeSubscriptionsRequestJSON is used in /validator/beacon_committee_subscriptions
+type submitBeaconCommitteeSubscriptionsRequestJSON struct {
+	Data []*beaconCommitteeSubscribeJSON `json:"data"`
 }
 
-// beaconCommitteeSubscribeJson is used in /validator/beacon_committee_subscriptions
-type beaconCommitteeSubscribeJson struct {
+// beaconCommitteeSubscribeJSON is used in /validator/beacon_committee_subscriptions
+type beaconCommitteeSubscribeJSON struct {
 	ValidatorIndex   string `json:"validator_index"`
 	CommitteeIndex   string `json:"committee_index"`
 	CommitteesAtSlot string `json:"committees_at_slot"`
@@ -220,8 +220,8 @@ type beaconCommitteeSubscribeJson struct {
 	IsAggregator     bool   `json:"is_aggregator"`
 }
 
-// submitAggregateAndProofsRequestJson is used in /validator/aggregate_and_proofs API endpoint.
-type submitAggregateAndProofsRequestJson struct {
+// submitAggregateAndProofsRequestJSON is used in /validator/aggregate_and_proofs API endpoint.
+type submitAggregateAndProofsRequestJSON struct {
 	Data []*signedAggregateAttestationAndProofJson `json:"data"`
 }
 
@@ -229,56 +229,56 @@ type submitAggregateAndProofsRequestJson struct {
 // Reusable types.
 //----------------
 
-type checkpointJson struct {
+type checkpointJSON struct {
 	Epoch string `json:"epoch"`
 	Root  string `json:"root" hex:"true"`
 }
 
-type blockRootContainerJson struct {
+type blockRootContainerJSON struct {
 	Root string `json:"root" hex:"true"`
 }
 
-type beaconBlockContainerJson struct {
-	Message   *beaconBlockJson `json:"message"`
+type beaconBlockContainerJSON struct {
+	Message   *beaconBlockJSON `json:"message"`
 	Signature string           `json:"signature" hex:"true"`
 }
 
-type beaconBlockJson struct {
+type beaconBlockJSON struct {
 	Slot          string               `json:"slot"`
 	ProposerIndex string               `json:"proposer_index"`
 	ParentRoot    string               `json:"parent_root" hex:"true"`
 	StateRoot     string               `json:"state_root" hex:"true"`
-	Body          *beaconBlockBodyJson `json:"body"`
+	Body          *beaconBlockBodyJSON `json:"body"`
 }
 
-type beaconBlockBodyJson struct {
+type beaconBlockBodyJSON struct {
 	RandaoReveal      string                     `json:"randao_reveal" hex:"true"`
-	Eth1Data          *eth1DataJson              `json:"eth1_data"`
+	Eth1Data          *eth1DataJSON              `json:"eth1_data"`
 	Graffiti          string                     `json:"graffiti" hex:"true"`
-	ProposerSlashings []*proposerSlashingJson    `json:"proposer_slashings"`
-	AttesterSlashings []*attesterSlashingJson    `json:"attester_slashings"`
-	Attestations      []*attestationJson         `json:"attestations"`
-	Deposits          []*depositJson             `json:"deposits"`
-	VoluntaryExits    []*signedVoluntaryExitJson `json:"voluntary_exits"`
+	ProposerSlashings []*proposerSlashingJSON    `json:"proposer_slashings"`
+	AttesterSlashings []*attesterSlashingJSON    `json:"attester_slashings"`
+	Attestations      []*attestationJSON         `json:"attestations"`
+	Deposits          []*depositJSON             `json:"deposits"`
+	VoluntaryExits    []*signedVoluntaryExitJSON `json:"voluntary_exits"`
 }
 
-type blockHeaderContainerJson struct {
+type blockHeaderContainerJSON struct {
 	Root      string                          `json:"root" hex:"true"`
 	Canonical bool                            `json:"canonical"`
-	Header    *beaconBlockHeaderContainerJson `json:"header"`
+	Header    *beaconBlockHeaderContainerJSON `json:"header"`
 }
 
-type beaconBlockHeaderContainerJson struct {
-	Message   *beaconBlockHeaderJson `json:"message"`
+type beaconBlockHeaderContainerJSON struct {
+	Message   *beaconBlockHeaderJSON `json:"message"`
 	Signature string                 `json:"signature" hex:"true"`
 }
 
-type signedBeaconBlockHeaderJson struct {
-	Header    *beaconBlockHeaderJson `json:"message"`
+type signedBeaconBlockHeaderJSON struct {
+	Header    *beaconBlockHeaderJSON `json:"message"`
 	Signature string                 `json:"signature" hex:"true"`
 }
 
-type beaconBlockHeaderJson struct {
+type beaconBlockHeaderJSON struct {
 	Slot          string `json:"slot"`
 	ProposerIndex string `json:"proposer_index"`
 	ParentRoot    string `json:"parent_root" hex:"true"`
@@ -286,43 +286,43 @@ type beaconBlockHeaderJson struct {
 	BodyRoot      string `json:"body_root" hex:"true"`
 }
 
-type eth1DataJson struct {
+type eth1DataJSON struct {
 	DepositRoot  string `json:"deposit_root" hex:"true"`
 	DepositCount string `json:"deposit_count"`
 	BlockHash    string `json:"block_hash" hex:"true"`
 }
 
-type proposerSlashingJson struct {
-	Header_1 *signedBeaconBlockHeaderJson `json:"signed_header_1"`
-	Header_2 *signedBeaconBlockHeaderJson `json:"signed_header_2"`
+type proposerSlashingJSON struct {
+	Header_1 *signedBeaconBlockHeaderJSON `json:"signed_header_1"`
+	Header_2 *signedBeaconBlockHeaderJSON `json:"signed_header_2"`
 }
 
-type attesterSlashingJson struct {
-	Attestation_1 *indexedAttestationJson `json:"attestation_1"`
-	Attestation_2 *indexedAttestationJson `json:"attestation_2"`
+type attesterSlashingJSON struct {
+	Attestation_1 *indexedAttestationJSON `json:"attestation_1"`
+	Attestation_2 *indexedAttestationJSON `json:"attestation_2"`
 }
 
-type indexedAttestationJson struct {
+type indexedAttestationJSON struct {
 	AttestingIndices []string             `json:"attesting_indices"`
-	Data             *attestationDataJson `json:"data"`
+	Data             *attestationDataJSON `json:"data"`
 	Signature        string               `json:"signature" hex:"true"`
 }
 
-type attestationJson struct {
+type attestationJSON struct {
 	AggregationBits string               `json:"aggregation_bits" hex:"true"`
-	Data            *attestationDataJson `json:"data"`
+	Data            *attestationDataJSON `json:"data"`
 	Signature       string               `json:"signature" hex:"true"`
 }
 
-type attestationDataJson struct {
+type attestationDataJSON struct {
 	Slot            string          `json:"slot"`
 	CommitteeIndex  string          `json:"index"`
 	BeaconBlockRoot string          `json:"beacon_block_root" hex:"true"`
-	Source          *checkpointJson `json:"source"`
-	Target          *checkpointJson `json:"target"`
+	Source          *checkpointJSON `json:"source"`
+	Target          *checkpointJSON `json:"target"`
 }
 
-type depositJson struct {
+type depositJSON struct {
 	Proof []string          `json:"proof" hex:"true"`
 	Data  *deposit_DataJson `json:"data"`
 }
@@ -334,38 +334,38 @@ type deposit_DataJson struct {
 	Signature             string `json:"signature" hex:"true"`
 }
 
-type signedVoluntaryExitJson struct {
-	Exit      *voluntaryExitJson `json:"message"`
+type signedVoluntaryExitJSON struct {
+	Exit      *voluntaryExitJSON `json:"message"`
 	Signature string             `json:"signature" hex:"true"`
 }
 
-type voluntaryExitJson struct {
+type voluntaryExitJSON struct {
 	Epoch          string `json:"epoch"`
 	ValidatorIndex string `json:"validator_index"`
 }
 
-type identityJson struct {
-	PeerId             string        `json:"peer_id"`
+type identityJSON struct {
+	PeerID             string        `json:"peer_id"`
 	Enr                string        `json:"enr"`
 	P2PAddresses       []string      `json:"p2p_addresses"`
 	DiscoveryAddresses []string      `json:"discovery_addresses"`
-	Metadata           *metadataJson `json:"metadata"`
+	Metadata           *metadataJSON `json:"metadata"`
 }
 
-type metadataJson struct {
+type metadataJSON struct {
 	SeqNumber string `json:"seq_number"`
 	Attnets   string `json:"attnets" hex:"true"`
 }
 
-type peerJson struct {
-	PeerId    string `json:"peer_id"`
+type peerJSON struct {
+	PeerID    string `json:"peer_id"`
 	Enr       string `json:"enr"`
 	Address   string `json:"last_seen_p2p_address"`
 	State     string `json:"state" enum:"true"`
 	Direction string `json:"direction" enum:"true"`
 }
 
-type versionJson struct {
+type versionJSON struct {
 	Version string `json:"version"`
 }
 
@@ -374,12 +374,12 @@ type beaconStateJson struct {
 	GenesisValidatorsRoot       string                    `json:"genesis_validators_root" hex:"true"`
 	Slot                        string                    `json:"slot"`
 	Fork                        *forkJson                 `json:"fork"`
-	LatestBlockHeader           *beaconBlockHeaderJson    `json:"latest_block_header"`
+	LatestBlockHeader           *beaconBlockHeaderJSON    `json:"latest_block_header"`
 	BlockRoots                  []string                  `json:"block_roots" hex:"true"`
 	StateRoots                  []string                  `json:"state_roots" hex:"true"`
 	HistoricalRoots             []string                  `json:"historical_roots" hex:"true"`
-	Eth1Data                    *eth1DataJson             `json:"eth1_data"`
-	Eth1DataVotes               []*eth1DataJson           `json:"eth1_data_votes"`
+	Eth1Data                    *eth1DataJSON             `json:"eth1_data"`
+	Eth1DataVotes               []*eth1DataJSON           `json:"eth1_data_votes"`
 	Eth1DepositIndex            string                    `json:"eth1_deposit_index"`
 	Validators                  []*validatorJson          `json:"validators"`
 	Balances                    []string                  `json:"balances"`
@@ -388,9 +388,9 @@ type beaconStateJson struct {
 	PreviousEpochAttestations   []*pendingAttestationJson `json:"previous_epoch_attestations"`
 	CurrentEpochAttestations    []*pendingAttestationJson `json:"current_epoch_attestations"`
 	JustificationBits           string                    `json:"justification_bits" hex:"true"`
-	PreviousJustifiedCheckpoint *checkpointJson           `json:"previous_justified_checkpoint"`
-	CurrentJustifiedCheckpoint  *checkpointJson           `json:"current_justified_checkpoint"`
-	FinalizedCheckpoint         *checkpointJson           `json:"finalized_checkpoint"`
+	PreviousJustifiedCheckpoint *checkpointJSON           `json:"previous_justified_checkpoint"`
+	CurrentJustifiedCheckpoint  *checkpointJSON           `json:"current_justified_checkpoint"`
+	FinalizedCheckpoint         *checkpointJSON           `json:"finalized_checkpoint"`
 }
 
 type forkJson struct {
@@ -399,7 +399,7 @@ type forkJson struct {
 	Epoch           string `json:"epoch"`
 }
 
-type validatorContainerJson struct {
+type validatorContainerJSON struct {
 	Index     string         `json:"index"`
 	Balance   string         `json:"balance"`
 	Status    string         `json:"status" enum:"true"`
@@ -417,12 +417,12 @@ type validatorJson struct {
 	WithdrawableEpoch          string `json:"withdrawable_epoch"`
 }
 
-type validatorBalanceJson struct {
+type validatorBalanceJSON struct {
 	Index   string `json:"index"`
 	Balance string `json:"balance"`
 }
 
-type committeeJson struct {
+type committeeJSON struct {
 	Index      string   `json:"index"`
 	Slot       string   `json:"slot"`
 	Validators []string `json:"validators"`
@@ -430,7 +430,7 @@ type committeeJson struct {
 
 type pendingAttestationJson struct {
 	AggregationBits string               `json:"aggregation_bits" hex:"true"`
-	Data            *attestationDataJson `json:"data"`
+	Data            *attestationDataJSON `json:"data"`
 	InclusionDelay  string               `json:"inclusion_delay"`
 	ProposerIndex   string               `json:"proposer_index"`
 }
@@ -474,7 +474,7 @@ type signedAggregateAttestationAndProofJson struct {
 
 type aggregateAttestationAndProofJson struct {
 	AggregatorIndex string           `json:"aggregator_index"`
-	Aggregate       *attestationJson `json:"aggregate"`
+	Aggregate       *attestationJSON `json:"aggregate"`
 	SelectionProof  string           `json:"selection_proof" hex:"true"`
 }
 
@@ -525,7 +525,7 @@ type receivedBlockDataJson struct {
 }
 
 type aggregatedAttReceivedDataJson struct {
-	Aggregate *attestationJson `json:"aggregate"`
+	Aggregate *attestationJSON `json:"aggregate"`
 }
 
 type eventFinalizedCheckpointJson struct {

@@ -111,7 +111,7 @@ func TestNodeServer_GetHost(t *testing.T) {
 	reflection.Register(server)
 	h, err := ns.GetHost(context.Background(), &emptypb.Empty{})
 	require.NoError(t, err)
-	assert.Equal(t, mP2P.PeerID().String(), h.PeerId)
+	assert.Equal(t, mP2P.PeerID().String(), h.PeerID)
 	assert.Equal(t, stringENR, h.Enr)
 }
 
@@ -125,9 +125,9 @@ func TestNodeServer_GetPeer(t *testing.T) {
 	reflection.Register(server)
 	firstPeer := peersProvider.Peers().All()[0]
 
-	res, err := ns.GetPeer(context.Background(), &ethpb.PeerRequest{PeerId: firstPeer.String()})
+	res, err := ns.GetPeer(context.Background(), &ethpb.PeerRequest{PeerID: firstPeer.String()})
 	require.NoError(t, err)
-	assert.Equal(t, firstPeer.String(), res.PeerId, "Unexpected peer ID")
+	assert.Equal(t, firstPeer.String(), res.PeerID, "Unexpected peer ID")
 	assert.Equal(t, int(ethpb.PeerDirection_INBOUND), int(res.Direction), "Expected 1st peer to be an inbound connection")
 	assert.Equal(t, ethpb.ConnectionState_CONNECTED, res.ConnectionState, "Expected peer to be connected")
 }

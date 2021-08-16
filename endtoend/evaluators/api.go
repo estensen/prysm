@@ -14,11 +14,11 @@ import (
 	"google.golang.org/grpc"
 )
 
-type stateValidatorsResponseJson struct {
-	Data []*validatorContainerJson `json:"data"`
+type stateValidatorsResponseJSON struct {
+	Data []*validatorContainerJSON `json:"data"`
 }
 
-type validatorContainerJson struct {
+type validatorContainerJSON struct {
 	Index     string         `json:"index"`
 	Balance   string         `json:"balance"`
 	Status    string         `json:"status"`
@@ -60,7 +60,7 @@ func apiVerifyValidators(conns ...*grpc.ClientConn) error {
 			}
 			return fmt.Errorf("expected status code OK for beacon node %d, received %v with body %s", i, resp.StatusCode, body)
 		}
-		validators := &stateValidatorsResponseJson{}
+		validators := &stateValidatorsResponseJSON{}
 		if err = json.NewDecoder(resp.Body).Decode(&validators); err != nil {
 			return err
 		}
@@ -81,7 +81,7 @@ func apiVerifyValidators(conns ...*grpc.ClientConn) error {
 			}
 			return fmt.Errorf("expected status code OK for beacon node %d, received %v with body %s", i, resp.StatusCode, body)
 		}
-		validators = &stateValidatorsResponseJson{}
+		validators = &stateValidatorsResponseJSON{}
 		if err = json.NewDecoder(resp.Body).Decode(&validators); err != nil {
 			return err
 		}
@@ -103,7 +103,7 @@ func apiVerifyValidators(conns ...*grpc.ClientConn) error {
 	return nil
 }
 
-func assertValidator(v *validatorContainerJson) error {
+func assertValidator(v *validatorContainerJSON) error {
 	if v == nil {
 		return errors.New("validator is nil")
 	}

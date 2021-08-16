@@ -40,7 +40,7 @@ func (ns *Server) GetIdentity(ctx context.Context, _ *emptypb.Empty) (*ethpb.Ide
 	ctx, span := trace.StartSpan(ctx, "nodeV1.GetIdentity")
 	defer span.End()
 
-	peerId := ns.PeerManager.PeerID().Pretty()
+	peerID := ns.PeerManager.PeerID().Pretty()
 
 	serializedEnr, err := p2p.SerializeENR(ns.PeerManager.ENR())
 	if err != nil {
@@ -51,7 +51,7 @@ func (ns *Server) GetIdentity(ctx context.Context, _ *emptypb.Empty) (*ethpb.Ide
 	sourcep2p := ns.PeerManager.Host().Addrs()
 	p2pAddresses := make([]string, len(sourcep2p))
 	for i := range sourcep2p {
-		p2pAddresses[i] = sourcep2p[i].String() + "/p2p/" + peerId
+		p2pAddresses[i] = sourcep2p[i].String() + "/p2p/" + peerID
 	}
 
 	sourceDisc, err := ns.PeerManager.DiscoveryAddresses()
@@ -70,7 +70,7 @@ func (ns *Server) GetIdentity(ctx context.Context, _ *emptypb.Empty) (*ethpb.Ide
 
 	return &ethpb.IdentityResponse{
 		Data: &ethpb.Identity{
-			PeerId:             peerId,
+			PeerID:             peerID,
 			Enr:                enr,
 			P2PAddresses:       p2pAddresses,
 			DiscoveryAddresses: discoveryAddresses,
@@ -85,7 +85,7 @@ func (ns *Server) GetPeer(ctx context.Context, req *ethpb.PeerRequest) (*ethpb.P
 	defer span.End()
 
 	peerStatus := ns.PeersFetcher.Peers()
-	id, err := peer.Decode(req.PeerId)
+	id, err := peer.Decode(req.PeerID)
 	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, "Invalid peer ID: %v", err)
 	}
@@ -123,7 +123,7 @@ func (ns *Server) GetPeer(ctx context.Context, req *ethpb.PeerRequest) (*ethpb.P
 	}
 	return &ethpb.PeerResponse{
 		Data: &ethpb.Peer{
-			PeerId:             req.PeerId,
+			PeerID:             req.PeerID,
 			Enr:                "enr:" + serializedEnr,
 			LastSeenP2PAddress: p2pAddress.String(),
 			State:              v1ConnState,
@@ -358,7 +358,7 @@ func peerInfo(peerStatus *peers.Status, id peer.ID) (*ethpb.Peer, error) {
 		return nil, errors.Wrapf(err, "could not handle peer direction")
 	}
 	p := ethpb.Peer{
-		PeerId:    id.Pretty(),
+		PeerID:    id.Pretty(),
 		State:     v1ConnState,
 		Direction: v1PeerDirection,
 	}

@@ -15,7 +15,7 @@ import (
 
 // GetPeer returns the data known about the peer defined by the provided peer id.
 func (ds *Server) GetPeer(_ context.Context, peerReq *ethpb.PeerRequest) (*pbrpc.DebugPeerResponse, error) {
-	pid, err := peer.Decode(peerReq.PeerId)
+	pid, err := peer.Decode(peerReq.PeerID)
 	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, "Unable to parse provided peer id: %v", err)
 	}
@@ -148,7 +148,7 @@ func (ds *Server) getPeer(pid peer.ID) (*pbrpc.DebugPeerResponse, error) {
 		ListeningAddresses: stringAddrs,
 		Direction:          pbDirection,
 		ConnectionState:    ethpb.ConnectionState(connState),
-		PeerId:             pid.String(),
+		PeerID:             pid.String(),
 		Enr:                enr,
 		PeerInfo:           peerInfo,
 		PeerStatus:         pStatus,

@@ -14,12 +14,12 @@ import (
 // https://ethereum.github.io/eth2.0-APIs/#/Beacon/submitPoolAttestations expects posting a top-level array.
 // We make it more proto-friendly by wrapping it in a struct with a 'data' field.
 func wrapAttestationsArray(endpoint gateway.Endpoint, _ http.ResponseWriter, req *http.Request) gateway.ErrorJSON {
-	if _, ok := endpoint.PostRequest.(*submitAttestationRequestJson); ok {
-		atts := make([]*attestationJson, 0)
+	if _, ok := endpoint.PostRequest.(*submitAttestationRequestJSON); ok {
+		atts := make([]*attestationJSON, 0)
 		if err := json.NewDecoder(req.Body).Decode(&atts); err != nil {
 			return gateway.InternalServerErrorWithMessage(err, "could not decode body")
 		}
-		j := &submitAttestationRequestJson{Data: atts}
+		j := &submitAttestationRequestJSON{Data: atts}
 		b, err := json.Marshal(j)
 		if err != nil {
 			return gateway.InternalServerErrorWithMessage(err, "could not marshal wrapped body")
@@ -32,12 +32,12 @@ func wrapAttestationsArray(endpoint gateway.Endpoint, _ http.ResponseWriter, req
 // https://ethereum.github.io/eth2.0-APIs/#/Validator/getAttesterDuties expects posting a top-level array.
 // We make it more proto-friendly by wrapping it in a struct with an 'index' field.
 func wrapValidatorIndicesArray(endpoint gateway.Endpoint, _ http.ResponseWriter, req *http.Request) gateway.ErrorJSON {
-	if _, ok := endpoint.PostRequest.(*attesterDutiesRequestJson); ok {
+	if _, ok := endpoint.PostRequest.(*attesterDutiesRequestJSON); ok {
 		indices := make([]string, 0)
 		if err := json.NewDecoder(req.Body).Decode(&indices); err != nil {
 			return gateway.InternalServerErrorWithMessage(err, "could not decode body")
 		}
-		j := &attesterDutiesRequestJson{Index: indices}
+		j := &attesterDutiesRequestJSON{Index: indices}
 		b, err := json.Marshal(j)
 		if err != nil {
 			return gateway.InternalServerErrorWithMessage(err, "could not marshal wrapped body")
@@ -50,12 +50,12 @@ func wrapValidatorIndicesArray(endpoint gateway.Endpoint, _ http.ResponseWriter,
 // https://ethereum.github.io/eth2.0-APIs/#/Validator/publishAggregateAndProofs expects posting a top-level array.
 // We make it more proto-friendly by wrapping it in a struct with a 'data' field.
 func wrapSignedAggregateAndProofArray(endpoint gateway.Endpoint, _ http.ResponseWriter, req *http.Request) gateway.ErrorJSON {
-	if _, ok := endpoint.PostRequest.(*submitAggregateAndProofsRequestJson); ok {
+	if _, ok := endpoint.PostRequest.(*submitAggregateAndProofsRequestJSON); ok {
 		data := make([]*signedAggregateAttestationAndProofJson, 0)
 		if err := json.NewDecoder(req.Body).Decode(&data); err != nil {
 			return gateway.InternalServerErrorWithMessage(err, "could not decode body")
 		}
-		j := &submitAggregateAndProofsRequestJson{Data: data}
+		j := &submitAggregateAndProofsRequestJSON{Data: data}
 		b, err := json.Marshal(j)
 		if err != nil {
 			return gateway.InternalServerErrorWithMessage(err, "could not marshal wrapped body")
@@ -68,12 +68,12 @@ func wrapSignedAggregateAndProofArray(endpoint gateway.Endpoint, _ http.Response
 // https://ethereum.github.io/eth2.0-APIs/#/Validator/prepareBeaconCommitteeSubnet expects posting a top-level array.
 // We make it more proto-friendly by wrapping it in a struct with a 'data' field.
 func wrapBeaconCommitteeSubscriptionsArray(endpoint gateway.Endpoint, _ http.ResponseWriter, req *http.Request) gateway.ErrorJSON {
-	if _, ok := endpoint.PostRequest.(*submitBeaconCommitteeSubscriptionsRequestJson); ok {
-		data := make([]*beaconCommitteeSubscribeJson, 0)
+	if _, ok := endpoint.PostRequest.(*submitBeaconCommitteeSubscriptionsRequestJSON); ok {
+		data := make([]*beaconCommitteeSubscribeJSON, 0)
 		if err := json.NewDecoder(req.Body).Decode(&data); err != nil {
 			return gateway.InternalServerErrorWithMessage(err, "could not decode body")
 		}
-		j := &submitBeaconCommitteeSubscriptionsRequestJson{Data: data}
+		j := &submitBeaconCommitteeSubscriptionsRequestJSON{Data: data}
 		b, err := json.Marshal(j)
 		if err != nil {
 			return gateway.InternalServerErrorWithMessage(err, "could not marshal wrapped body")
@@ -85,7 +85,7 @@ func wrapBeaconCommitteeSubscriptionsArray(endpoint gateway.Endpoint, _ http.Res
 
 // Posted graffiti needs to have length of 32 bytes, but client is allowed to send data of any length.
 func prepareGraffiti(endpoint gateway.Endpoint, _ http.ResponseWriter, _ *http.Request) gateway.ErrorJSON {
-	if block, ok := endpoint.PostRequest.(*beaconBlockContainerJson); ok {
+	if block, ok := endpoint.PostRequest.(*beaconBlockContainerJSON); ok {
 		b := bytesutil.ToBytes32([]byte(block.Message.Body.Graffiti))
 		block.Message.Body.Graffiti = hexutil.Encode(b[:])
 	}

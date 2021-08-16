@@ -67,20 +67,20 @@ func (e *testErrorJSON) SetCode(code int) {
 
 func TestDeserializeRequestBodyIntoContainer(t *testing.T) {
 	t.Run("ok", func(t *testing.T) {
-		var bodyJson bytes.Buffer
-		err := json.NewEncoder(&bodyJson).Encode(defaultRequestContainer())
+		var bodyJSON bytes.Buffer
+		err := json.NewEncoder(&bodyJSON).Encode(defaultRequestContainer())
 		require.NoError(t, err)
 
 		container := &testRequestContainer{}
-		errJSON := DeserializeRequestBodyIntoContainer(&bodyJson, container)
+		errJSON := DeserializeRequestBodyIntoContainer(&bodyJSON, container)
 		require.Equal(t, true, errJSON == nil)
 		assert.Equal(t, "test string", container.TestString)
 	})
 
 	t.Run("error", func(t *testing.T) {
-		var bodyJson bytes.Buffer
-		bodyJson.Write([]byte("foo"))
-		errJSON := DeserializeRequestBodyIntoContainer(&bodyJson, &testRequestContainer{})
+		var bodyJSON bytes.Buffer
+		bodyJSON.Write([]byte("foo"))
+		errJSON := DeserializeRequestBodyIntoContainer(&bodyJSON, &testRequestContainer{})
 		require.NotNil(t, errJSON)
 		assert.Equal(t, true, strings.Contains(errJSON.Msg(), "could not decode request body"))
 		assert.Equal(t, http.StatusInternalServerError, errJSON.StatusCode())
@@ -225,9 +225,9 @@ func TestDeserializeGrpcResponseBodyIntoContainer(t *testing.T) {
 	})
 
 	t.Run("error", func(t *testing.T) {
-		var bodyJson bytes.Buffer
-		bodyJson.Write([]byte("foo"))
-		errJSON := DeserializeGrpcResponseBodyIntoContainer(bodyJson.Bytes(), &testRequestContainer{})
+		var bodyJSON bytes.Buffer
+		bodyJSON.Write([]byte("foo"))
+		errJSON := DeserializeGrpcResponseBodyIntoContainer(bodyJSON.Bytes(), &testRequestContainer{})
 		require.NotNil(t, errJSON)
 		assert.Equal(t, true, strings.Contains(errJSON.Msg(), "could not unmarshal response"))
 		assert.Equal(t, http.StatusInternalServerError, errJSON.StatusCode())

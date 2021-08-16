@@ -352,7 +352,7 @@ type PeerRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	PeerId string `protobuf:"bytes,1,opt,name=peer_id,json=peerId,proto3" json:"peer_id,omitempty"`
+	PeerID string `protobuf:"bytes,1,opt,name=peer_id,json=peerID,proto3" json:"peer_id,omitempty"`
 }
 
 func (x *PeerRequest) Reset() {
@@ -389,7 +389,7 @@ func (*PeerRequest) Descriptor() ([]byte, []int) {
 
 func (x *PeerRequest) GetPeerId() string {
 	if x != nil {
-		return x.PeerId
+		return x.PeerID
 	}
 	return ""
 }
@@ -449,7 +449,7 @@ type Peer struct {
 	Address         string          `protobuf:"bytes,1,opt,name=address,proto3" json:"address,omitempty"`
 	Direction       PeerDirection   `protobuf:"varint,2,opt,name=direction,proto3,enum=ethereum.eth.v1alpha1.PeerDirection" json:"direction,omitempty"`
 	ConnectionState ConnectionState `protobuf:"varint,3,opt,name=connection_state,json=connectionState,proto3,enum=ethereum.eth.v1alpha1.ConnectionState" json:"connection_state,omitempty"`
-	PeerId          string          `protobuf:"bytes,4,opt,name=peer_id,json=peerId,proto3" json:"peer_id,omitempty"`
+	PeerID          string          `protobuf:"bytes,4,opt,name=peer_id,json=peerID,proto3" json:"peer_id,omitempty"`
 	Enr             string          `protobuf:"bytes,5,opt,name=enr,proto3" json:"enr,omitempty"`
 }
 
@@ -508,7 +508,7 @@ func (x *Peer) GetConnectionState() ConnectionState {
 
 func (x *Peer) GetPeerId() string {
 	if x != nil {
-		return x.PeerId
+		return x.PeerID
 	}
 	return ""
 }
@@ -526,7 +526,7 @@ type HostData struct {
 	unknownFields protoimpl.UnknownFields
 
 	Addresses []string `protobuf:"bytes,1,rep,name=addresses,proto3" json:"addresses,omitempty"`
-	PeerId    string   `protobuf:"bytes,2,opt,name=peer_id,json=peerId,proto3" json:"peer_id,omitempty"`
+	PeerID    string   `protobuf:"bytes,2,opt,name=peer_id,json=peerID,proto3" json:"peer_id,omitempty"`
 	Enr       string   `protobuf:"bytes,3,opt,name=enr,proto3" json:"enr,omitempty"`
 }
 
@@ -571,7 +571,7 @@ func (x *HostData) GetAddresses() []string {
 
 func (x *HostData) GetPeerId() string {
 	if x != nil {
-		return x.PeerId
+		return x.PeerID
 	}
 	return ""
 }

@@ -105,7 +105,7 @@ func TestGetIdentity(t *testing.T) {
 		resp, err := s.GetIdentity(ctx, &emptypb.Empty{})
 		require.NoError(t, err)
 		expectedID := peer.ID("foo").Pretty()
-		assert.Equal(t, expectedID, resp.Data.PeerId)
+		assert.Equal(t, expectedID, resp.Data.PeerID)
 		expectedEnr, err := p2p.SerializeENR(enrRecord)
 		require.NoError(t, err)
 		assert.Equal(t, fmt.Sprint("enr:", expectedEnr), resp.Data.Enr)
@@ -202,9 +202,9 @@ func TestGetPeer(t *testing.T) {
 	peerFetcher.Peers().Add(enrRecord, decodedId, p2pMultiAddr, network.DirInbound)
 
 	t.Run("OK", func(t *testing.T) {
-		resp, err := s.GetPeer(ctx, &ethpb.PeerRequest{PeerId: rawId})
+		resp, err := s.GetPeer(ctx, &ethpb.PeerRequest{PeerID: rawId})
 		require.NoError(t, err)
-		assert.Equal(t, rawId, resp.Data.PeerId)
+		assert.Equal(t, rawId, resp.Data.PeerID)
 		assert.Equal(t, p2pAddr, resp.Data.LastSeenP2PAddress)
 		assert.Equal(t, "enr:yoABgmlwhAcHBwc=", resp.Data.Enr)
 		assert.Equal(t, ethpb.ConnectionState_DISCONNECTED, resp.Data.State)
@@ -212,13 +212,13 @@ func TestGetPeer(t *testing.T) {
 	})
 
 	t.Run("Invalid ID", func(t *testing.T) {
-		_, err = s.GetPeer(ctx, &ethpb.PeerRequest{PeerId: "foo"})
+		_, err = s.GetPeer(ctx, &ethpb.PeerRequest{PeerID: "foo"})
 		assert.ErrorContains(t, "Invalid peer ID", err)
 	})
 
 	t.Run("Peer not found", func(t *testing.T) {
 		generatedId := "16Uiu2HAmQqFdEcHbSmQTQuLoAhnMUrgoWoraKK4cUJT6FuuqHqTU"
-		_, err = s.GetPeer(ctx, &ethpb.PeerRequest{PeerId: generatedId})
+		_, err = s.GetPeer(ctx, &ethpb.PeerRequest{PeerID: generatedId})
 		assert.ErrorContains(t, "Peer not found", err)
 	})
 }
@@ -280,7 +280,7 @@ func TestListPeers(t *testing.T) {
 		require.NoError(t, err)
 		require.Equal(t, 1, len(resp.Data))
 		returnedPeer := resp.Data[0]
-		assert.Equal(t, expectedId.Pretty(), returnedPeer.PeerId)
+		assert.Equal(t, expectedId.Pretty(), returnedPeer.PeerID)
 		expectedEnr, err := peerStatus.ENR(expectedId)
 		require.NoError(t, err)
 		serializedEnr, err := p2p.SerializeENR(expectedEnr)
@@ -354,7 +354,7 @@ func TestListPeers(t *testing.T) {
 				expectedId := id.Pretty()
 				found := false
 				for _, returnedPeer := range resp.Data {
-					if returnedPeer.PeerId == expectedId {
+					if returnedPeer.PeerID == expectedId {
 						found = true
 						break
 					}

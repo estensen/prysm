@@ -111,7 +111,7 @@ func request_BeaconNode_GetPeer_0(ctx context.Context, marshaler runtime.Marshal
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "peer_id", err)
 	}
-	protoReq.PeerId = (peer_id)
+	protoReq.PeerID = (peer_id)
 
 	msg, err := client.GetPeer(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
@@ -138,7 +138,7 @@ func local_request_BeaconNode_GetPeer_0(ctx context.Context, marshaler runtime.M
 	if err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "peer_id", err)
 	}
-	protoReq.PeerId = (peer_id)
+	protoReq.PeerID = (peer_id)
 
 	msg, err := server.GetPeer(ctx, &protoReq)
 	return msg, metadata, err
