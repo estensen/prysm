@@ -63,9 +63,8 @@ func ValidatorSubStatus(validator state.ReadOnlyValidator, epoch types.Epoch) (e
 	if validator.WithdrawableEpoch() <= epoch {
 		if validator.EffectiveBalance() != 0 {
 			return ethpb.ValidatorStatus_WITHDRAWAL_POSSIBLE, nil
-		} else {
-			return ethpb.ValidatorStatus_WITHDRAWAL_DONE, nil
 		}
+		return ethpb.ValidatorStatus_WITHDRAWAL_DONE, nil
 	}
 
 	return 0, errors.New("invalid validator state")

@@ -418,9 +418,8 @@ func TestAggregateAttestations_aggregateAttestations(t *testing.T) {
 			if tt.wantErr != "" {
 				assert.ErrorContains(t, tt.wantErr, err)
 				return
-			} else {
-				assert.NoError(t, err)
 			}
+			assert.NoError(t, err)
 			assert.Equal(t, tt.wantTargetIdx, gotTargetIdx)
 			extractBitlists := func(atts []*ethpb.Attestation) []bitfield.Bitlist {
 				bl := make([]bitfield.Bitlist, len(atts))

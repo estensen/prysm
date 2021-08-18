@@ -60,9 +60,8 @@ func TestEpochStore_GetValidatorSpan_Format(t *testing.T) {
 			if tt.expectedErr != nil {
 				require.ErrorContains(t, tt.expectedErr.Error(), err)
 				return
-			} else {
-				require.NoError(t, err)
 			}
+			require.NoError(t, err)
 			span0, err := es.GetValidatorSpan(0)
 			assert.NoError(t, err)
 			assert.DeepEqual(t, tt.expectedSpan[0], span0, "Unexpected span")

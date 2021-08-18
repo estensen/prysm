@@ -29,9 +29,8 @@ func migrateStateValidators(ctx context.Context, db *bolt.DB) error {
 			if bytes.Equal(b, migrationCompleted) {
 				log.Warning("migration of historical states already completed. The node will work as if --enable-historical-state-representation=true.")
 				return nil
-			} else {
-				return nil
 			}
+			return nil
 		}
 
 		// if the migration flag is enabled (checked in the above condition)
