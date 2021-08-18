@@ -20,7 +20,7 @@ func (s *Store) RunUpMigrations(ctx context.Context) error {
 	if err := s.migrateOptimalAttesterProtectionUp(ctx); err != nil {
 		return err
 	}
-	if err := s.migrateSourceTargetEpochsBucketUp(ctx); err != nil {
+	if err := s.migrateSourceTargetEpochsBucketUp(); err != nil {
 		return err
 	}
 

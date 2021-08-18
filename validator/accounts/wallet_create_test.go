@@ -128,7 +128,7 @@ func TestCreateOrOpenWallet(t *testing.T) {
 			WalletDir:      cfg.WalletCfg.WalletDir,
 			WalletPassword: cfg.WalletCfg.WalletPassword,
 		})
-		if err = createImportedKeymanagerWallet(cliCtx.Context, w); err != nil {
+		if err = createImportedKeymanagerWallet(w); err != nil {
 			return nil, errors.Wrap(err, "could not create keymanager")
 		}
 		log.WithField("wallet-path", cfg.WalletCfg.WalletDir).Info(

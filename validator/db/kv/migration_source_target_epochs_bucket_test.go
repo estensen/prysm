@@ -108,7 +108,7 @@ func TestStore_migrateSourceTargetEpochsBucketUp(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			validatorDB := setupDB(t, pubKeys)
 			tt.setup(t, validatorDB)
-			require.NoError(t, validatorDB.migrateSourceTargetEpochsBucketUp(context.Background()))
+			require.NoError(t, validatorDB.migrateSourceTargetEpochsBucketUp())
 			tt.eval(t, validatorDB)
 		})
 	}

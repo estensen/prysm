@@ -70,7 +70,7 @@ func CreateWalletWithKeymanager(ctx context.Context, cfg *CreateWalletConfig) (*
 	var err error
 	switch w.KeymanagerKind() {
 	case keymanager.Imported:
-		if err = createImportedKeymanagerWallet(ctx, w); err != nil {
+		if err = createImportedKeymanagerWallet(w); err != nil {
 			return nil, errors.Wrap(err, "could not initialize wallet")
 		}
 		km, err := w.InitializeKeymanager(ctx, iface.InitKeymanagerConfig{ListenForChanges: false})
@@ -196,7 +196,7 @@ func extractWalletCreationConfigFromCli(cliCtx *cli.Context, keymanagerKind keym
 	return createWalletConfig, nil
 }
 
-func createImportedKeymanagerWallet(ctx context.Context, wallet *wallet.Wallet) error {
+func createImportedKeymanagerWallet(wallet *wallet.Wallet) error {
 	if wallet == nil {
 		return errors.New("nil wallet")
 	}
