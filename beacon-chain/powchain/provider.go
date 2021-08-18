@@ -11,14 +11,14 @@ import (
 // HttpEndpoint extracts an httputils.Endpoint from the provider parameter.
 func HttpEndpoint(eth1Provider string) httputils.Endpoint {
 	endpoint := httputils.Endpoint{
-		Url: "",
+		URL: "",
 		Auth: httputils.AuthorizationData{
 			Method: authorizationmethod.None,
 			Value:  "",
 		}}
 
 	authValues := strings.Split(eth1Provider, ",")
-	endpoint.Url = strings.TrimSpace(authValues[0])
+	endpoint.URL = strings.TrimSpace(authValues[0])
 	if len(authValues) > 2 {
 		log.Errorf(
 			"ETH1 endpoint string can contain one comma for specifying the authorization header to access the provider."+

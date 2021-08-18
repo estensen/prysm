@@ -240,7 +240,7 @@ func NewService(ctx context.Context, config *Web3ServiceConfig) (*Service, error
 func (s *Service) Start() {
 	// If the chain has not started already and we don't have access to eth1 nodes, we will not be
 	// able to generate the genesis state.
-	if !s.chainStartData.Chainstarted && s.currHttpEndpoint.Url == "" {
+	if !s.chainStartData.Chainstarted && s.currHttpEndpoint.URL == "" {
 		// check for genesis state before shutting down the node,
 		// if a genesis state exists, we can continue on.
 		genState, err := s.cfg.BeaconDB.GenesisState(s.ctx)
@@ -253,7 +253,7 @@ func (s *Service) Start() {
 	}
 
 	// Exit early if eth1 endpoint is not set.
-	if s.currHttpEndpoint.Url == "" {
+	if s.currHttpEndpoint.URL == "" {
 		return
 	}
 	go func() {
@@ -411,7 +411,7 @@ func (s *Service) connectToPowChain() error {
 }
 
 func (s *Service) dialETH1Nodes(endpoint httputils.Endpoint) (*ethclient.Client, *gethRPC.Client, error) {
-	httpRPCClient, err := gethRPC.Dial(endpoint.Url)
+	httpRPCClient, err := gethRPC.Dial(endpoint.URL)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -493,7 +493,7 @@ func (s *Service) waitForConnection() {
 			s.updateConnectedETH1(true)
 			s.runError = nil
 			log.WithFields(logrus.Fields{
-				"endpoint": logutil.MaskCredentialsLogging(s.currHttpEndpoint.Url),
+				"endpoint": logutil.MaskCredentialsLogging(s.currHttpEndpoint.URL),
 			}).Info("Connected to eth1 proof-of-work chain")
 			return
 		}
@@ -522,7 +522,7 @@ func (s *Service) waitForConnection() {
 	for {
 		select {
 		case <-ticker.C:
-			log.Debugf("Trying to dial endpoint: %s", logutil.MaskCredentialsLogging(s.currHttpEndpoint.Url))
+			log.Debugf("Trying to dial endpoint: %s", logutil.MaskCredentialsLogging(s.currHttpEndpoint.URL))
 			errConnect := s.connectToPowChain()
 			if errConnect != nil {
 				errorLogger(errConnect, "Could not connect to powchain endpoint")
@@ -541,7 +541,7 @@ func (s *Service) waitForConnection() {
 				s.updateConnectedETH1(true)
 				s.runError = nil
 				log.WithFields(logrus.Fields{
-					"endpoint": logutil.MaskCredentialsLogging(s.currHttpEndpoint.Url),
+					"endpoint": logutil.MaskCredentialsLogging(s.currHttpEndpoint.URL),
 				}).Info("Connected to eth1 proof-of-work chain")
 				return
 			}
@@ -953,7 +953,7 @@ func (s *Service) fallbackToNextEndpoint() {
 	}
 	s.updateCurrHttpEndpoint(s.httpEndpoints[nextIndex])
 	if nextIndex != currIndex {
-		log.Infof("Falling back to alternative endpoint: %s", logutil.MaskCredentialsLogging(s.currHttpEndpoint.Url))
+		log.Infof("Falling back to alternative endpoint: %s", logutil.MaskCredentialsLogging(s.currHttpEndpoint.URL))
 	}
 }
 

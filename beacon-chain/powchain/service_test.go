@@ -564,32 +564,32 @@ func TestServiceFallbackCorrectly(t *testing.T) {
 	s1.bsUpdater = mbs
 	require.NoError(t, err)
 
-	assert.Equal(t, firstEndpoint, s1.currHttpEndpoint.Url, "Unexpected http endpoint")
+	assert.Equal(t, firstEndpoint, s1.currHttpEndpoint.URL, "Unexpected http endpoint")
 	// Stay at the first endpoint.
 	s1.fallbackToNextEndpoint()
-	assert.Equal(t, firstEndpoint, s1.currHttpEndpoint.Url, "Unexpected http endpoint")
+	assert.Equal(t, firstEndpoint, s1.currHttpEndpoint.URL, "Unexpected http endpoint")
 	assert.Equal(t, false, mbs.lastBS.SyncEth1FallbackConfigured, "SyncEth1FallbackConfigured in clientstats update should be false when only 1 endpoint is configured")
 
-	s1.httpEndpoints = append(s1.httpEndpoints, httputils.Endpoint{Url: secondEndpoint})
+	s1.httpEndpoints = append(s1.httpEndpoints, httputils.Endpoint{URL: secondEndpoint})
 
 	s1.fallbackToNextEndpoint()
-	assert.Equal(t, secondEndpoint, s1.currHttpEndpoint.Url, "Unexpected http endpoint")
+	assert.Equal(t, secondEndpoint, s1.currHttpEndpoint.URL, "Unexpected http endpoint")
 	assert.Equal(t, true, mbs.lastBS.SyncEth1FallbackConfigured, "SyncEth1FallbackConfigured in clientstats update should be true when > 1 endpoint is configured")
 
 	thirdEndpoint := "C"
 	fourthEndpoint := "D"
 
-	s1.httpEndpoints = append(s1.httpEndpoints, httputils.Endpoint{Url: thirdEndpoint}, httputils.Endpoint{Url: fourthEndpoint})
+	s1.httpEndpoints = append(s1.httpEndpoints, httputils.Endpoint{URL: thirdEndpoint}, httputils.Endpoint{URL: fourthEndpoint})
 
 	s1.fallbackToNextEndpoint()
-	assert.Equal(t, thirdEndpoint, s1.currHttpEndpoint.Url, "Unexpected http endpoint")
+	assert.Equal(t, thirdEndpoint, s1.currHttpEndpoint.URL, "Unexpected http endpoint")
 
 	s1.fallbackToNextEndpoint()
-	assert.Equal(t, fourthEndpoint, s1.currHttpEndpoint.Url, "Unexpected http endpoint")
+	assert.Equal(t, fourthEndpoint, s1.currHttpEndpoint.URL, "Unexpected http endpoint")
 
 	// Rollover correctly back to the first endpoint
 	s1.fallbackToNextEndpoint()
-	assert.Equal(t, firstEndpoint, s1.currHttpEndpoint.Url, "Unexpected http endpoint")
+	assert.Equal(t, firstEndpoint, s1.currHttpEndpoint.URL, "Unexpected http endpoint")
 }
 
 func TestDedupEndpoints(t *testing.T) {
