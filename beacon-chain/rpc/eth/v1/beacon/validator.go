@@ -19,20 +19,20 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-// invalidValidatorIdError represents an error scenario where a validator's ID is invalid.
-type invalidValidatorIdError struct {
+// invalidValidatorIDError represents an error scenario where a validator's ID is invalid.
+type invalidValidatorIDError struct {
 	message string
 }
 
-// newInvalidValidatorIdError creates a new error instance.
-func newInvalidValidatorIdError(validatorId []byte, reason error) invalidValidatorIdError {
-	return invalidValidatorIdError{
-		message: errors.Wrapf(reason, "could not decode validator id '%s'", string(validatorId)).Error(),
+// newInvalidValidatorIDError creates a new error instance.
+func newInvalidValidatorIDError(validatorID []byte, reason error) invalidValidatorIDError {
+	return invalidValidatorIDError{
+		message: errors.Wrapf(reason, "could not decode validator id '%s'", string(validatorID)).Error(),
 	}
 }
 
 // Error returns the underlying error message.
-func (e *invalidValidatorIdError) Error() string {
+func (e *invalidValidatorIDError) Error() string {
 	return e.message
 }
 
@@ -42,7 +42,7 @@ func (bs *Server) GetValidator(ctx context.Context, req *ethpb.StateValidatorReq
 	if err != nil {
 		if stateNotFoundErr, ok := err.(*statefetcher.StateNotFoundError); ok {
 			return nil, status.Errorf(codes.NotFound, "could not get state: %v", stateNotFoundErr)
-		} else if parseErr, ok := err.(*statefetcher.StateIdParseError); ok {
+		} else if parseErr, ok := err.(*statefetcher.StateIDParseError); ok {
 			return nil, status.Errorf(codes.InvalidArgument, "Invalid state ID: %v", parseErr)
 		}
 		return nil, status.Errorf(codes.Internal, "State not found: %v", err)
@@ -66,7 +66,7 @@ func (bs *Server) ListValidators(ctx context.Context, req *ethpb.StateValidators
 	if err != nil {
 		if stateNotFoundErr, ok := err.(*statefetcher.StateNotFoundError); ok {
 			return nil, status.Errorf(codes.NotFound, "State not found: %v", stateNotFoundErr)
-		} else if parseErr, ok := err.(*statefetcher.StateIdParseError); ok {
+		} else if parseErr, ok := err.(*statefetcher.StateIDParseError); ok {
 			return nil, status.Errorf(codes.InvalidArgument, "Invalid state ID: %v", parseErr)
 		}
 		return nil, status.Errorf(codes.Internal, "Could not get state: %v", err)
@@ -118,7 +118,7 @@ func (bs *Server) ListValidatorBalances(ctx context.Context, req *ethpb.Validato
 	if err != nil {
 		if stateNotFoundErr, ok := err.(*statefetcher.StateNotFoundError); ok {
 			return nil, status.Errorf(codes.NotFound, "State not found: %v", stateNotFoundErr)
-		} else if parseErr, ok := err.(*statefetcher.StateIdParseError); ok {
+		} else if parseErr, ok := err.(*statefetcher.StateIDParseError); ok {
 			return nil, status.Errorf(codes.InvalidArgument, "Invalid state ID: %v", parseErr)
 		}
 		return nil, status.Errorf(codes.Internal, "Could not get state: %v", err)
@@ -145,7 +145,7 @@ func (bs *Server) ListCommittees(ctx context.Context, req *ethpb.StateCommittees
 	if err != nil {
 		if stateNotFoundErr, ok := err.(*statefetcher.StateNotFoundError); ok {
 			return nil, status.Errorf(codes.NotFound, "State not found: %v", stateNotFoundErr)
-		} else if parseErr, ok := err.(*statefetcher.StateIdParseError); ok {
+		} else if parseErr, ok := err.(*statefetcher.StateIDParseError); ok {
 			return nil, status.Errorf(codes.InvalidArgument, "Invalid state ID: %v", parseErr)
 		}
 		return nil, status.Errorf(codes.Internal, "Could not get state: %v", err)
@@ -220,19 +220,19 @@ func valContainersByRequestIds(state state.BeaconState, validatorIds [][]byte) (
 		}
 	} else {
 		valContainers = make([]*ethpb.ValidatorContainer, 0, len(validatorIds))
-		for _, validatorId := range validatorIds {
+		for _, validatorID := range validatorIds {
 			var valIndex types.ValidatorIndex
-			if len(validatorId) == params.BeaconConfig().BLSPubkeyLength {
+			if len(validatorID) == params.BeaconConfig().BLSPubkeyLength {
 				var ok bool
-				valIndex, ok = state.ValidatorIndexByPubkey(bytesutil.ToBytes48(validatorId))
+				valIndex, ok = state.ValidatorIndexByPubkey(bytesutil.ToBytes48(validatorID))
 				if !ok {
 					// Ignore well-formed yet unknown public keys.
 					continue
 				}
 			} else {
-				index, err := strconv.ParseUint(string(validatorId), 10, 64)
+				index, err := strconv.ParseUint(string(validatorID), 10, 64)
 				if err != nil {
-					e := newInvalidValidatorIdError(validatorId, err)
+					e := newInvalidValidatorIDError(validatorID, err)
 					return nil, &e
 				}
 				valIndex = types.ValidatorIndex(index)
@@ -270,8 +270,8 @@ func handleValContainerErr(err error) error {
 	if outOfRangeErr, ok := err.(*v1.ValidatorIndexOutOfRangeError); ok {
 		return status.Errorf(codes.InvalidArgument, "Invalid validator ID: %v", outOfRangeErr)
 	}
-	if invalidIdErr, ok := err.(*invalidValidatorIdError); ok {
-		return status.Errorf(codes.InvalidArgument, "Invalid validator ID: %v", invalidIdErr)
+	if invalidIDErr, ok := err.(*invalidValidatorIDError); ok {
+		return status.Errorf(codes.InvalidArgument, "Invalid validator ID: %v", invalidIDErr)
 	}
 	return status.Errorf(codes.Internal, "Could not get validator container: %v", err)
 }

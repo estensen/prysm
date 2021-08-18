@@ -126,7 +126,7 @@ func TestStart_OK(t *testing.T) {
 	testAcc, err := contracts.Setup()
 	require.NoError(t, err, "Unable to set up simulated backend")
 	web3Service, err := NewService(context.Background(), &Web3ServiceConfig{
-		HttpEndpoints:   []string{endpoint},
+		HTTPEndpoints:   []string{endpoint},
 		DepositContract: testAcc.ContractAddr,
 		BeaconDB:        beaconDB,
 	})
@@ -155,7 +155,7 @@ func TestStart_NoHttpEndpointDefinedFails_WithoutChainStarted(t *testing.T) {
 	testAcc, err := contracts.Setup()
 	require.NoError(t, err, "Unable to set up simulated backend")
 	s, err := NewService(context.Background(), &Web3ServiceConfig{
-		HttpEndpoints:   []string{""}, // No endpoint defined!
+		HTTPEndpoints:   []string{""}, // No endpoint defined!
 		DepositContract: testAcc.ContractAddr,
 		BeaconDB:        beaconDB,
 	})
@@ -198,7 +198,7 @@ func TestStart_NoHttpEndpointDefinedSucceeds_WithGenesisState(t *testing.T) {
 	depositCache, err := depositcache.New()
 	require.NoError(t, err)
 	s, err := NewService(context.Background(), &Web3ServiceConfig{
-		HttpEndpoints:   []string{""}, // No endpoint defined!
+		HTTPEndpoints:   []string{""}, // No endpoint defined!
 		DepositContract: testAcc.ContractAddr,
 		BeaconDB:        beaconDB,
 		DepositCache:    depositCache,
@@ -229,7 +229,7 @@ func TestStart_NoHttpEndpointDefinedSucceeds_WithChainStarted(t *testing.T) {
 		Trie:           &protodb.SparseMerkleTrie{},
 	}))
 	s, err := NewService(context.Background(), &Web3ServiceConfig{
-		HttpEndpoints:   []string{""}, // No endpoint defined!
+		HTTPEndpoints:   []string{""}, // No endpoint defined!
 		DepositContract: testAcc.ContractAddr,
 		BeaconDB:        beaconDB,
 	})
@@ -246,7 +246,7 @@ func TestStop_OK(t *testing.T) {
 	require.NoError(t, err, "Unable to set up simulated backend")
 	beaconDB := dbutil.SetupDB(t)
 	web3Service, err := NewService(context.Background(), &Web3ServiceConfig{
-		HttpEndpoints:   []string{endpoint},
+		HTTPEndpoints:   []string{endpoint},
 		DepositContract: testAcc.ContractAddr,
 		BeaconDB:        beaconDB,
 	})
@@ -271,7 +271,7 @@ func TestService_Eth1Synced(t *testing.T) {
 	require.NoError(t, err, "Unable to set up simulated backend")
 	beaconDB := dbutil.SetupDB(t)
 	web3Service, err := NewService(context.Background(), &Web3ServiceConfig{
-		HttpEndpoints:   []string{endpoint},
+		HTTPEndpoints:   []string{endpoint},
 		DepositContract: testAcc.ContractAddr,
 		BeaconDB:        beaconDB,
 	})
@@ -296,7 +296,7 @@ func TestFollowBlock_OK(t *testing.T) {
 	require.NoError(t, err, "Unable to set up simulated backend")
 	beaconDB := dbutil.SetupDB(t)
 	web3Service, err := NewService(context.Background(), &Web3ServiceConfig{
-		HttpEndpoints:   []string{endpoint},
+		HTTPEndpoints:   []string{endpoint},
 		DepositContract: testAcc.ContractAddr,
 		BeaconDB:        beaconDB,
 	})
@@ -369,7 +369,7 @@ func TestHandlePanic_OK(t *testing.T) {
 	hook := logTest.NewGlobal()
 	beaconDB := dbutil.SetupDB(t)
 	web3Service, err := NewService(context.Background(), &Web3ServiceConfig{
-		HttpEndpoints: []string{endpoint},
+		HTTPEndpoints: []string{endpoint},
 		BeaconDB:      beaconDB,
 	})
 	require.NoError(t, err, "unable to setup web3 ETH1.0 chain service")
@@ -408,7 +408,7 @@ func TestLogTillGenesis_OK(t *testing.T) {
 	require.NoError(t, err, "Unable to set up simulated backend")
 	beaconDB := dbutil.SetupDB(t)
 	web3Service, err := NewService(context.Background(), &Web3ServiceConfig{
-		HttpEndpoints:   []string{endpoint},
+		HTTPEndpoints:   []string{endpoint},
 		DepositContract: testAcc.ContractAddr,
 		BeaconDB:        beaconDB,
 	})
@@ -468,7 +468,7 @@ func TestNewService_EarliestVotingBlock(t *testing.T) {
 	require.NoError(t, err, "Unable to set up simulated backend")
 	beaconDB := dbutil.SetupDB(t)
 	web3Service, err := NewService(context.Background(), &Web3ServiceConfig{
-		HttpEndpoints:   []string{endpoint},
+		HTTPEndpoints:   []string{endpoint},
 		DepositContract: testAcc.ContractAddr,
 		BeaconDB:        beaconDB,
 	})
@@ -519,7 +519,7 @@ func TestNewService_Eth1HeaderRequLimit(t *testing.T) {
 	beaconDB := dbutil.SetupDB(t)
 
 	s1, err := NewService(context.Background(), &Web3ServiceConfig{
-		HttpEndpoints:   []string{endpoint},
+		HTTPEndpoints:   []string{endpoint},
 		DepositContract: testAcc.ContractAddr,
 		BeaconDB:        beaconDB,
 	})
@@ -527,7 +527,7 @@ func TestNewService_Eth1HeaderRequLimit(t *testing.T) {
 	assert.Equal(t, defaultEth1HeaderReqLimit, s1.cfg.Eth1HeaderReqLimit, "default eth1 header request limit not set")
 
 	s2, err := NewService(context.Background(), &Web3ServiceConfig{
-		HttpEndpoints:      []string{endpoint},
+		HTTPEndpoints:      []string{endpoint},
 		DepositContract:    testAcc.ContractAddr,
 		BeaconDB:           beaconDB,
 		Eth1HeaderReqLimit: uint64(150),
@@ -556,7 +556,7 @@ func TestServiceFallbackCorrectly(t *testing.T) {
 
 	mbs := &mockBSUpdater{}
 	s1, err := NewService(context.Background(), &Web3ServiceConfig{
-		HttpEndpoints:          []string{firstEndpoint},
+		HTTPEndpoints:          []string{firstEndpoint},
 		DepositContract:        testAcc.ContractAddr,
 		BeaconDB:               beaconDB,
 		BeaconNodeStatsUpdater: mbs,
@@ -564,16 +564,16 @@ func TestServiceFallbackCorrectly(t *testing.T) {
 	s1.bsUpdater = mbs
 	require.NoError(t, err)
 
-	assert.Equal(t, firstEndpoint, s1.currHttpEndpoint.URL, "Unexpected http endpoint")
+	assert.Equal(t, firstEndpoint, s1.currHTTPEndpoint.URL, "Unexpected http endpoint")
 	// Stay at the first endpoint.
 	s1.fallbackToNextEndpoint()
-	assert.Equal(t, firstEndpoint, s1.currHttpEndpoint.URL, "Unexpected http endpoint")
+	assert.Equal(t, firstEndpoint, s1.currHTTPEndpoint.URL, "Unexpected http endpoint")
 	assert.Equal(t, false, mbs.lastBS.SyncEth1FallbackConfigured, "SyncEth1FallbackConfigured in clientstats update should be false when only 1 endpoint is configured")
 
 	s1.httpEndpoints = append(s1.httpEndpoints, httputils.Endpoint{URL: secondEndpoint})
 
 	s1.fallbackToNextEndpoint()
-	assert.Equal(t, secondEndpoint, s1.currHttpEndpoint.URL, "Unexpected http endpoint")
+	assert.Equal(t, secondEndpoint, s1.currHTTPEndpoint.URL, "Unexpected http endpoint")
 	assert.Equal(t, true, mbs.lastBS.SyncEth1FallbackConfigured, "SyncEth1FallbackConfigured in clientstats update should be true when > 1 endpoint is configured")
 
 	thirdEndpoint := "C"
@@ -582,14 +582,14 @@ func TestServiceFallbackCorrectly(t *testing.T) {
 	s1.httpEndpoints = append(s1.httpEndpoints, httputils.Endpoint{URL: thirdEndpoint}, httputils.Endpoint{URL: fourthEndpoint})
 
 	s1.fallbackToNextEndpoint()
-	assert.Equal(t, thirdEndpoint, s1.currHttpEndpoint.URL, "Unexpected http endpoint")
+	assert.Equal(t, thirdEndpoint, s1.currHTTPEndpoint.URL, "Unexpected http endpoint")
 
 	s1.fallbackToNextEndpoint()
-	assert.Equal(t, fourthEndpoint, s1.currHttpEndpoint.URL, "Unexpected http endpoint")
+	assert.Equal(t, fourthEndpoint, s1.currHTTPEndpoint.URL, "Unexpected http endpoint")
 
 	// Rollover correctly back to the first endpoint
 	s1.fallbackToNextEndpoint()
-	assert.Equal(t, firstEndpoint, s1.currHttpEndpoint.URL, "Unexpected http endpoint")
+	assert.Equal(t, firstEndpoint, s1.currHTTPEndpoint.URL, "Unexpected http endpoint")
 }
 
 func TestDedupEndpoints(t *testing.T) {

@@ -88,7 +88,7 @@ type StateRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	StateId []byte `protobuf:"bytes,1,opt,name=state_id,json=stateId,proto3" json:"state_id,omitempty"`
+	StateId []byte `protobuf:"bytes,1,opt,name=state_id,json=stateID,proto3" json:"state_id,omitempty"`
 }
 
 func (x *StateRequest) Reset() {
@@ -276,7 +276,7 @@ type StateValidatorsRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	StateId []byte            `protobuf:"bytes,1,opt,name=state_id,json=stateId,proto3" json:"state_id,omitempty"`
+	StateId []byte            `protobuf:"bytes,1,opt,name=state_id,json=stateID,proto3" json:"state_id,omitempty"`
 	Id      [][]byte          `protobuf:"bytes,2,rep,name=id,proto3" json:"id,omitempty"`
 	Status  []ValidatorStatus `protobuf:"varint,3,rep,packed,name=status,proto3,enum=ethereum.eth.v1.ValidatorStatus" json:"status,omitempty"`
 }
@@ -339,7 +339,7 @@ type ValidatorBalancesRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	StateId []byte   `protobuf:"bytes,1,opt,name=state_id,json=stateId,proto3" json:"state_id,omitempty"`
+	StateId []byte   `protobuf:"bytes,1,opt,name=state_id,json=stateID,proto3" json:"state_id,omitempty"`
 	Id      [][]byte `protobuf:"bytes,2,rep,name=id,proto3" json:"id,omitempty"`
 }
 
@@ -543,8 +543,8 @@ type StateValidatorRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	StateId     []byte `protobuf:"bytes,1,opt,name=state_id,json=stateId,proto3" json:"state_id,omitempty"`
-	ValidatorId []byte `protobuf:"bytes,2,opt,name=validator_id,json=validatorId,proto3" json:"validator_id,omitempty"`
+	StateId     []byte `protobuf:"bytes,1,opt,name=state_id,json=stateID,proto3" json:"state_id,omitempty"`
+	ValidatorId []byte `protobuf:"bytes,2,opt,name=validator_id,json=validatorID,proto3" json:"validator_id,omitempty"`
 }
 
 func (x *StateValidatorRequest) Reset() {
@@ -645,7 +645,7 @@ type StateCommitteesRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	StateId []byte                                              `protobuf:"bytes,1,opt,name=state_id,json=stateId,proto3" json:"state_id,omitempty"`
+	StateId []byte                                              `protobuf:"bytes,1,opt,name=state_id,json=stateID,proto3" json:"state_id,omitempty"`
 	Epoch   *github_com_prysmaticlabs_eth2_types.Epoch          `protobuf:"varint,2,opt,name=epoch,proto3,oneof" json:"epoch,omitempty" cast-type:"github.com/prysmaticlabs/eth2-types.Epoch"`
 	Index   *github_com_prysmaticlabs_eth2_types.CommitteeIndex `protobuf:"varint,3,opt,name=index,proto3,oneof" json:"index,omitempty" cast-type:"github.com/prysmaticlabs/eth2-types.CommitteeIndex"`
 	Slot    *github_com_prysmaticlabs_eth2_types.Slot           `protobuf:"varint,4,opt,name=slot,proto3,oneof" json:"slot,omitempty" cast-type:"github.com/prysmaticlabs/eth2-types.Slot"`
@@ -1006,7 +1006,7 @@ type BlockRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	BlockId []byte `protobuf:"bytes,1,opt,name=block_id,json=blockId,proto3" json:"block_id,omitempty"`
+	BlockId []byte `protobuf:"bytes,1,opt,name=block_id,json=blockID,proto3" json:"block_id,omitempty"`
 }
 
 func (x *BlockRequest) Reset() {
@@ -1798,7 +1798,7 @@ type DepositContract struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ChainID uint64 `protobuf:"varint,1,opt,name=chain_id,json=chainId,proto3" json:"chain_id,omitempty"`
+	ChainID uint64 `protobuf:"varint,1,opt,name=chain_id,json=chainID,proto3" json:"chain_id,omitempty"`
 	Address string `protobuf:"bytes,2,opt,name=address,proto3" json:"address,omitempty"`
 }
 

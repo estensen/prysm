@@ -43,7 +43,7 @@ func (bs *Server) GetGenesis(ctx context.Context, _ *emptypb.Empty) (*ethpb.Gene
 	}, nil
 }
 
-// GetStateRoot calculates HashTreeRoot for state with given 'stateId'. If stateId is root, same value will be returned.
+// GetStateRoot calculates HashTreeRoot for state with given 'stateID'. If stateID is root, same value will be returned.
 func (bs *Server) GetStateRoot(ctx context.Context, req *ethpb.StateRequest) (*ethpb.StateRootResponse, error) {
 	ctx, span := trace.StartSpan(ctx, "beaconv1.GetStateRoot")
 	defer span.End()
@@ -57,7 +57,7 @@ func (bs *Server) GetStateRoot(ctx context.Context, req *ethpb.StateRequest) (*e
 	if err != nil {
 		if rootNotFoundErr, ok := err.(*statefetcher.StateRootNotFoundError); ok {
 			return nil, status.Errorf(codes.NotFound, "State root not found: %v", rootNotFoundErr)
-		} else if parseErr, ok := err.(*statefetcher.StateIdParseError); ok {
+		} else if parseErr, ok := err.(*statefetcher.StateIDParseError); ok {
 			return nil, status.Errorf(codes.InvalidArgument, "Invalid state ID: %v", parseErr)
 		}
 		return nil, status.Errorf(codes.Internal, "Could not get state root: %v", err)
@@ -70,7 +70,7 @@ func (bs *Server) GetStateRoot(ctx context.Context, req *ethpb.StateRequest) (*e
 	}, nil
 }
 
-// GetStateFork returns Fork object for state with given 'stateId'.
+// GetStateFork returns Fork object for state with given 'stateID'.
 func (bs *Server) GetStateFork(ctx context.Context, req *ethpb.StateRequest) (*ethpb.StateForkResponse, error) {
 	ctx, span := trace.StartSpan(ctx, "beaconv1.GetStateFork")
 	defer span.End()
@@ -84,7 +84,7 @@ func (bs *Server) GetStateFork(ctx context.Context, req *ethpb.StateRequest) (*e
 	if err != nil {
 		if stateNotFoundErr, ok := err.(*statefetcher.StateNotFoundError); ok {
 			return nil, status.Errorf(codes.NotFound, "State not found: %v", stateNotFoundErr)
-		} else if parseErr, ok := err.(*statefetcher.StateIdParseError); ok {
+		} else if parseErr, ok := err.(*statefetcher.StateIDParseError); ok {
 			return nil, status.Errorf(codes.InvalidArgument, "Invalid state ID: %v", parseErr)
 		}
 		return nil, status.Errorf(codes.Internal, "Could not get state: %v", err)
@@ -100,7 +100,7 @@ func (bs *Server) GetStateFork(ctx context.Context, req *ethpb.StateRequest) (*e
 	}, nil
 }
 
-// GetFinalityCheckpoints returns finality checkpoints for state with given 'stateId'. In case finality is
+// GetFinalityCheckpoints returns finality checkpoints for state with given 'stateID'. In case finality is
 // not yet achieved, checkpoint should return epoch 0 and ZERO_HASH as root.
 func (bs *Server) GetFinalityCheckpoints(ctx context.Context, req *ethpb.StateRequest) (*ethpb.StateFinalityCheckpointResponse, error) {
 	ctx, span := trace.StartSpan(ctx, "beaconv1.GetFinalityCheckpoints")
@@ -115,7 +115,7 @@ func (bs *Server) GetFinalityCheckpoints(ctx context.Context, req *ethpb.StateRe
 	if err != nil {
 		if stateNotFoundErr, ok := err.(*statefetcher.StateNotFoundError); ok {
 			return nil, status.Errorf(codes.NotFound, "State not found: %v", stateNotFoundErr)
-		} else if parseErr, ok := err.(*statefetcher.StateIdParseError); ok {
+		} else if parseErr, ok := err.(*statefetcher.StateIDParseError); ok {
 			return nil, status.Errorf(codes.InvalidArgument, "Invalid state ID: %v", parseErr)
 		}
 		return nil, status.Errorf(codes.Internal, "Could not get state: %v", err)

@@ -17,20 +17,20 @@ import (
 	"github.com/prysmaticlabs/prysm/shared/bytesutil"
 )
 
-// StateIdParseError represents an error scenario where a state ID could not be parsed.
-type StateIdParseError struct {
+// StateIDParseError represents an error scenario where a state ID could not be parsed.
+type StateIDParseError struct {
 	message string
 }
 
 // NewStateIdParseError creates a new error instance.
-func NewStateIdParseError(reason error) StateIdParseError {
-	return StateIdParseError{
+func NewStateIdParseError(reason error) StateIDParseError {
+	return StateIDParseError{
 		message: errors.Wrapf(reason, "could not parse state ID").Error(),
 	}
 }
 
 // Error returns the underlying error message.
-func (e *StateIdParseError) Error() string {
+func (e *StateIDParseError) Error() string {
 	return e.message
 }
 
@@ -70,8 +70,8 @@ func (e *StateRootNotFoundError) Error() string {
 
 // Fetcher is responsible for retrieving info related with the beacon chain.
 type Fetcher interface {
-	State(ctx context.Context, stateId []byte) (state.BeaconState, error)
-	StateRoot(ctx context.Context, stateId []byte) ([]byte, error)
+	State(ctx context.Context, stateID []byte) (state.BeaconState, error)
+	StateRoot(ctx context.Context, stateID []byte) ([]byte, error)
 }
 
 // StateProvider is a real implementation of Fetcher.
@@ -89,14 +89,14 @@ type StateProvider struct {
 //  - "justified"
 //  - <slot>
 //  - <hex encoded state root with '0x' prefix>
-func (p *StateProvider) State(ctx context.Context, stateId []byte) (state.BeaconState, error) {
+func (p *StateProvider) State(ctx context.Context, stateID []byte) (state.BeaconState, error) {
 	var (
 		s   state.BeaconState
 		err error
 	)
 
-	stateIdString := strings.ToLower(string(stateId))
-	switch stateIdString {
+	stateIDString := strings.ToLower(string(stateID))
+	switch stateIDString {
 	case "head":
 		s, err = p.ChainInfoFetcher.HeadState(ctx)
 		if err != nil {
@@ -120,10 +120,10 @@ func (p *StateProvider) State(ctx context.Context, stateId []byte) (state.Beacon
 			return nil, errors.Wrap(err, "could not get justified state")
 		}
 	default:
-		if len(stateId) == 32 {
-			s, err = p.stateByHex(ctx, stateId)
+		if len(stateID) == 32 {
+			s, err = p.stateByHex(ctx, stateID)
 		} else {
-			slotNumber, parseErr := strconv.ParseUint(stateIdString, 10, 64)
+			slotNumber, parseErr := strconv.ParseUint(stateIDString, 10, 64)
 			if parseErr != nil {
 				// ID format does not match any valid options.
 				e := NewStateIdParseError(parseErr)
@@ -143,9 +143,9 @@ func (p *StateProvider) State(ctx context.Context, stateId []byte) (state.Beacon
 //  - "justified"
 //  - <slot>
 //  - <hex encoded state root with '0x' prefix>
-func (p *StateProvider) StateRoot(ctx context.Context, stateId []byte) (root []byte, err error) {
-	stateIdString := strings.ToLower(string(stateId))
-	switch stateIdString {
+func (p *StateProvider) StateRoot(ctx context.Context, stateID []byte) (root []byte, err error) {
+	stateIDString := strings.ToLower(string(stateID))
+	switch stateIDString {
 	case "head":
 		root, err = p.headStateRoot(ctx)
 	case "genesis":
@@ -155,10 +155,10 @@ func (p *StateProvider) StateRoot(ctx context.Context, stateId []byte) (root []b
 	case "justified":
 		root, err = p.justifiedStateRoot(ctx)
 	default:
-		if len(stateId) == 32 {
-			root, err = p.stateRootByHex(ctx, stateId)
+		if len(stateID) == 32 {
+			root, err = p.stateRootByHex(ctx, stateID)
 		} else {
-			slotNumber, parseErr := strconv.ParseUint(stateIdString, 10, 64)
+			slotNumber, parseErr := strconv.ParseUint(stateIDString, 10, 64)
 			if parseErr != nil {
 				e := NewStateIdParseError(parseErr)
 				// ID format does not match any valid options.
@@ -171,13 +171,13 @@ func (p *StateProvider) StateRoot(ctx context.Context, stateId []byte) (root []b
 	return root, err
 }
 
-func (p *StateProvider) stateByHex(ctx context.Context, stateId []byte) (state.BeaconState, error) {
+func (p *StateProvider) stateByHex(ctx context.Context, stateID []byte) (state.BeaconState, error) {
 	headState, err := p.ChainInfoFetcher.HeadState(ctx)
 	if err != nil {
 		return nil, errors.Wrap(err, "could not get head state")
 	}
 	for i, root := range headState.StateRoots() {
-		if bytes.Equal(root, stateId) {
+		if bytes.Equal(root, stateID) {
 			blockRoot := headState.BlockRoots()[i]
 			return p.StateGenService.StateByRoot(ctx, bytesutil.ToBytes32(blockRoot))
 		}
@@ -251,9 +251,9 @@ func (p *StateProvider) justifiedStateRoot(ctx context.Context) ([]byte, error) 
 	return b.Block().StateRoot(), nil
 }
 
-func (p *StateProvider) stateRootByHex(ctx context.Context, stateId []byte) ([]byte, error) {
+func (p *StateProvider) stateRootByHex(ctx context.Context, stateID []byte) ([]byte, error) {
 	var stateRoot [32]byte
-	copy(stateRoot[:], stateId)
+	copy(stateRoot[:], stateID)
 	headState, err := p.ChainInfoFetcher.HeadState(ctx)
 	if err != nil {
 		return nil, errors.Wrap(err, "could not get head state")

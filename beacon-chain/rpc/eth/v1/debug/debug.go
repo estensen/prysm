@@ -20,7 +20,7 @@ func (ds *Server) GetBeaconState(ctx context.Context, req *ethpb.StateRequest) (
 	if err != nil {
 		if stateNotFoundErr, ok := err.(*statefetcher.StateNotFoundError); ok {
 			return nil, status.Errorf(codes.NotFound, "State not found: %v", stateNotFoundErr)
-		} else if parseErr, ok := err.(*statefetcher.StateIdParseError); ok {
+		} else if parseErr, ok := err.(*statefetcher.StateIDParseError); ok {
 			return nil, status.Errorf(codes.InvalidArgument, "Invalid state ID: %v", parseErr)
 		}
 		return nil, status.Errorf(codes.Internal, "Invalid state ID: %v", err)
@@ -36,7 +36,7 @@ func (ds *Server) GetBeaconState(ctx context.Context, req *ethpb.StateRequest) (
 	}, nil
 }
 
-// GetBeaconStateSSZ returns the SSZ-serialized version of the full beacon state object for given stateId.
+// GetBeaconStateSSZ returns the SSZ-serialized version of the full beacon state object for given stateID.
 func (ds *Server) GetBeaconStateSSZ(ctx context.Context, req *ethpb.StateRequest) (*ethpb.BeaconStateSSZResponse, error) {
 	ctx, span := trace.StartSpan(ctx, "beaconv1.GetBeaconStateSSZ")
 	defer span.End()
@@ -45,7 +45,7 @@ func (ds *Server) GetBeaconStateSSZ(ctx context.Context, req *ethpb.StateRequest
 	if err != nil {
 		if stateNotFoundErr, ok := err.(*statefetcher.StateNotFoundError); ok {
 			return nil, status.Errorf(codes.NotFound, "State not found: %v", stateNotFoundErr)
-		} else if parseErr, ok := err.(*statefetcher.StateIdParseError); ok {
+		} else if parseErr, ok := err.(*statefetcher.StateIDParseError); ok {
 			return nil, status.Errorf(codes.InvalidArgument, "Invalid state ID: %v", parseErr)
 		}
 		return nil, status.Errorf(codes.Internal, "Invalid state ID: %v", err)

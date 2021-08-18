@@ -36,14 +36,14 @@ option php_namespace = "Ethereum\\Eth\\v1";
 //
 // This service is defined in the upstream Ethereum consensus APIs repository (eth2.0-APIs/apis/debug).
 service BeaconDebug {
-  // GetBeaconState returns full BeaconState object for given stateId.
+  // GetBeaconState returns full BeaconState object for given stateID.
   rpc GetBeaconState(StateRequest) returns (BeaconStateResponse) {
     option (google.api.http) = {
       get: "/eth/v1/debug/beacon/states/{state_id}"
     };
   }
 
-  // GetBeaconStateSSZ returns the SSZ-serialized version of the full BeaconState object for given stateId.
+  // GetBeaconStateSSZ returns the SSZ-serialized version of the full BeaconState object for given stateID.
   rpc GetBeaconStateSSZ(StateRequest) returns (BeaconStateSSZResponse) {
     option (google.api.http) = {
       get: "/eth/v1/debug/beacon/states/{state_id}/ssz"

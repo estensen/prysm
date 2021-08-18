@@ -47,21 +47,21 @@ service BeaconChain {
     option (google.api.http) = { get: "/eth/v1/beacon/genesis" };
   }
 
-  // GetStateRoot calculates HashTreeRoot for state with given 'stateId'. If stateId is root, same value will be returned.
+  // GetStateRoot calculates HashTreeRoot for state with given 'stateID'. If stateID is root, same value will be returned.
   rpc GetStateRoot(StateRequest) returns (StateRootResponse) {
     option (google.api.http) = {
       get: "/eth/v1/beacon/states/{state_id}/root"
     };
   }
 
-  // GetStateFork returns Fork object for state with given 'stateId'.
+  // GetStateFork returns Fork object for state with given 'stateID'.
   rpc GetStateFork(StateRequest) returns (StateForkResponse) {
     option (google.api.http) = {
       get: "/eth/v1/beacon/states/{state_id}/fork"
     };
   }
 
-  // GetFinalityCheckpoints returns finality checkpoints for state with given 'stateId'. In case finality is
+  // GetFinalityCheckpoints returns finality checkpoints for state with given 'stateID'. In case finality is
   // not yet achieved, checkpoint should return epoch 0 and ZERO_HASH as root.
   rpc GetFinalityCheckpoints(StateRequest) returns (StateFinalityCheckpointResponse) {
     option (google.api.http) = {

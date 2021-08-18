@@ -338,7 +338,7 @@ func (s *Service) DiscoveryAddresses() ([]multiaddr.Multiaddr, error) {
 	if s.dv5Listener == nil {
 		return nil, nil
 	}
-	return convertToUdpMultiAddr(s.dv5Listener.Self())
+	return convertToUDPMultiAddr(s.dv5Listener.Self())
 }
 
 // Metadata returns a copy of the peer's metadata.

@@ -21,20 +21,20 @@ import (
 	"google.golang.org/protobuf/types/known/emptypb"
 )
 
-// blockIdParseError represents an error scenario where a block ID could not be parsed.
-type blockIdParseError struct {
+// blockIDParseError represents an error scenario where a block ID could not be parsed.
+type blockIDParseError struct {
 	message string
 }
 
-// newBlockIdParseError creates a new error instance.
-func newBlockIdParseError(reason error) blockIdParseError {
-	return blockIdParseError{
+// newBlockIDParseError creates a new error instance.
+func newBlockIDParseError(reason error) blockIDParseError {
+	return blockIDParseError{
 		message: errors.Wrapf(reason, "could not parse block ID").Error(),
 	}
 }
 
 // Error returns the underlying error message.
-func (e *blockIdParseError) Error() string {
+func (e *blockIDParseError) Error() string {
 	return e.message
 }
 
@@ -44,8 +44,8 @@ func (bs *Server) GetBlockHeader(ctx context.Context, req *ethpb.BlockRequest) (
 	defer span.End()
 
 	rBlk, err := bs.blockFromBlockID(ctx, req.BlockId)
-	if invalidBlockIdErr, ok := err.(*blockIdParseError); ok {
-		return nil, status.Errorf(codes.InvalidArgument, "Invalid block ID: %v", invalidBlockIdErr)
+	if invalidBlockIDErr, ok := err.(*blockIDParseError); ok {
+		return nil, status.Errorf(codes.InvalidArgument, "Invalid block ID: %v", invalidBlockIDErr)
 	}
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, "Could not get block from block ID: %v", err)
@@ -199,8 +199,8 @@ func (bs *Server) GetBlock(ctx context.Context, req *ethpb.BlockRequest) (*ethpb
 	defer span.End()
 
 	block, err := bs.blockFromBlockID(ctx, req.BlockId)
-	if invalidBlockIdErr, ok := err.(*blockIdParseError); ok {
-		return nil, status.Errorf(codes.InvalidArgument, "Invalid block ID: %v", invalidBlockIdErr)
+	if invalidBlockIDErr, ok := err.(*blockIDParseError); ok {
+		return nil, status.Errorf(codes.InvalidArgument, "Invalid block ID: %v", invalidBlockIDErr)
 	}
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, "Could not get block from block ID: %v", err)
@@ -224,8 +224,8 @@ func (bs *Server) GetBlockSSZ(ctx context.Context, req *ethpb.BlockRequest) (*et
 	defer span.End()
 
 	block, err := bs.blockFromBlockID(ctx, req.BlockId)
-	if invalidBlockIdErr, ok := err.(*blockIdParseError); ok {
-		return nil, status.Errorf(codes.InvalidArgument, "Invalid block ID: %v", invalidBlockIdErr)
+	if invalidBlockIDErr, ok := err.(*blockIDParseError); ok {
+		return nil, status.Errorf(codes.InvalidArgument, "Invalid block ID: %v", invalidBlockIDErr)
 	}
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, "Could not get block from block ID: %v", err)
@@ -328,8 +328,8 @@ func (bs *Server) ListBlockAttestations(ctx context.Context, req *ethpb.BlockReq
 	defer span.End()
 
 	rBlk, err := bs.blockFromBlockID(ctx, req.BlockId)
-	if invalidBlockIdErr, ok := err.(*blockIdParseError); ok {
-		return nil, status.Errorf(codes.InvalidArgument, "Invalid block ID: %v", invalidBlockIdErr)
+	if invalidBlockIDErr, ok := err.(*blockIDParseError); ok {
+		return nil, status.Errorf(codes.InvalidArgument, "Invalid block ID: %v", invalidBlockIDErr)
 	}
 	if err != nil {
 		return nil, status.Errorf(codes.Internal, "Could not get block from block ID: %v", err)
@@ -352,10 +352,10 @@ func (bs *Server) ListBlockAttestations(ctx context.Context, req *ethpb.BlockReq
 	}, nil
 }
 
-func (bs *Server) blockFromBlockID(ctx context.Context, blockId []byte) (block.SignedBeaconBlock, error) {
+func (bs *Server) blockFromBlockID(ctx context.Context, blockID []byte) (block.SignedBeaconBlock, error) {
 	var err error
 	var blk block.SignedBeaconBlock
-	switch string(blockId) {
+	switch string(blockID) {
 	case "head":
 		blk, err = bs.ChainInfoFetcher.HeadBlock(ctx)
 		if err != nil {
@@ -374,15 +374,15 @@ func (bs *Server) blockFromBlockID(ctx context.Context, blockId []byte) (block.S
 			return nil, errors.Wrap(err, "could not retrieve blocks for genesis slot")
 		}
 	default:
-		if len(blockId) == 32 {
-			blk, err = bs.BeaconDB.Block(ctx, bytesutil.ToBytes32(blockId))
+		if len(blockID) == 32 {
+			blk, err = bs.BeaconDB.Block(ctx, bytesutil.ToBytes32(blockID))
 			if err != nil {
 				return nil, errors.Wrap(err, "could not retrieve block")
 			}
 		} else {
-			slot, err := strconv.ParseUint(string(blockId), 10, 64)
+			slot, err := strconv.ParseUint(string(blockID), 10, 64)
 			if err != nil {
-				e := newBlockIdParseError(err)
+				e := newBlockIDParseError(err)
 				return nil, &e
 			}
 			_, blks, err := bs.BeaconDB.BlocksBySlot(ctx, types.Slot(slot))

@@ -16,7 +16,7 @@ import (
 
 const defaultBurstLimit = 5
 
-// Dummy topic to validate all incoming rpc requests.
+// Dummy topic to validate all incoming RPC requests.
 const rpcLimiterTopic = "rpc-limiter-topic"
 
 type limiter struct {
@@ -25,7 +25,7 @@ type limiter struct {
 	sync.RWMutex
 }
 
-// Instantiates a multi-rpc protocol rate limiter, providing
+// Instantiates a multi-RPC protocol rate limiter, providing
 // separate collectors for each topic.
 func newRateLimiter(p2pProvider p2p.P2P) *limiter {
 	// add encoding suffix
@@ -36,7 +36,7 @@ func newRateLimiter(p2pProvider p2p.P2P) *limiter {
 	allowedBlocksPerSecond := float64(flags.Get().BlockBatchLimit)
 	allowedBlocksBurst := int64(flags.Get().BlockBatchLimitBurstFactor * flags.Get().BlockBatchLimit)
 
-	// Set topic map for all rpc topics.
+	// Set topic map for all RPC topics.
 	topicMap := make(map[string]*leakybucket.Collector, len(p2p.RPCTopicMappings))
 	// Goodbye Message
 	topicMap[addEncoding(p2p.RPCGoodByeTopicV1)] = leakybucket.NewCollector(1, 1, false /* deleteEmptyBuckets */)
@@ -56,7 +56,7 @@ func newRateLimiter(p2pProvider p2p.P2P) *limiter {
 	// BlockByRange requests
 	topicMap[addEncoding(p2p.RPCBlocksByRangeTopicV1)] = blockCollector
 
-	// General topic for all rpc requests.
+	// General topic for all RPC requests.
 	topicMap[rpcLimiterTopic] = leakybucket.NewCollector(5, defaultBurstLimit*2, false /* deleteEmptyBuckets */)
 
 	return &limiter{limiterMap: topicMap, p2p: p2pProvider}
@@ -94,8 +94,8 @@ func (l *limiter) validateRequest(stream network.Stream, amt uint64) error {
 	return nil
 }
 
-// This is used to validate all incoming rpc streams from external peers.
-func (l *limiter) validateRawRpcRequest(stream network.Stream) error {
+// This is used to validate all incoming RPC streams from external peers.
+func (l *limiter) validateRawRPCRequest(stream network.Stream) error {
 	l.RLock()
 	defer l.RUnlock()
 

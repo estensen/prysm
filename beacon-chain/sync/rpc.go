@@ -88,7 +88,7 @@ func (s *Service) registerRPC(baseTopic string, handle rpcHandler) {
 			return
 		}
 		// Validate request according to peer limits.
-		if err := s.rateLimiter.validateRawRpcRequest(stream); err != nil {
+		if err := s.rateLimiter.validateRawRPCRequest(stream); err != nil {
 			log.Debugf("Could not validate rpc request from peer: %v", err)
 			return
 		}

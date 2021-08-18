@@ -301,18 +301,18 @@ func TestGetSpec(t *testing.T) {
 }
 
 func TestGetDepositContract(t *testing.T) {
-	const chainId = 99
+	const chainID = 99
 	const address = "0x0000000000000000000000000000000000000009"
 	params.SetupTestConfigCleanup(t)
 	config := params.BeaconConfig()
-	config.DepositChainID = chainId
+	config.DepositChainID = chainID
 	config.DepositContractAddress = address
 	params.OverrideBeaconConfig(config)
 
 	s := Server{}
 	resp, err := s.GetDepositContract(context.Background(), &emptypb.Empty{})
 	require.NoError(t, err)
-	assert.Equal(t, uint64(chainId), resp.Data.ChainID)
+	assert.Equal(t, uint64(chainID), resp.Data.ChainID)
 	assert.Equal(t, address, resp.Data.Address)
 }
 

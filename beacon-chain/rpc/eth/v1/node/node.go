@@ -205,10 +205,10 @@ func (ns *Server) ListPeers(ctx context.Context, req *ethpb.PeersRequest) (*ethp
 	}
 
 	var filteredIds []peer.ID
-	for _, stateId := range stateIds {
-		for _, directionId := range directionIds {
-			if stateId.Pretty() == directionId.Pretty() {
-				filteredIds = append(filteredIds, stateId)
+	for _, stateID := range stateIds {
+		for _, directionID := range directionIds {
+			if stateID.Pretty() == directionID.Pretty() {
+				filteredIds = append(filteredIds, stateID)
 				break
 			}
 		}

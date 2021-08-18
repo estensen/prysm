@@ -184,9 +184,9 @@ func TestSyncStatus(t *testing.T) {
 }
 
 func TestGetPeer(t *testing.T) {
-	const rawId = "16Uiu2HAkvyYtoQXZNTsthjgLHjEnv7kvwzEmjvsJjWXpbhtqpSUN"
+	const rawID = "16Uiu2HAkvyYtoQXZNTsthjgLHjEnv7kvwzEmjvsJjWXpbhtqpSUN"
 	ctx := context.Background()
-	decodedId, err := peer.Decode(rawId)
+	decodedID, err := peer.Decode(rawID)
 	require.NoError(t, err)
 	enrRecord := &enr.Record{}
 	err = enrRecord.SetSig(dummyIdentity{1}, []byte{42})
@@ -199,12 +199,12 @@ func TestGetPeer(t *testing.T) {
 	require.NoError(t, err)
 	peerFetcher := &mockp2p.MockPeersProvider{}
 	s := Server{PeersFetcher: peerFetcher}
-	peerFetcher.Peers().Add(enrRecord, decodedId, p2pMultiAddr, network.DirInbound)
+	peerFetcher.Peers().Add(enrRecord, decodedID, p2pMultiAddr, network.DirInbound)
 
 	t.Run("OK", func(t *testing.T) {
-		resp, err := s.GetPeer(ctx, &ethpb.PeerRequest{PeerID: rawId})
+		resp, err := s.GetPeer(ctx, &ethpb.PeerRequest{PeerID: rawID})
 		require.NoError(t, err)
-		assert.Equal(t, rawId, resp.Data.PeerID)
+		assert.Equal(t, rawID, resp.Data.PeerID)
 		assert.Equal(t, p2pAddr, resp.Data.LastSeenP2PAddress)
 		assert.Equal(t, "enr:yoABgmlwhAcHBwc=", resp.Data.Enr)
 		assert.Equal(t, ethpb.ConnectionState_DISCONNECTED, resp.Data.State)
@@ -217,8 +217,8 @@ func TestGetPeer(t *testing.T) {
 	})
 
 	t.Run("Peer not found", func(t *testing.T) {
-		generatedId := "16Uiu2HAmQqFdEcHbSmQTQuLoAhnMUrgoWoraKK4cUJT6FuuqHqTU"
-		_, err = s.GetPeer(ctx, &ethpb.PeerRequest{PeerID: generatedId})
+		generatedID := "16Uiu2HAmQqFdEcHbSmQTQuLoAhnMUrgoWoraKK4cUJT6FuuqHqTU"
+		_, err = s.GetPeer(ctx, &ethpb.PeerRequest{PeerID: generatedID})
 		assert.ErrorContains(t, "Peer not found", err)
 	})
 }
@@ -271,7 +271,7 @@ func TestListPeers(t *testing.T) {
 
 	t.Run("Peer data OK", func(t *testing.T) {
 		// We will check the first peer from the list.
-		expectedId := ids[0]
+		expectedID := ids[0]
 
 		resp, err := s.ListPeers(context.Background(), &ethpb.PeersRequest{
 			State:     []ethpb.ConnectionState{ethpb.ConnectionState_CONNECTING},
@@ -280,13 +280,13 @@ func TestListPeers(t *testing.T) {
 		require.NoError(t, err)
 		require.Equal(t, 1, len(resp.Data))
 		returnedPeer := resp.Data[0]
-		assert.Equal(t, expectedId.Pretty(), returnedPeer.PeerID)
-		expectedEnr, err := peerStatus.ENR(expectedId)
+		assert.Equal(t, expectedID.Pretty(), returnedPeer.PeerID)
+		expectedEnr, err := peerStatus.ENR(expectedID)
 		require.NoError(t, err)
 		serializedEnr, err := p2p.SerializeENR(expectedEnr)
 		require.NoError(t, err)
 		assert.Equal(t, "enr:"+serializedEnr, returnedPeer.Enr)
-		expectedP2PAddr, err := peerStatus.Address(expectedId)
+		expectedP2PAddr, err := peerStatus.Address(expectedID)
 		require.NoError(t, err)
 		assert.Equal(t, expectedP2PAddr.String(), returnedPeer.LastSeenP2PAddress)
 		assert.Equal(t, ethpb.ConnectionState_CONNECTING, returnedPeer.State)
@@ -351,16 +351,16 @@ func TestListPeers(t *testing.T) {
 			require.NoError(t, err)
 			assert.Equal(t, len(tt.wantIds), len(resp.Data), "Wrong number of peers returned")
 			for _, id := range tt.wantIds {
-				expectedId := id.Pretty()
+				expectedID := id.Pretty()
 				found := false
 				for _, returnedPeer := range resp.Data {
-					if returnedPeer.PeerID == expectedId {
+					if returnedPeer.PeerID == expectedID {
 						found = true
 						break
 					}
 				}
 				if !found {
-					t.Errorf("Expected ID '" + expectedId + "' not found")
+					t.Errorf("Expected ID '" + expectedID + "' not found")
 				}
 			}
 		})

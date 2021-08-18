@@ -123,17 +123,17 @@ func TestGetState(t *testing.T) {
 	})
 
 	t.Run("hex_root", func(t *testing.T) {
-		stateId, err := hexutil.Decode("0x" + strings.Repeat("0", 63) + "1")
+		stateID, err := hexutil.Decode("0x" + strings.Repeat("0", 63) + "1")
 		require.NoError(t, err)
 		stateGen := stategen.NewMockService()
-		stateGen.StatesByRoot[bytesutil.ToBytes32(stateId)] = state
+		stateGen.StatesByRoot[bytesutil.ToBytes32(stateID)] = state
 
 		p := StateProvider{
 			ChainInfoFetcher: &chainMock.ChainService{State: state},
 			StateGenService:  stateGen,
 		}
 
-		s, err := p.State(ctx, stateId)
+		s, err := p.State(ctx, stateID)
 		require.NoError(t, err)
 		sRoot, err := s.HashTreeRoot(ctx)
 		require.NoError(t, err)
@@ -144,9 +144,9 @@ func TestGetState(t *testing.T) {
 		p := StateProvider{
 			ChainInfoFetcher: &chainMock.ChainService{State: state},
 		}
-		stateId, err := hexutil.Decode("0x" + strings.Repeat("f", 64))
+		stateID, err := hexutil.Decode("0x" + strings.Repeat("f", 64))
 		require.NoError(t, err)
-		_, err = p.State(ctx, stateId)
+		_, err = p.State(ctx, stateID)
 		require.ErrorContains(t, "state not found in the last 8192 state roots", err)
 	})
 
@@ -302,25 +302,25 @@ func TestGetStateRoot(t *testing.T) {
 	})
 
 	t.Run("hex_root", func(t *testing.T) {
-		stateId, err := hexutil.Decode("0x" + strings.Repeat("0", 63) + "1")
+		stateID, err := hexutil.Decode("0x" + strings.Repeat("0", 63) + "1")
 		require.NoError(t, err)
 
 		p := StateProvider{
 			ChainInfoFetcher: &chainMock.ChainService{State: state},
 		}
 
-		s, err := p.StateRoot(ctx, stateId)
+		s, err := p.StateRoot(ctx, stateID)
 		require.NoError(t, err)
-		assert.DeepEqual(t, stateId, s)
+		assert.DeepEqual(t, stateID, s)
 	})
 
 	t.Run("hex_root_not_found", func(t *testing.T) {
 		p := StateProvider{
 			ChainInfoFetcher: &chainMock.ChainService{State: state},
 		}
-		stateId, err := hexutil.Decode("0x" + strings.Repeat("f", 64))
+		stateID, err := hexutil.Decode("0x" + strings.Repeat("f", 64))
 		require.NoError(t, err)
-		_, err = p.StateRoot(ctx, stateId)
+		_, err = p.StateRoot(ctx, stateID)
 		require.ErrorContains(t, "state root not found in the last 8192 state roots", err)
 	})
 

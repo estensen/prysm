@@ -8,8 +8,8 @@ import (
 	"github.com/prysmaticlabs/prysm/shared/httputils/authorizationmethod"
 )
 
-// HttpEndpoint extracts an httputils.Endpoint from the provider parameter.
-func HttpEndpoint(eth1Provider string) httputils.Endpoint {
+// HTTPEndpoint extracts an httputils.Endpoint from the provider parameter.
+func HTTPEndpoint(eth1Provider string) httputils.Endpoint {
 	endpoint := httputils.Endpoint{
 		URL: "",
 		Auth: httputils.AuthorizationData{
