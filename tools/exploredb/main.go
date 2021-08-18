@@ -491,7 +491,7 @@ func sizeAndCountOfByteList(list [][]byte) (uint64, uint64) {
 	count := uint64(0)
 	for _, root := range list {
 		size += uint64(len(root))
-		count += 1
+		count++
 	}
 	return size, count
 }
@@ -501,7 +501,7 @@ func sizeAndCountOfUin64List(list []uint64) (uint64, uint64) {
 	count := uint64(0)
 	for i := 0; i < len(list); i++ {
 		size += uint64(8)
-		count += 1
+		count++
 	}
 	return size, count
 }

@@ -121,7 +121,7 @@ func TestService_RejectInboundPeersBeyondLimit(t *testing.T) {
 	inboundLimit := float64(limit) * peers.InboundRatio
 	inboundLimit += highWatermarkBuffer
 	// top off by 1 to trigger it above the limit.
-	inboundLimit += 1
+	inboundLimit++
 	// Add in up to inbound peer limit.
 	for i := 0; i < int(inboundLimit); i++ {
 		addPeer(t, s.peers, peerdata.PeerConnectionState(ethpb.ConnectionState_CONNECTED))

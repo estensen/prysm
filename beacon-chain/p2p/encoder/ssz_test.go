@@ -203,7 +203,7 @@ func (b *badSnappyStream) Read(p []byte) (n int, err error) {
 		return 1, nil
 	}
 	defer func() {
-		b.counter += 1
+		b.counter++
 		b.total += n
 	}()
 	if len(b.repeat) == 0 {
