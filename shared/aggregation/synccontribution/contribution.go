@@ -9,14 +9,14 @@ import (
 
 const (
 	// NaiveAggregation is an aggregation strategy without any optimizations.
-	NaiveAggregation SyncContributionAggregationStrategy = "naive"
+	NaiveAggregation AggregationStrategy = "naive"
 
 	// MaxCoverAggregation is a strategy based on Maximum Coverage greedy algorithm.
-	MaxCoverAggregation SyncContributionAggregationStrategy = "max_cover"
+	MaxCoverAggregation AggregationStrategy = "max_cover"
 )
 
-// SyncContributionAggregationStrategy defines SyncContribution aggregation strategy.
-type SyncContributionAggregationStrategy string
+// AggregationStrategy defines SyncContribution aggregation strategy.
+type AggregationStrategy string
 
 var _ = logrus.WithField("prefix", "aggregation.synccontribution")
 

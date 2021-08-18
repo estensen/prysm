@@ -89,7 +89,7 @@ func (v *validator) waitForActivation(ctx context.Context, accountsChangedChan <
 		return v.waitForActivation(incrementRetries(ctx), accountsChangedChan)
 	}
 
-	remoteKm, ok := v.keyManager.(remote.RemoteKeymanager)
+	remoteKm, ok := v.keyManager.(remote.KeyManager)
 	if ok {
 		for {
 			select {

@@ -84,10 +84,10 @@ type Store struct {
 	ctx                 context.Context
 }
 
-// KVStoreDatafilePath is the canonical construction of a full
+// StoreDatafilePath is the canonical construction of a full
 // database file path from the directory path, so that code outside
 // this package can find the full path in a consistent way.
-func KVStoreDatafilePath(dirPath string) string {
+func StoreDatafilePath(dirPath string) string {
 	return path.Join(dirPath, DatabaseFileName)
 }
 
@@ -104,7 +104,7 @@ func NewKVStore(ctx context.Context, dirPath string, config *Config) (*Store, er
 			return nil, err
 		}
 	}
-	datafile := KVStoreDatafilePath(dirPath)
+	datafile := StoreDatafilePath(dirPath)
 	boltDB, err := bolt.Open(
 		datafile,
 		params.BeaconIoConfig().ReadWritePermissions,

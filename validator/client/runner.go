@@ -144,7 +144,7 @@ func run(ctx context.Context, v iface.Validator) {
 		case slot := <-v.NextSlot():
 			span.AddAttributes(trace.Int64Attribute("slot", int64(slot)))
 
-			remoteKm, ok := v.GetKeymanager().(remote.RemoteKeymanager)
+			remoteKm, ok := v.GetKeymanager().(remote.KeyManager)
 			if ok {
 				_, err := remoteKm.ReloadPublicKeys(ctx)
 				if err != nil {

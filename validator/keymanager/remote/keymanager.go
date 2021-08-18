@@ -33,8 +33,8 @@ var (
 	ErrSigningDenied = errors.New("signing request was denied by remote server")
 )
 
-// RemoteKeymanager defines the interface for remote Prysm wallets.
-type RemoteKeymanager interface {
+// KeyManager defines the interface for remote Prysm wallets.
+type KeyManager interface {
 	keymanager.IKeymanager
 	ReloadPublicKeys(ctx context.Context) ([][48]byte, error)
 }
