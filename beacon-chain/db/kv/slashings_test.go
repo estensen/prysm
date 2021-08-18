@@ -15,12 +15,12 @@ func TestStore_ProposerSlashing_CRUD(t *testing.T) {
 	db := setupDB(t)
 	ctx := context.Background()
 	prop := &ethpb.ProposerSlashing{
-		Header_1: testutil.HydrateSignedBeaconHeader(&ethpb.SignedBeaconBlockHeader{
+		Header1: testutil.HydrateSignedBeaconHeader(&ethpb.SignedBeaconBlockHeader{
 			Header: &ethpb.BeaconBlockHeader{
 				ProposerIndex: 5,
 			},
 		}),
-		Header_2: testutil.HydrateSignedBeaconHeader(&ethpb.SignedBeaconBlockHeader{
+		Header2: testutil.HydrateSignedBeaconHeader(&ethpb.SignedBeaconBlockHeader{
 			Header: &ethpb.BeaconBlockHeader{
 				ProposerIndex: 5,
 			},
@@ -44,11 +44,11 @@ func TestStore_AttesterSlashing_CRUD(t *testing.T) {
 	db := setupDB(t)
 	ctx := context.Background()
 	att := &ethpb.AttesterSlashing{
-		Attestation_1: testutil.HydrateIndexedAttestation(&ethpb.IndexedAttestation{
+		Attestation1: testutil.HydrateIndexedAttestation(&ethpb.IndexedAttestation{
 			Data: &ethpb.AttestationData{
 				Slot: 5,
 			}}),
-		Attestation_2: testutil.HydrateIndexedAttestation(&ethpb.IndexedAttestation{
+		Attestation2: testutil.HydrateIndexedAttestation(&ethpb.IndexedAttestation{
 			Data: &ethpb.AttestationData{
 				Slot: 7,
 			}})}

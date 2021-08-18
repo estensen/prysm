@@ -1,4 +1,4 @@
-package sync_contribution
+package synccontribution
 
 import (
 	v2 "github.com/prysmaticlabs/prysm/proto/prysm/v1alpha1"

@@ -180,8 +180,8 @@ func Test_V1Alpha1AttSlashingToV1(t *testing.T) {
 		Signature: signature,
 	}
 	alphaSlashing := &eth.AttesterSlashing{
-		Attestation_1: alphaAttestation,
-		Attestation_2: alphaAttestation,
+		Attestation1: alphaAttestation,
+		Attestation2: alphaAttestation,
 	}
 
 	v1Slashing := V1Alpha1AttSlashingToV1(alphaSlashing)
@@ -201,8 +201,8 @@ func Test_V1Alpha1ProposerSlashingToV1(t *testing.T) {
 	alphaHeader.Header.BodyRoot = bodyRoot
 	alphaHeader.Signature = signature
 	alphaSlashing := &eth.ProposerSlashing{
-		Header_1: alphaHeader,
-		Header_2: alphaHeader,
+		Header1: alphaHeader,
+		Header2: alphaHeader,
 	}
 
 	v1Slashing := V1Alpha1ProposerSlashingToV1(alphaSlashing)
@@ -266,8 +266,8 @@ func Test_V1AttSlashingToV1Alpha1(t *testing.T) {
 		Signature: signature,
 	}
 	v1Slashing := &ethpb.AttesterSlashing{
-		Attestation_1: v1Attestation,
-		Attestation_2: v1Attestation,
+		Attestation1: v1Attestation,
+		Attestation2: v1Attestation,
 	}
 
 	alphaSlashing := V1AttSlashingToV1Alpha1(v1Slashing)

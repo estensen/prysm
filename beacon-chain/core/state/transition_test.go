@@ -107,14 +107,14 @@ func TestProcessBlock_IncorrectProcessExits(t *testing.T) {
 
 	proposerSlashings := []*ethpb.ProposerSlashing{
 		{
-			Header_1: testutil.HydrateSignedBeaconHeader(&ethpb.SignedBeaconBlockHeader{
+			Header1: testutil.HydrateSignedBeaconHeader(&ethpb.SignedBeaconBlockHeader{
 				Header: &ethpb.BeaconBlockHeader{
 					ProposerIndex: 3,
 					Slot:          1,
 				},
 				Signature: bytesutil.PadTo([]byte("A"), 96),
 			}),
-			Header_2: testutil.HydrateSignedBeaconHeader(&ethpb.SignedBeaconBlockHeader{
+			Header2: testutil.HydrateSignedBeaconHeader(&ethpb.SignedBeaconBlockHeader{
 				Header: &ethpb.BeaconBlockHeader{
 					ProposerIndex: 3,
 					Slot:          1,
@@ -125,12 +125,12 @@ func TestProcessBlock_IncorrectProcessExits(t *testing.T) {
 	}
 	attesterSlashings := []*ethpb.AttesterSlashing{
 		{
-			Attestation_1: &ethpb.IndexedAttestation{
+			Attestation1: &ethpb.IndexedAttestation{
 				Data:             testutil.HydrateAttestationData(&ethpb.AttestationData{}),
 				AttestingIndices: []uint64{0, 1},
 				Signature:        make([]byte, 96),
 			},
-			Attestation_2: &ethpb.IndexedAttestation{
+			Attestation2: &ethpb.IndexedAttestation{
 				Data:             testutil.HydrateAttestationData(&ethpb.AttestationData{}),
 				AttestingIndices: []uint64{0, 1},
 				Signature:        make([]byte, 96),
@@ -234,8 +234,8 @@ func createFullBlockWithOperations(t *testing.T) (state.BeaconState,
 
 	proposerSlashings := []*ethpb.ProposerSlashing{
 		{
-			Header_1: header1,
-			Header_2: header2,
+			Header1: header1,
+			Header2: header2,
 		},
 	}
 	validators := beaconState.Validators()
@@ -276,8 +276,8 @@ func createFullBlockWithOperations(t *testing.T) (state.BeaconState,
 
 	attesterSlashings := []*ethpb.AttesterSlashing{
 		{
-			Attestation_1: att1,
-			Attestation_2: att2,
+			Attestation1: att1,
+			Attestation2: att2,
 		},
 	}
 

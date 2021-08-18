@@ -38,8 +38,8 @@ func (ms MockSlasher) IsSlashableAttestation(_ context.Context, in *eth.IndexedA
 		}
 		slashingAtt.Data.BeaconBlockRoot = []byte("slashing")
 		slashings := []*eth.AttesterSlashing{{
-			Attestation_1: in,
-			Attestation_2: slashingAtt,
+			Attestation1: in,
+			Attestation2: slashingAtt,
 		},
 		}
 		return &slashpb.AttesterSlashingResponse{
@@ -68,8 +68,8 @@ func (ms MockSlasher) IsSlashableBlock(_ context.Context, in *eth.SignedBeaconBl
 		}
 		slashingBlk.Header.BodyRoot = []byte("slashing")
 		slashings := []*eth.ProposerSlashing{{
-			Header_1: in,
-			Header_2: slashingBlk,
+			Header1: in,
+			Header2: slashingBlk,
 		},
 		}
 		return &slashpb.ProposerSlashingResponse{

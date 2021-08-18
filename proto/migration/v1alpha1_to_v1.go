@@ -172,8 +172,8 @@ func V1Alpha1AttSlashingToV1(v1alpha1Slashing *eth.AttesterSlashing) *ethpb.Atte
 		return &ethpb.AttesterSlashing{}
 	}
 	return &ethpb.AttesterSlashing{
-		Attestation_1: V1Alpha1IndexedAttToV1(v1alpha1Slashing.Attestation_1),
-		Attestation_2: V1Alpha1IndexedAttToV1(v1alpha1Slashing.Attestation_2),
+		Attestation1: V1Alpha1IndexedAttToV1(v1alpha1Slashing.Attestation1),
+		Attestation2: V1Alpha1IndexedAttToV1(v1alpha1Slashing.Attestation2),
 	}
 }
 
@@ -217,8 +217,8 @@ func V1Alpha1ProposerSlashingToV1(v1alpha1Slashing *eth.ProposerSlashing) *ethpb
 		return &ethpb.ProposerSlashing{}
 	}
 	return &ethpb.ProposerSlashing{
-		SignedHeader_1: V1Alpha1SignedHeaderToV1(v1alpha1Slashing.Header_1),
-		SignedHeader_2: V1Alpha1SignedHeaderToV1(v1alpha1Slashing.Header_2),
+		SignedHeader_1: V1Alpha1SignedHeaderToV1(v1alpha1Slashing.Header1),
+		SignedHeader_2: V1Alpha1SignedHeaderToV1(v1alpha1Slashing.Header2),
 	}
 }
 
@@ -300,8 +300,8 @@ func V1AttSlashingToV1Alpha1(v1Slashing *ethpb.AttesterSlashing) *eth.AttesterSl
 		return &eth.AttesterSlashing{}
 	}
 	return &eth.AttesterSlashing{
-		Attestation_1: V1IndexedAttToV1Alpha1(v1Slashing.Attestation_1),
-		Attestation_2: V1IndexedAttToV1Alpha1(v1Slashing.Attestation_2),
+		Attestation1: V1IndexedAttToV1Alpha1(v1Slashing.Attestation1),
+		Attestation2: V1IndexedAttToV1Alpha1(v1Slashing.Attestation2),
 	}
 }
 
@@ -311,8 +311,8 @@ func V1ProposerSlashingToV1Alpha1(v1Slashing *ethpb.ProposerSlashing) *eth.Propo
 		return &eth.ProposerSlashing{}
 	}
 	return &eth.ProposerSlashing{
-		Header_1: V1SignedHeaderToV1Alpha1(v1Slashing.SignedHeader_1),
-		Header_2: V1SignedHeaderToV1Alpha1(v1Slashing.SignedHeader_2),
+		Header1: V1SignedHeaderToV1Alpha1(v1Slashing.SignedHeader_1),
+		Header2: V1SignedHeaderToV1Alpha1(v1Slashing.SignedHeader_2),
 	}
 }
 

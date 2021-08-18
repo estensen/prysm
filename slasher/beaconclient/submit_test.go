@@ -26,14 +26,14 @@ func TestService_SubscribeDetectedProposerSlashings(t *testing.T) {
 	}
 
 	slashing := &ethpb.ProposerSlashing{
-		Header_1: &ethpb.SignedBeaconBlockHeader{
+		Header1: &ethpb.SignedBeaconBlockHeader{
 			Header: &ethpb.BeaconBlockHeader{
 				ProposerIndex: 5,
 				Slot:          5,
 			},
 			Signature: make([]byte, 96),
 		},
-		Header_2: &ethpb.SignedBeaconBlockHeader{
+		Header2: &ethpb.SignedBeaconBlockHeader{
 			Header: &ethpb.BeaconBlockHeader{
 				ProposerIndex: 5,
 				Slot:          5,
@@ -70,7 +70,7 @@ func TestService_SubscribeDetectedAttesterSlashings(t *testing.T) {
 	}
 
 	slashing := &ethpb.AttesterSlashing{
-		Attestation_1: &ethpb.IndexedAttestation{
+		Attestation1: &ethpb.IndexedAttestation{
 			AttestingIndices: []uint64{1, 2, 3},
 			Data: &ethpb.AttestationData{
 				Source: &ethpb.Checkpoint{
@@ -81,7 +81,7 @@ func TestService_SubscribeDetectedAttesterSlashings(t *testing.T) {
 				},
 			},
 		},
-		Attestation_2: &ethpb.IndexedAttestation{
+		Attestation2: &ethpb.IndexedAttestation{
 			AttestingIndices: []uint64{3, 4, 5},
 			Data:             nil,
 		},

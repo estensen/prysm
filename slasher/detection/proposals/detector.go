@@ -40,7 +40,7 @@ func (d *ProposeDetector) DetectDoublePropose(
 		if bytes.Equal(blockHeader.Signature, incomingBlk.Signature) {
 			continue
 		}
-		ps := &ethpb.ProposerSlashing{Header_1: incomingBlk, Header_2: blockHeader}
+		ps := &ethpb.ProposerSlashing{Header1: incomingBlk, Header2: blockHeader}
 		if err := d.slasherDB.SaveProposerSlashing(ctx, status.Active, ps); err != nil {
 			return nil, err
 		}

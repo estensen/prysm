@@ -516,8 +516,8 @@ type ProposerSlashing struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Header_1 *SignedBeaconBlockHeader `protobuf:"bytes,2,opt,name=header_1,json=header1,proto3" json:"header_1,omitempty"`
-	Header_2 *SignedBeaconBlockHeader `protobuf:"bytes,3,opt,name=header_2,json=header2,proto3" json:"header_2,omitempty"`
+	Header1 *SignedBeaconBlockHeader `protobuf:"bytes,2,opt,name=header_1,json=header1,proto3" json:"header_1,omitempty"`
+	Header2 *SignedBeaconBlockHeader `protobuf:"bytes,3,opt,name=header_2,json=header2,proto3" json:"header_2,omitempty"`
 }
 
 func (x *ProposerSlashing) Reset() {
@@ -554,14 +554,14 @@ func (*ProposerSlashing) Descriptor() ([]byte, []int) {
 
 func (x *ProposerSlashing) GetHeader_1() *SignedBeaconBlockHeader {
 	if x != nil {
-		return x.Header_1
+		return x.Header1
 	}
 	return nil
 }
 
 func (x *ProposerSlashing) GetHeader_2() *SignedBeaconBlockHeader {
 	if x != nil {
-		return x.Header_2
+		return x.Header2
 	}
 	return nil
 }
@@ -571,8 +571,8 @@ type AttesterSlashing struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Attestation_1 *IndexedAttestation `protobuf:"bytes,1,opt,name=attestation_1,json=attestation1,proto3" json:"attestation_1,omitempty"`
-	Attestation_2 *IndexedAttestation `protobuf:"bytes,2,opt,name=attestation_2,json=attestation2,proto3" json:"attestation_2,omitempty"`
+	Attestation1 *IndexedAttestation `protobuf:"bytes,1,opt,name=attestation_1,json=attestation1,proto3" json:"attestation_1,omitempty"`
+	Attestation2 *IndexedAttestation `protobuf:"bytes,2,opt,name=attestation_2,json=attestation2,proto3" json:"attestation_2,omitempty"`
 }
 
 func (x *AttesterSlashing) Reset() {
@@ -609,14 +609,14 @@ func (*AttesterSlashing) Descriptor() ([]byte, []int) {
 
 func (x *AttesterSlashing) GetAttestation_1() *IndexedAttestation {
 	if x != nil {
-		return x.Attestation_1
+		return x.Attestation1
 	}
 	return nil
 }
 
 func (x *AttesterSlashing) GetAttestation_2() *IndexedAttestation {
 	if x != nil {
-		return x.Attestation_2
+		return x.Attestation2
 	}
 	return nil
 }

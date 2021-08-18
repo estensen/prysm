@@ -6,7 +6,7 @@ go_library(
         "contribution.go",
         "naive.go",
     ],
-    importpath = "github.com/prysmaticlabs/prysm/shared/aggregation/sync_contribution",
+    importpath = "github.com/prysmaticlabs/prysm/shared/aggregation/synccontribution",
     visibility = ["//visibility:public"],
     deps = [
         "//proto/prysm/v1alpha1:go_default_library",

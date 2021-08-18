@@ -171,8 +171,8 @@ func CopyProposerSlashing(slashing *ethpb.ProposerSlashing) *ethpb.ProposerSlash
 		return nil
 	}
 	return &ethpb.ProposerSlashing{
-		Header_1: CopySignedBeaconBlockHeader(slashing.Header_1),
-		Header_2: CopySignedBeaconBlockHeader(slashing.Header_2),
+		Header1: CopySignedBeaconBlockHeader(slashing.Header1),
+		Header2: CopySignedBeaconBlockHeader(slashing.Header2),
 	}
 }
 
@@ -212,8 +212,8 @@ func CopyAttesterSlashings(slashings []*ethpb.AttesterSlashing) []*ethpb.Atteste
 	newSlashings := make([]*ethpb.AttesterSlashing, len(slashings))
 	for i, slashing := range slashings {
 		newSlashings[i] = &ethpb.AttesterSlashing{
-			Attestation_1: CopyIndexedAttestation(slashing.Attestation_1),
-			Attestation_2: CopyIndexedAttestation(slashing.Attestation_2),
+			Attestation1: CopyIndexedAttestation(slashing.Attestation1),
+			Attestation2: CopyIndexedAttestation(slashing.Attestation2),
 		}
 	}
 	return newSlashings

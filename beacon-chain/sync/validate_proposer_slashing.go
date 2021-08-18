@@ -41,10 +41,10 @@ func (s *Service) validateProposerSlashing(ctx context.Context, pid peer.ID, msg
 		return pubsub.ValidationReject
 	}
 
-	if slashing.Header_1 == nil || slashing.Header_1.Header == nil {
+	if slashing.Header1 == nil || slashing.Header1.Header == nil {
 		return pubsub.ValidationReject
 	}
-	if s.hasSeenProposerSlashingIndex(slashing.Header_1.Header.ProposerIndex) {
+	if s.hasSeenProposerSlashingIndex(slashing.Header1.Header.ProposerIndex) {
 		return pubsub.ValidationIgnore
 	}
 

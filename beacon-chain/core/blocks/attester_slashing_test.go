@@ -36,8 +36,8 @@ func TestSlashableAttestationData_CanSlash(t *testing.T) {
 
 func TestProcessAttesterSlashings_DataNotSlashable(t *testing.T) {
 	slashings := []*ethpb.AttesterSlashing{{
-		Attestation_1: testutil.HydrateIndexedAttestation(&ethpb.IndexedAttestation{}),
-		Attestation_2: testutil.HydrateIndexedAttestation(&ethpb.IndexedAttestation{
+		Attestation1: testutil.HydrateIndexedAttestation(&ethpb.IndexedAttestation{}),
+		Attestation2: testutil.HydrateIndexedAttestation(&ethpb.IndexedAttestation{
 			Data: &ethpb.AttestationData{
 				Source: &ethpb.Checkpoint{Epoch: 1},
 				Target: &ethpb.Checkpoint{Epoch: 1}},
@@ -73,13 +73,13 @@ func TestProcessAttesterSlashings_IndexedAttestationFailedToVerify(t *testing.T)
 
 	slashings := []*ethpb.AttesterSlashing{
 		{
-			Attestation_1: testutil.HydrateIndexedAttestation(&ethpb.IndexedAttestation{
+			Attestation1: testutil.HydrateIndexedAttestation(&ethpb.IndexedAttestation{
 				Data: &ethpb.AttestationData{
 					Source: &ethpb.Checkpoint{Epoch: 1},
 				},
 				AttestingIndices: make([]uint64, params.BeaconConfig().MaxValidatorsPerCommittee+1),
 			}),
-			Attestation_2: testutil.HydrateIndexedAttestation(&ethpb.IndexedAttestation{
+			Attestation2: testutil.HydrateIndexedAttestation(&ethpb.IndexedAttestation{
 				AttestingIndices: make([]uint64, params.BeaconConfig().MaxValidatorsPerCommittee+1),
 			}),
 		},
@@ -129,8 +129,8 @@ func TestProcessAttesterSlashings_AppliesCorrectStatus(t *testing.T) {
 
 	slashings := []*ethpb.AttesterSlashing{
 		{
-			Attestation_1: att1,
-			Attestation_2: att2,
+			Attestation1: att1,
+			Attestation2: att2,
 		},
 	}
 

@@ -55,9 +55,9 @@ func ProcessProposerSlashings(
 			return nil, errors.Wrapf(err, "could not verify proposer slashing %d", idx)
 		}
 		cfg := params.BeaconConfig()
-		beaconState, err = slashFunc(beaconState, slashing.Header_1.Header.ProposerIndex, cfg.MinSlashingPenaltyQuotient, cfg.ProposerRewardQuotient)
+		beaconState, err = slashFunc(beaconState, slashing.Header1.Header.ProposerIndex, cfg.MinSlashingPenaltyQuotient, cfg.ProposerRewardQuotient)
 		if err != nil {
-			return nil, errors.Wrapf(err, "could not slash proposer index %d", slashing.Header_1.Header.ProposerIndex)
+			return nil, errors.Wrapf(err, "could not slash proposer index %d", slashing.Header1.Header.ProposerIndex)
 		}
 	}
 	return beaconState, nil
@@ -68,28 +68,28 @@ func VerifyProposerSlashing(
 	beaconState state.BeaconState,
 	slashing *ethpb.ProposerSlashing,
 ) error {
-	if slashing.Header_1 == nil || slashing.Header_1.Header == nil || slashing.Header_2 == nil || slashing.Header_2.Header == nil {
+	if slashing.Header1 == nil || slashing.Header1.Header == nil || slashing.Header2 == nil || slashing.Header2.Header == nil {
 		return errors.New("nil header cannot be verified")
 	}
-	hSlot := slashing.Header_1.Header.Slot
-	if hSlot != slashing.Header_2.Header.Slot {
-		return fmt.Errorf("mismatched header slots, received %d == %d", slashing.Header_1.Header.Slot, slashing.Header_2.Header.Slot)
+	hSlot := slashing.Header1.Header.Slot
+	if hSlot != slashing.Header2.Header.Slot {
+		return fmt.Errorf("mismatched header slots, received %d == %d", slashing.Header1.Header.Slot, slashing.Header2.Header.Slot)
 	}
-	pIdx := slashing.Header_1.Header.ProposerIndex
-	if pIdx != slashing.Header_2.Header.ProposerIndex {
-		return fmt.Errorf("mismatched indices, received %d == %d", slashing.Header_1.Header.ProposerIndex, slashing.Header_2.Header.ProposerIndex)
+	pIdx := slashing.Header1.Header.ProposerIndex
+	if pIdx != slashing.Header2.Header.ProposerIndex {
+		return fmt.Errorf("mismatched indices, received %d == %d", slashing.Header1.Header.ProposerIndex, slashing.Header2.Header.ProposerIndex)
 	}
-	if proto.Equal(slashing.Header_1.Header, slashing.Header_2.Header) {
+	if proto.Equal(slashing.Header1.Header, slashing.Header2.Header) {
 		return errors.New("expected slashing headers to differ")
 	}
-	proposer, err := beaconState.ValidatorAtIndexReadOnly(slashing.Header_1.Header.ProposerIndex)
+	proposer, err := beaconState.ValidatorAtIndexReadOnly(slashing.Header1.Header.ProposerIndex)
 	if err != nil {
 		return err
 	}
 	if !helpers.IsSlashableValidatorUsingTrie(proposer, helpers.CurrentEpoch(beaconState)) {
 		return fmt.Errorf("validator with key %#x is not slashable", proposer.PublicKey())
 	}
-	headers := []*ethpb.SignedBeaconBlockHeader{slashing.Header_1, slashing.Header_2}
+	headers := []*ethpb.SignedBeaconBlockHeader{slashing.Header1, slashing.Header2}
 	for _, header := range headers {
 		if err := helpers.ComputeDomainVerifySigningRoot(beaconState, pIdx, helpers.SlotToEpoch(hSlot),
 			header.Header, params.BeaconConfig().DomainBeaconProposer, header.Signature); err != nil {

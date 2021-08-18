@@ -1958,19 +1958,19 @@ func (p *ProposerSlashing) MarshalSSZ() ([]byte, error) {
 func (p *ProposerSlashing) MarshalSSZTo(buf []byte) (dst []byte, err error) {
 	dst = buf
 
-	// Field (0) 'Header_1'
-	if p.Header_1 == nil {
-		p.Header_1 = new(SignedBeaconBlockHeader)
+	// Field (0) 'Header1'
+	if p.Header1 == nil {
+		p.Header1 = new(SignedBeaconBlockHeader)
 	}
-	if dst, err = p.Header_1.MarshalSSZTo(dst); err != nil {
+	if dst, err = p.Header1.MarshalSSZTo(dst); err != nil {
 		return
 	}
 
-	// Field (1) 'Header_2'
-	if p.Header_2 == nil {
-		p.Header_2 = new(SignedBeaconBlockHeader)
+	// Field (1) 'Header2'
+	if p.Header2 == nil {
+		p.Header2 = new(SignedBeaconBlockHeader)
 	}
-	if dst, err = p.Header_2.MarshalSSZTo(dst); err != nil {
+	if dst, err = p.Header2.MarshalSSZTo(dst); err != nil {
 		return
 	}
 
@@ -1985,19 +1985,19 @@ func (p *ProposerSlashing) UnmarshalSSZ(buf []byte) error {
 		return ssz.ErrSize
 	}
 
-	// Field (0) 'Header_1'
-	if p.Header_1 == nil {
-		p.Header_1 = new(SignedBeaconBlockHeader)
+	// Field (0) 'Header1'
+	if p.Header1 == nil {
+		p.Header1 = new(SignedBeaconBlockHeader)
 	}
-	if err = p.Header_1.UnmarshalSSZ(buf[0:208]); err != nil {
+	if err = p.Header1.UnmarshalSSZ(buf[0:208]); err != nil {
 		return err
 	}
 
-	// Field (1) 'Header_2'
-	if p.Header_2 == nil {
-		p.Header_2 = new(SignedBeaconBlockHeader)
+	// Field (1) 'Header2'
+	if p.Header2 == nil {
+		p.Header2 = new(SignedBeaconBlockHeader)
 	}
-	if err = p.Header_2.UnmarshalSSZ(buf[208:416]); err != nil {
+	if err = p.Header2.UnmarshalSSZ(buf[208:416]); err != nil {
 		return err
 	}
 
@@ -2019,13 +2019,13 @@ func (p *ProposerSlashing) HashTreeRoot() ([32]byte, error) {
 func (p *ProposerSlashing) HashTreeRootWith(hh *ssz.Hasher) (err error) {
 	indx := hh.Index()
 
-	// Field (0) 'Header_1'
-	if err = p.Header_1.HashTreeRootWith(hh); err != nil {
+	// Field (0) 'Header1'
+	if err = p.Header1.HashTreeRootWith(hh); err != nil {
 		return
 	}
 
-	// Field (1) 'Header_2'
-	if err = p.Header_2.HashTreeRootWith(hh); err != nil {
+	// Field (1) 'Header2'
+	if err = p.Header2.HashTreeRootWith(hh); err != nil {
 		return
 	}
 
@@ -2043,27 +2043,27 @@ func (a *AttesterSlashing) MarshalSSZTo(buf []byte) (dst []byte, err error) {
 	dst = buf
 	offset := int(8)
 
-	// Offset (0) 'Attestation_1'
+	// Offset (0) 'Attestation1'
 	dst = ssz.WriteOffset(dst, offset)
-	if a.Attestation_1 == nil {
-		a.Attestation_1 = new(IndexedAttestation)
+	if a.Attestation1 == nil {
+		a.Attestation1 = new(IndexedAttestation)
 	}
-	offset += a.Attestation_1.SizeSSZ()
+	offset += a.Attestation1.SizeSSZ()
 
-	// Offset (1) 'Attestation_2'
+	// Offset (1) 'Attestation2'
 	dst = ssz.WriteOffset(dst, offset)
-	if a.Attestation_2 == nil {
-		a.Attestation_2 = new(IndexedAttestation)
+	if a.Attestation2 == nil {
+		a.Attestation2 = new(IndexedAttestation)
 	}
-	offset += a.Attestation_2.SizeSSZ()
+	offset += a.Attestation2.SizeSSZ()
 
-	// Field (0) 'Attestation_1'
-	if dst, err = a.Attestation_1.MarshalSSZTo(dst); err != nil {
+	// Field (0) 'Attestation1'
+	if dst, err = a.Attestation1.MarshalSSZTo(dst); err != nil {
 		return
 	}
 
-	// Field (1) 'Attestation_2'
-	if dst, err = a.Attestation_2.MarshalSSZTo(dst); err != nil {
+	// Field (1) 'Attestation2'
+	if dst, err = a.Attestation2.MarshalSSZTo(dst); err != nil {
 		return
 	}
 
@@ -2081,7 +2081,7 @@ func (a *AttesterSlashing) UnmarshalSSZ(buf []byte) error {
 	tail := buf
 	var o0, o1 uint64
 
-	// Offset (0) 'Attestation_1'
+	// Offset (0) 'Attestation1'
 	if o0 = ssz.ReadOffset(buf[0:4]); o0 > size {
 		return ssz.ErrOffset
 	}
@@ -2090,29 +2090,29 @@ func (a *AttesterSlashing) UnmarshalSSZ(buf []byte) error {
 		return ssz.ErrInvalidVariableOffset
 	}
 
-	// Offset (1) 'Attestation_2'
+	// Offset (1) 'Attestation2'
 	if o1 = ssz.ReadOffset(buf[4:8]); o1 > size || o0 > o1 {
 		return ssz.ErrOffset
 	}
 
-	// Field (0) 'Attestation_1'
+	// Field (0) 'Attestation1'
 	{
 		buf = tail[o0:o1]
-		if a.Attestation_1 == nil {
-			a.Attestation_1 = new(IndexedAttestation)
+		if a.Attestation1 == nil {
+			a.Attestation1 = new(IndexedAttestation)
 		}
-		if err = a.Attestation_1.UnmarshalSSZ(buf); err != nil {
+		if err = a.Attestation1.UnmarshalSSZ(buf); err != nil {
 			return err
 		}
 	}
 
-	// Field (1) 'Attestation_2'
+	// Field (1) 'Attestation2'
 	{
 		buf = tail[o1:]
-		if a.Attestation_2 == nil {
-			a.Attestation_2 = new(IndexedAttestation)
+		if a.Attestation2 == nil {
+			a.Attestation2 = new(IndexedAttestation)
 		}
-		if err = a.Attestation_2.UnmarshalSSZ(buf); err != nil {
+		if err = a.Attestation2.UnmarshalSSZ(buf); err != nil {
 			return err
 		}
 	}
@@ -2123,17 +2123,17 @@ func (a *AttesterSlashing) UnmarshalSSZ(buf []byte) error {
 func (a *AttesterSlashing) SizeSSZ() (size int) {
 	size = 8
 
-	// Field (0) 'Attestation_1'
-	if a.Attestation_1 == nil {
-		a.Attestation_1 = new(IndexedAttestation)
+	// Field (0) 'Attestation1'
+	if a.Attestation1 == nil {
+		a.Attestation1 = new(IndexedAttestation)
 	}
-	size += a.Attestation_1.SizeSSZ()
+	size += a.Attestation1.SizeSSZ()
 
-	// Field (1) 'Attestation_2'
-	if a.Attestation_2 == nil {
-		a.Attestation_2 = new(IndexedAttestation)
+	// Field (1) 'Attestation2'
+	if a.Attestation2 == nil {
+		a.Attestation2 = new(IndexedAttestation)
 	}
-	size += a.Attestation_2.SizeSSZ()
+	size += a.Attestation2.SizeSSZ()
 
 	return
 }
@@ -2147,13 +2147,13 @@ func (a *AttesterSlashing) HashTreeRoot() ([32]byte, error) {
 func (a *AttesterSlashing) HashTreeRootWith(hh *ssz.Hasher) (err error) {
 	indx := hh.Index()
 
-	// Field (0) 'Attestation_1'
-	if err = a.Attestation_1.HashTreeRootWith(hh); err != nil {
+	// Field (0) 'Attestation1'
+	if err = a.Attestation1.HashTreeRootWith(hh); err != nil {
 		return
 	}
 
-	// Field (1) 'Attestation_2'
-	if err = a.Attestation_2.HashTreeRootWith(hh); err != nil {
+	// Field (1) 'Attestation2'
+	if err = a.Attestation2.HashTreeRootWith(hh); err != nil {
 		return
 	}
 

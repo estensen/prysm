@@ -1,4 +1,4 @@
-package sync_contribution
+package synccontribution
 
 import (
 	"github.com/pkg/errors"
@@ -18,7 +18,7 @@ const (
 // SyncContributionAggregationStrategy defines SyncContribution aggregation strategy.
 type SyncContributionAggregationStrategy string
 
-var _ = logrus.WithField("prefix", "aggregation.sync_contribution")
+var _ = logrus.WithField("prefix", "aggregation.synccontribution")
 
 // ErrInvalidSyncContributionCount is returned when insufficient number
 // of sync contributions is provided for aggregation.

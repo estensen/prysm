@@ -40,10 +40,10 @@ func (s *Service) validateAttesterSlashing(ctx context.Context, pid peer.ID, msg
 		return pubsub.ValidationReject
 	}
 
-	if slashing == nil || slashing.Attestation_1 == nil || slashing.Attestation_2 == nil {
+	if slashing == nil || slashing.Attestation1 == nil || slashing.Attestation2 == nil {
 		return pubsub.ValidationReject
 	}
-	if s.hasSeenAttesterSlashingIndices(slashing.Attestation_1.AttestingIndices, slashing.Attestation_2.AttestingIndices) {
+	if s.hasSeenAttesterSlashingIndices(slashing.Attestation1.AttestingIndices, slashing.Attestation2.AttestingIndices) {
 		return pubsub.ValidationIgnore
 	}
 

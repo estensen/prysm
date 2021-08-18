@@ -196,7 +196,7 @@ func TestListPoolAttesterSlashings(t *testing.T) {
 	state, err := testutil.NewBeaconState()
 	require.NoError(t, err)
 	slashing1 := &ethpb_v1alpha1.AttesterSlashing{
-		Attestation_1: &ethpb_v1alpha1.IndexedAttestation{
+		Attestation1: &ethpb_v1alpha1.IndexedAttestation{
 			AttestingIndices: []uint64{1, 10},
 			Data: &ethpb_v1alpha1.AttestationData{
 				Slot:            1,
@@ -213,7 +213,7 @@ func TestListPoolAttesterSlashings(t *testing.T) {
 			},
 			Signature: bytesutil.PadTo([]byte("signature1"), 96),
 		},
-		Attestation_2: &ethpb_v1alpha1.IndexedAttestation{
+		Attestation2: &ethpb_v1alpha1.IndexedAttestation{
 			AttestingIndices: []uint64{2, 20},
 			Data: &ethpb_v1alpha1.AttestationData{
 				Slot:            2,
@@ -232,7 +232,7 @@ func TestListPoolAttesterSlashings(t *testing.T) {
 		},
 	}
 	slashing2 := &ethpb_v1alpha1.AttesterSlashing{
-		Attestation_1: &ethpb_v1alpha1.IndexedAttestation{
+		Attestation1: &ethpb_v1alpha1.IndexedAttestation{
 			AttestingIndices: []uint64{3, 30},
 			Data: &ethpb_v1alpha1.AttestationData{
 				Slot:            3,
@@ -249,7 +249,7 @@ func TestListPoolAttesterSlashings(t *testing.T) {
 			},
 			Signature: bytesutil.PadTo([]byte("signature3"), 96),
 		},
-		Attestation_2: &ethpb_v1alpha1.IndexedAttestation{
+		Attestation2: &ethpb_v1alpha1.IndexedAttestation{
 			AttestingIndices: []uint64{4, 40},
 			Data: &ethpb_v1alpha1.AttestationData{
 				Slot:            4,
@@ -284,7 +284,7 @@ func TestListPoolProposerSlashings(t *testing.T) {
 	state, err := testutil.NewBeaconState()
 	require.NoError(t, err)
 	slashing1 := &ethpb_v1alpha1.ProposerSlashing{
-		Header_1: &ethpb_v1alpha1.SignedBeaconBlockHeader{
+		Header1: &ethpb_v1alpha1.SignedBeaconBlockHeader{
 			Header: &ethpb_v1alpha1.BeaconBlockHeader{
 				Slot:          1,
 				ProposerIndex: 1,
@@ -294,7 +294,7 @@ func TestListPoolProposerSlashings(t *testing.T) {
 			},
 			Signature: bytesutil.PadTo([]byte("signature1"), 96),
 		},
-		Header_2: &ethpb_v1alpha1.SignedBeaconBlockHeader{
+		Header2: &ethpb_v1alpha1.SignedBeaconBlockHeader{
 			Header: &ethpb_v1alpha1.BeaconBlockHeader{
 				Slot:          2,
 				ProposerIndex: 2,
@@ -306,7 +306,7 @@ func TestListPoolProposerSlashings(t *testing.T) {
 		},
 	}
 	slashing2 := &ethpb_v1alpha1.ProposerSlashing{
-		Header_1: &ethpb_v1alpha1.SignedBeaconBlockHeader{
+		Header1: &ethpb_v1alpha1.SignedBeaconBlockHeader{
 			Header: &ethpb_v1alpha1.BeaconBlockHeader{
 				Slot:          3,
 				ProposerIndex: 3,
@@ -316,7 +316,7 @@ func TestListPoolProposerSlashings(t *testing.T) {
 			},
 			Signature: bytesutil.PadTo([]byte("signature3"), 96),
 		},
-		Header_2: &ethpb_v1alpha1.SignedBeaconBlockHeader{
+		Header2: &ethpb_v1alpha1.SignedBeaconBlockHeader{
 			Header: &ethpb_v1alpha1.BeaconBlockHeader{
 				Slot:          4,
 				ProposerIndex: 4,
@@ -385,7 +385,7 @@ func TestSubmitAttesterSlashing_Ok(t *testing.T) {
 	require.NoError(t, err)
 
 	slashing := &ethpb.AttesterSlashing{
-		Attestation_1: &ethpb.IndexedAttestation{
+		Attestation1: &ethpb.IndexedAttestation{
 			AttestingIndices: []uint64{0},
 			Data: &ethpb.AttestationData{
 				Slot:            1,
@@ -402,7 +402,7 @@ func TestSubmitAttesterSlashing_Ok(t *testing.T) {
 			},
 			Signature: make([]byte, 96),
 		},
-		Attestation_2: &ethpb.IndexedAttestation{
+		Attestation2: &ethpb.IndexedAttestation{
 			AttestingIndices: []uint64{0},
 			Data: &ethpb.AttestationData{
 				Slot:            1,
@@ -421,7 +421,7 @@ func TestSubmitAttesterSlashing_Ok(t *testing.T) {
 		},
 	}
 
-	for _, att := range []*ethpb.IndexedAttestation{slashing.Attestation_1, slashing.Attestation_2} {
+	for _, att := range []*ethpb.IndexedAttestation{slashing.Attestation1, slashing.Attestation2} {
 		sb, err := helpers.ComputeDomainAndSign(state, att.Data.Target.Epoch, att.Data, params.BeaconConfig().DomainBeaconAttester, keys[0])
 		require.NoError(t, err)
 		sig, err := bls.SignatureFromBytes(sb)
@@ -468,8 +468,8 @@ func TestSubmitAttesterSlashing_InvalidSlashing(t *testing.T) {
 	}
 
 	slashing := &ethpb.AttesterSlashing{
-		Attestation_1: attestation,
-		Attestation_2: attestation,
+		Attestation1: attestation,
+		Attestation2: attestation,
 	}
 
 	broadcaster := &p2pMock.MockBroadcaster{}

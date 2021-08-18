@@ -57,7 +57,7 @@ func TestProposalsDetector_DetectSlashingsForBlockHeaders(t *testing.T) {
 			name:        "different sig from same slot slash",
 			blk:         blk1slot0,
 			incomingBlk: blk2slot0,
-			slashing:    &ethpb.ProposerSlashing{Header_1: blk2slot0, Header_2: blk1slot0},
+			slashing:    &ethpb.ProposerSlashing{Header1: blk2slot0, Header2: blk1slot0},
 		},
 	}
 

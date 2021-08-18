@@ -24,8 +24,8 @@ func validAttesterSlashingForValIdx(t *testing.T, beaconState state.BeaconState,
 	var allSig1 []bls.Signature
 	var allSig2 []bls.Signature
 	for _, slashing := range slashings {
-		sig1 := slashing.Attestation_1.Signature
-		sig2 := slashing.Attestation_2.Signature
+		sig1 := slashing.Attestation1.Signature
+		sig2 := slashing.Attestation2.Signature
 		sigFromBytes1, err := bls.SignatureFromBytes(sig1)
 		require.NoError(t, err)
 		sigFromBytes2, err := bls.SignatureFromBytes(sig2)
@@ -36,14 +36,14 @@ func validAttesterSlashingForValIdx(t *testing.T, beaconState state.BeaconState,
 	aggSig1 := bls.AggregateSignatures(allSig1)
 	aggSig2 := bls.AggregateSignatures(allSig2)
 	aggSlashing := &ethpb.AttesterSlashing{
-		Attestation_1: &ethpb.IndexedAttestation{
+		Attestation1: &ethpb.IndexedAttestation{
 			AttestingIndices: valIdx,
-			Data:             slashings[0].Attestation_1.Data,
+			Data:             slashings[0].Attestation1.Data,
 			Signature:        aggSig1.Marshal(),
 		},
-		Attestation_2: &ethpb.IndexedAttestation{
+		Attestation2: &ethpb.IndexedAttestation{
 			AttestingIndices: valIdx,
-			Data:             slashings[0].Attestation_2.Data,
+			Data:             slashings[0].Attestation2.Data,
 			Signature:        aggSig2.Marshal(),
 		},
 	}
@@ -52,8 +52,8 @@ func validAttesterSlashingForValIdx(t *testing.T, beaconState state.BeaconState,
 
 func attesterSlashingForValIdx(valIdx ...uint64) *ethpb.AttesterSlashing {
 	return &ethpb.AttesterSlashing{
-		Attestation_1: &ethpb.IndexedAttestation{AttestingIndices: valIdx},
-		Attestation_2: &ethpb.IndexedAttestation{AttestingIndices: valIdx},
+		Attestation1: &ethpb.IndexedAttestation{AttestingIndices: valIdx},
+		Attestation2: &ethpb.IndexedAttestation{AttestingIndices: valIdx},
 	}
 }
 
@@ -314,8 +314,8 @@ func TestPool_InsertAttesterSlashing_SigFailsVerify_ClearPool(t *testing.T) {
 	// We mess up the signature of the second slashing.
 	badSig := make([]byte, 96)
 	copy(badSig, "muahaha")
-	pendingSlashings[1].attesterSlashing.Attestation_1.Signature = badSig
-	slashings[1].Attestation_1.Signature = badSig
+	pendingSlashings[1].attesterSlashing.Attestation1.Signature = badSig
+	slashings[1].Attestation1.Signature = badSig
 	p := &Pool{
 		pendingAttesterSlashing: make([]*PendingAttesterSlashing, 0),
 	}

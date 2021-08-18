@@ -34,8 +34,8 @@ func (s *Service) attesterSlashingSubscriber(ctx context.Context, msg proto.Mess
 		return fmt.Errorf("wrong type, expected: *ethpb.AttesterSlashing got: %T", msg)
 	}
 	// Do some nil checks to prevent easy DoS'ing of this handler.
-	aSlashing1IsNil := aSlashing == nil || aSlashing.Attestation_1 == nil || aSlashing.Attestation_1.AttestingIndices == nil
-	aSlashing2IsNil := aSlashing == nil || aSlashing.Attestation_2 == nil || aSlashing.Attestation_2.AttestingIndices == nil
+	aSlashing1IsNil := aSlashing == nil || aSlashing.Attestation1 == nil || aSlashing.Attestation1.AttestingIndices == nil
+	aSlashing2IsNil := aSlashing == nil || aSlashing.Attestation2 == nil || aSlashing.Attestation2.AttestingIndices == nil
 	if !aSlashing1IsNil && !aSlashing2IsNil {
 		headState, err := s.cfg.Chain.HeadState(ctx)
 		if err != nil {
@@ -44,7 +44,7 @@ func (s *Service) attesterSlashingSubscriber(ctx context.Context, msg proto.Mess
 		if err := s.cfg.SlashingPool.InsertAttesterSlashing(ctx, headState, aSlashing); err != nil {
 			return errors.Wrap(err, "could not insert attester slashing into pool")
 		}
-		s.setAttesterSlashingIndicesSeen(aSlashing.Attestation_1.AttestingIndices, aSlashing.Attestation_2.AttestingIndices)
+		s.setAttesterSlashingIndicesSeen(aSlashing.Attestation1.AttestingIndices, aSlashing.Attestation2.AttestingIndices)
 	}
 	return nil
 }
@@ -55,8 +55,8 @@ func (s *Service) proposerSlashingSubscriber(ctx context.Context, msg proto.Mess
 		return fmt.Errorf("wrong type, expected: *ethpb.ProposerSlashing got: %T", msg)
 	}
 	// Do some nil checks to prevent easy DoS'ing of this handler.
-	header1IsNil := pSlashing == nil || pSlashing.Header_1 == nil || pSlashing.Header_1.Header == nil
-	header2IsNil := pSlashing == nil || pSlashing.Header_2 == nil || pSlashing.Header_2.Header == nil
+	header1IsNil := pSlashing == nil || pSlashing.Header1 == nil || pSlashing.Header1.Header == nil
+	header2IsNil := pSlashing == nil || pSlashing.Header2 == nil || pSlashing.Header2.Header == nil
 	if !header1IsNil && !header2IsNil {
 		headState, err := s.cfg.Chain.HeadState(ctx)
 		if err != nil {
@@ -65,7 +65,7 @@ func (s *Service) proposerSlashingSubscriber(ctx context.Context, msg proto.Mess
 		if err := s.cfg.SlashingPool.InsertProposerSlashing(ctx, headState, pSlashing); err != nil {
 			return errors.Wrap(err, "could not insert proposer slashing into pool")
 		}
-		s.setProposerSlashingIndexSeen(pSlashing.Header_1.Header.ProposerIndex)
+		s.setProposerSlashingIndexSeen(pSlashing.Header1.Header.ProposerIndex)
 	}
 	return nil
 }

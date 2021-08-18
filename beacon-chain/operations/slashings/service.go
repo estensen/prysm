@@ -62,7 +62,7 @@ func (p *Pool) PendingAttesterSlashings(ctx context.Context, state state.ReadOnl
 			continue
 		}
 		attSlashing := slashing.attesterSlashing
-		slashedVal := sliceutil.IntersectionUint64(attSlashing.Attestation_1.AttestingIndices, attSlashing.Attestation_2.AttestingIndices)
+		slashedVal := sliceutil.IntersectionUint64(attSlashing.Attestation1.AttestingIndices, attSlashing.Attestation2.AttestingIndices)
 		for _, idx := range slashedVal {
 			included[types.ValidatorIndex(idx)] = true
 		}
@@ -96,7 +96,7 @@ func (p *Pool) PendingProposerSlashings(ctx context.Context, state state.ReadOnl
 			break
 		}
 		slashing := p.pendingProposerSlashing[i]
-		valid, err := p.validatorSlashingPreconditionCheck(state, slashing.Header_1.Header.ProposerIndex)
+		valid, err := p.validatorSlashingPreconditionCheck(state, slashing.Header1.Header.ProposerIndex)
 		if err != nil {
 			log.WithError(err).Error("could not validate proposer slashing")
 			continue
@@ -128,7 +128,7 @@ func (p *Pool) InsertAttesterSlashing(
 		return errors.Wrap(err, "could not verify attester slashing")
 	}
 
-	slashedVal := sliceutil.IntersectionUint64(slashing.Attestation_1.AttestingIndices, slashing.Attestation_2.AttestingIndices)
+	slashedVal := sliceutil.IntersectionUint64(slashing.Attestation1.AttestingIndices, slashing.Attestation2.AttestingIndices)
 	cantSlash := make([]uint64, 0, len(slashedVal))
 	for _, val := range slashedVal {
 		// Has this validator index been included recently?
@@ -186,7 +186,7 @@ func (p *Pool) InsertProposerSlashing(
 		return errors.Wrap(err, "could not verify proposer slashing")
 	}
 
-	idx := slashing.Header_1.Header.ProposerIndex
+	idx := slashing.Header1.Header.ProposerIndex
 	ok, err := p.validatorSlashingPreconditionCheck(state, idx)
 	if err != nil {
 		return err
@@ -201,17 +201,17 @@ func (p *Pool) InsertProposerSlashing(
 	// Check if the validator already exists in the list of slashings.
 	// Use binary search to find the answer.
 	found := sort.Search(len(p.pendingProposerSlashing), func(i int) bool {
-		return p.pendingProposerSlashing[i].Header_1.Header.ProposerIndex >= slashing.Header_1.Header.ProposerIndex
+		return p.pendingProposerSlashing[i].Header1.Header.ProposerIndex >= slashing.Header1.Header.ProposerIndex
 	})
-	if found != len(p.pendingProposerSlashing) && p.pendingProposerSlashing[found].Header_1.Header.ProposerIndex ==
-		slashing.Header_1.Header.ProposerIndex {
+	if found != len(p.pendingProposerSlashing) && p.pendingProposerSlashing[found].Header1.Header.ProposerIndex ==
+		slashing.Header1.Header.ProposerIndex {
 		return errors.New("slashing object already exists in pending proposer slashings")
 	}
 
 	// Insert into pending list and sort again.
 	p.pendingProposerSlashing = append(p.pendingProposerSlashing, slashing)
 	sort.Slice(p.pendingProposerSlashing, func(i, j int) bool {
-		return p.pendingProposerSlashing[i].Header_1.Header.ProposerIndex < p.pendingProposerSlashing[j].Header_1.Header.ProposerIndex
+		return p.pendingProposerSlashing[i].Header1.Header.ProposerIndex < p.pendingProposerSlashing[j].Header1.Header.ProposerIndex
 	})
 	numPendingProposerSlashings.Set(float64(len(p.pendingProposerSlashing)))
 
@@ -224,7 +224,7 @@ func (p *Pool) InsertProposerSlashing(
 func (p *Pool) MarkIncludedAttesterSlashing(as *ethpb.AttesterSlashing) {
 	p.lock.Lock()
 	defer p.lock.Unlock()
-	slashedVal := sliceutil.IntersectionUint64(as.Attestation_1.AttestingIndices, as.Attestation_2.AttestingIndices)
+	slashedVal := sliceutil.IntersectionUint64(as.Attestation1.AttestingIndices, as.Attestation2.AttestingIndices)
 	for _, val := range slashedVal {
 		i := sort.Search(len(p.pendingAttesterSlashing), func(i int) bool {
 			return uint64(p.pendingAttesterSlashing[i].validatorToSlash) >= val
@@ -244,12 +244,12 @@ func (p *Pool) MarkIncludedProposerSlashing(ps *ethpb.ProposerSlashing) {
 	p.lock.Lock()
 	defer p.lock.Unlock()
 	i := sort.Search(len(p.pendingProposerSlashing), func(i int) bool {
-		return p.pendingProposerSlashing[i].Header_1.Header.ProposerIndex >= ps.Header_1.Header.ProposerIndex
+		return p.pendingProposerSlashing[i].Header1.Header.ProposerIndex >= ps.Header1.Header.ProposerIndex
 	})
-	if i != len(p.pendingProposerSlashing) && p.pendingProposerSlashing[i].Header_1.Header.ProposerIndex == ps.Header_1.Header.ProposerIndex {
+	if i != len(p.pendingProposerSlashing) && p.pendingProposerSlashing[i].Header1.Header.ProposerIndex == ps.Header1.Header.ProposerIndex {
 		p.pendingProposerSlashing = append(p.pendingProposerSlashing[:i], p.pendingProposerSlashing[i+1:]...)
 	}
-	p.included[ps.Header_1.Header.ProposerIndex] = true
+	p.included[ps.Header1.Header.ProposerIndex] = true
 	numProposerSlashingsIncluded.Inc()
 }
 

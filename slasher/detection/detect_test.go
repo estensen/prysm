@@ -188,8 +188,8 @@ func TestDetect_detectAttesterSlashings_Surround(t *testing.T) {
 			require.NoError(t, err)
 			require.Equal(t, tt.slashingsFound, len(attsl), "Didnt save slashing to db")
 			for _, ss := range slashings {
-				slashingAtt1 := ss.Attestation_1
-				slashingAtt2 := ss.Attestation_2
+				slashingAtt1 := ss.Attestation1
+				slashingAtt2 := ss.Attestation2
 				if !slashutil.IsSurround(slashingAtt1, slashingAtt2) {
 					t.Fatalf(
 						"Expected slashing to be valid, received atts %d->%d and %d->%d",
@@ -340,8 +340,8 @@ func TestDetect_detectAttesterSlashings_Double(t *testing.T) {
 			require.Equal(t, tt.slashingsFound, len(savedSlashings), "Did not save slashing to db")
 
 			for _, ss := range slashings {
-				slashingAtt1 := ss.Attestation_1
-				slashingAtt2 := ss.Attestation_2
+				slashingAtt1 := ss.Attestation1
+				slashingAtt2 := ss.Attestation2
 				if !isDoubleVote(slashingAtt1, slashingAtt2) {
 					t.Fatalf(
 						"Expected slashing to be valid, received atts with target epoch %d and %d but not valid",
@@ -528,7 +528,7 @@ func TestDetect_detectProposerSlashing(t *testing.T) {
 			name:        "different sig from same slot slash",
 			blk:         sigBlk1slot0,
 			incomingBlk: sigBlk2slot0,
-			slashing:    &ethpb.ProposerSlashing{Header_1: sigBlk2slot0, Header_2: sigBlk1slot0},
+			slashing:    &ethpb.ProposerSlashing{Header1: sigBlk2slot0, Header2: sigBlk1slot0},
 		},
 	}
 	for _, tt := range tests {
@@ -551,11 +551,11 @@ func TestDetect_detectProposerSlashing(t *testing.T) {
 				require.Equal(t, 1, len(savedSlashings), "Did not save slashing to db")
 			}
 
-			if slashing != nil && !isDoublePropose(slashing.Header_1, slashing.Header_2) {
+			if slashing != nil && !isDoublePropose(slashing.Header1, slashing.Header2) {
 				t.Fatalf(
 					"Expected slashing to be valid, received atts with target epoch %v and %v but not valid",
-					slashing.Header_1,
-					slashing.Header_2,
+					slashing.Header1,
+					slashing.Header2,
 				)
 			}
 		})

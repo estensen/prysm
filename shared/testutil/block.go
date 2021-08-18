@@ -220,8 +220,8 @@ func GenerateProposerSlashingForValidator(
 	}
 
 	return &ethpb.ProposerSlashing{
-		Header_1: header1,
-		Header_2: header2,
+		Header1: header1,
+		Header2: header2,
 	}, nil
 }
 
@@ -297,8 +297,8 @@ func GenerateAttesterSlashingForValidator(
 	}
 
 	return &ethpb.AttesterSlashing{
-		Attestation_1: att1,
-		Attestation_2: att2,
+		Attestation1: att1,
+		Attestation2: att2,
 	}, nil
 }
 

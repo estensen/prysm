@@ -92,8 +92,8 @@ func setupValidProposerSlashing(t *testing.T) (*ethpb.ProposerSlashing, state.Be
 	require.NoError(t, err)
 
 	slashing := &ethpb.ProposerSlashing{
-		Header_1: header1,
-		Header_2: header2,
+		Header1: header1,
+		Header2: header2,
 	}
 	val, err := state.ValidatorAtIndex(1)
 	require.NoError(t, err)
@@ -144,7 +144,7 @@ func TestValidateProposerSlashing_ContextTimeout(t *testing.T) {
 	p := p2ptest.NewTestP2P(t)
 
 	slashing, state := setupValidProposerSlashing(t)
-	slashing.Header_1.Header.Slot = 100000000
+	slashing.Header1.Header.Slot = 100000000
 	err := state.SetJustificationBits(bitfield.Bitvector4{0x0F}) // 0b1111
 	require.NoError(t, err)
 	err = state.SetPreviousJustifiedCheckpoint(&ethpb.Checkpoint{Epoch: 0, Root: []byte{}})

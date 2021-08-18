@@ -83,7 +83,7 @@ func TestGenerateFullBlock_ValidProposerSlashings(t *testing.T) {
 	beaconState, err = state.ExecuteStateTransition(context.Background(), beaconState, wrapper.WrappedPhase0SignedBeaconBlock(block))
 	require.NoError(t, err)
 
-	slashableIndice := block.Block.Body.ProposerSlashings[0].Header_1.Header.ProposerIndex
+	slashableIndice := block.Block.Body.ProposerSlashings[0].Header1.Header.ProposerIndex
 	if val, err := beaconState.ValidatorAtIndexReadOnly(slashableIndice); err != nil || !val.Slashed() {
 		require.NoError(t, err)
 		t.Fatal("expected validator to be slashed")
@@ -102,7 +102,7 @@ func TestGenerateFullBlock_ValidAttesterSlashings(t *testing.T) {
 	beaconState, err = state.ExecuteStateTransition(context.Background(), beaconState, wrapper.WrappedPhase0SignedBeaconBlock(block))
 	require.NoError(t, err)
 
-	slashableIndices := block.Block.Body.AttesterSlashings[0].Attestation_1.AttestingIndices
+	slashableIndices := block.Block.Body.AttesterSlashings[0].Attestation1.AttestingIndices
 	if val, err := beaconState.ValidatorAtIndexReadOnly(types.ValidatorIndex(slashableIndices[0])); err != nil || !val.Slashed() {
 		require.NoError(t, err)
 		t.Fatal("expected validator to be slashed")

@@ -374,8 +374,8 @@ func genBeaconBlockBody() *ethpb.BeaconBlockBody {
 
 func genProposerSlashing() *ethpb.ProposerSlashing {
 	return &ethpb.ProposerSlashing{
-		Header_1: genSignedBeaconBlockHeader(),
-		Header_2: genSignedBeaconBlockHeader(),
+		Header1: genSignedBeaconBlockHeader(),
+		Header2: genSignedBeaconBlockHeader(),
 	}
 }
 
@@ -389,8 +389,8 @@ func genProposerSlashings(num int) []*ethpb.ProposerSlashing {
 
 func genAttesterSlashing() *ethpb.AttesterSlashing {
 	return &ethpb.AttesterSlashing{
-		Attestation_1: genIndexedAttestation(),
-		Attestation_2: genIndexedAttestation(),
+		Attestation1: genIndexedAttestation(),
+		Attestation2: genIndexedAttestation(),
 	}
 }
 

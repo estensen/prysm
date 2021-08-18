@@ -48,13 +48,13 @@ func (s *Service) subscribeDetectedAttesterSlashings(ctx context.Context, ch cha
 	for {
 		select {
 		case slashing := <-ch:
-			if slashing != nil && slashing.Attestation_1 != nil && slashing.Attestation_2 != nil {
-				slashableIndices := sliceutil.IntersectionUint64(slashing.Attestation_1.AttestingIndices, slashing.Attestation_2.AttestingIndices)
+			if slashing != nil && slashing.Attestation1 != nil && slashing.Attestation2 != nil {
+				slashableIndices := sliceutil.IntersectionUint64(slashing.Attestation1.AttestingIndices, slashing.Attestation2.AttestingIndices)
 				_, err := s.cfg.BeaconClient.SubmitAttesterSlashing(ctx, slashing)
 				if err == nil {
 					log.WithFields(logrus.Fields{
-						"sourceEpoch": slashing.Attestation_1.Data.Source.Epoch,
-						"targetEpoch": slashing.Attestation_1.Data.Target.Epoch,
+						"sourceEpoch": slashing.Attestation1.Data.Source.Epoch,
+						"targetEpoch": slashing.Attestation1.Data.Target.Epoch,
 						"indices":     slashableIndices,
 					}).Info("Found a valid attester slashing! Submitting to beacon node")
 				} else if strings.Contains(err.Error(), helpers.ErrSigFailedToVerify.Error()) {

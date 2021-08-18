@@ -113,8 +113,8 @@ func (s *Service) detectDoubleVote(
 
 		doubleVotesDetected.Inc()
 		return &ethpb.AttesterSlashing{
-			Attestation_1: incomingAtt,
-			Attestation_2: att,
+			Attestation1: incomingAtt,
+			Attestation2: att,
 		}, nil
 	}
 	return nil, nil
@@ -153,14 +153,14 @@ func (s *Service) detectSurroundVotes(
 		if isSurround {
 			surroundingVotesDetected.Inc()
 			return &ethpb.AttesterSlashing{
-				Attestation_1: incomingAtt,
-				Attestation_2: att,
+				Attestation1: incomingAtt,
+				Attestation2: att,
 			}, nil
 		} else if isSurrounded {
 			surroundedVotesDetected.Inc()
 			return &ethpb.AttesterSlashing{
-				Attestation_1: att,
-				Attestation_2: incomingAtt,
+				Attestation1: att,
+				Attestation2: incomingAtt,
 			}, nil
 		}
 	}

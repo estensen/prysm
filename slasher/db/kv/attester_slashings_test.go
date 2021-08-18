@@ -18,10 +18,10 @@ func TestStore_AttesterSlashingNilBucket(t *testing.T) {
 	ctx := context.Background()
 
 	as := &ethpb.AttesterSlashing{
-		Attestation_1: testutil.HydrateIndexedAttestation(&ethpb.IndexedAttestation{
+		Attestation1: testutil.HydrateIndexedAttestation(&ethpb.IndexedAttestation{
 			Signature: bytesutil.PadTo([]byte("hello"), 96),
 		}),
-		Attestation_2: testutil.HydrateIndexedAttestation(&ethpb.IndexedAttestation{
+		Attestation2: testutil.HydrateIndexedAttestation(&ethpb.IndexedAttestation{
 			Signature: bytesutil.PadTo([]byte("hello"), 96),
 		}),
 	}
@@ -47,15 +47,15 @@ func TestStore_SaveAttesterSlashing(t *testing.T) {
 	}{
 		{
 			ss: dbtypes.Active,
-			as: &ethpb.AttesterSlashing{Attestation_1: &ethpb.IndexedAttestation{Data: data, Signature: bytesutil.PadTo([]byte("hello"), 96)}, Attestation_2: att},
+			as: &ethpb.AttesterSlashing{Attestation1: &ethpb.IndexedAttestation{Data: data, Signature: bytesutil.PadTo([]byte("hello"), 96)}, Attestation2: att},
 		},
 		{
 			ss: dbtypes.Included,
-			as: &ethpb.AttesterSlashing{Attestation_1: &ethpb.IndexedAttestation{Data: data, Signature: bytesutil.PadTo([]byte("hello2"), 96)}, Attestation_2: att},
+			as: &ethpb.AttesterSlashing{Attestation1: &ethpb.IndexedAttestation{Data: data, Signature: bytesutil.PadTo([]byte("hello2"), 96)}, Attestation2: att},
 		},
 		{
 			ss: dbtypes.Reverted,
-			as: &ethpb.AttesterSlashing{Attestation_1: &ethpb.IndexedAttestation{Data: data, Signature: bytesutil.PadTo([]byte("hello3"), 96)}, Attestation_2: att},
+			as: &ethpb.AttesterSlashing{Attestation1: &ethpb.IndexedAttestation{Data: data, Signature: bytesutil.PadTo([]byte("hello3"), 96)}, Attestation2: att},
 		},
 	}
 
@@ -78,16 +78,16 @@ func TestStore_SaveAttesterSlashings(t *testing.T) {
 	data := &ethpb.AttestationData{Source: ckpt, Target: ckpt, BeaconBlockRoot: make([]byte, 32)}
 	att := &ethpb.IndexedAttestation{Data: data, Signature: make([]byte, 96)}
 	as := []*ethpb.AttesterSlashing{
-		{Attestation_1: &ethpb.IndexedAttestation{Signature: bytesutil.PadTo([]byte("1"), 96), Data: data}, Attestation_2: att},
-		{Attestation_1: &ethpb.IndexedAttestation{Signature: bytesutil.PadTo([]byte("2"), 96), Data: data}, Attestation_2: att},
-		{Attestation_1: &ethpb.IndexedAttestation{Signature: bytesutil.PadTo([]byte("3"), 96), Data: data}, Attestation_2: att},
+		{Attestation1: &ethpb.IndexedAttestation{Signature: bytesutil.PadTo([]byte("1"), 96), Data: data}, Attestation2: att},
+		{Attestation1: &ethpb.IndexedAttestation{Signature: bytesutil.PadTo([]byte("2"), 96), Data: data}, Attestation2: att},
+		{Attestation1: &ethpb.IndexedAttestation{Signature: bytesutil.PadTo([]byte("3"), 96), Data: data}, Attestation2: att},
 	}
 	err := db.SaveAttesterSlashings(ctx, dbtypes.Active, as)
 	require.NoError(t, err, "Save attester slashing failed")
 	attesterSlashings, err := db.AttesterSlashings(ctx, dbtypes.Active)
 	require.NoError(t, err, "Failed to get attester slashings")
 	sort.SliceStable(attesterSlashings, func(i, j int) bool {
-		return attesterSlashings[i].Attestation_1.Signature[0] < attesterSlashings[j].Attestation_1.Signature[0]
+		return attesterSlashings[i].Attestation1.Signature[0] < attesterSlashings[j].Attestation1.Signature[0]
 	})
 	require.NotNil(t, attesterSlashings)
 	require.DeepSSZEqual(t, as, attesterSlashings, "Slashing: %v should be part of slashings response: %v", as, attesterSlashings)
@@ -106,22 +106,22 @@ func TestStore_UpdateAttesterSlashingStatus(t *testing.T) {
 		{
 			ss: dbtypes.Active,
 			as: &ethpb.AttesterSlashing{
-				Attestation_1: &ethpb.IndexedAttestation{Data: data, Signature: bytesutil.PadTo([]byte("hello"), 96)},
-				Attestation_2: &ethpb.IndexedAttestation{Data: data, Signature: bytesutil.PadTo([]byte("hello"), 96)},
+				Attestation1: &ethpb.IndexedAttestation{Data: data, Signature: bytesutil.PadTo([]byte("hello"), 96)},
+				Attestation2: &ethpb.IndexedAttestation{Data: data, Signature: bytesutil.PadTo([]byte("hello"), 96)},
 			},
 		},
 		{
 			ss: dbtypes.Active,
 			as: &ethpb.AttesterSlashing{
-				Attestation_1: &ethpb.IndexedAttestation{Data: data, Signature: bytesutil.PadTo([]byte("hello2"), 96)},
-				Attestation_2: &ethpb.IndexedAttestation{Data: data, Signature: bytesutil.PadTo([]byte("hello2"), 96)},
+				Attestation1: &ethpb.IndexedAttestation{Data: data, Signature: bytesutil.PadTo([]byte("hello2"), 96)},
+				Attestation2: &ethpb.IndexedAttestation{Data: data, Signature: bytesutil.PadTo([]byte("hello2"), 96)},
 			},
 		},
 		{
 			ss: dbtypes.Active,
 			as: &ethpb.AttesterSlashing{
-				Attestation_1: &ethpb.IndexedAttestation{Data: data, Signature: bytesutil.PadTo([]byte("hello3"), 96)},
-				Attestation_2: &ethpb.IndexedAttestation{Data: data, Signature: bytesutil.PadTo([]byte("hello2"), 96)},
+				Attestation1: &ethpb.IndexedAttestation{Data: data, Signature: bytesutil.PadTo([]byte("hello3"), 96)},
+				Attestation2: &ethpb.IndexedAttestation{Data: data, Signature: bytesutil.PadTo([]byte("hello2"), 96)},
 			},
 		},
 	}

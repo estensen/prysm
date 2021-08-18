@@ -76,8 +76,8 @@ func TestProcessAttesterSlashings_RegressionSlashableIndices(t *testing.T) {
 
 	slashings := []*ethpb.AttesterSlashing{
 		{
-			Attestation_1: att1,
-			Attestation_2: att2,
+			Attestation1: att1,
+			Attestation2: att2,
 		},
 	}
 

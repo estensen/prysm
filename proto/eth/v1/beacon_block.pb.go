@@ -580,8 +580,8 @@ type AttesterSlashing struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Attestation_1 *IndexedAttestation `protobuf:"bytes,1,opt,name=attestation_1,json=attestation1,proto3" json:"attestation_1,omitempty"`
-	Attestation_2 *IndexedAttestation `protobuf:"bytes,2,opt,name=attestation_2,json=attestation2,proto3" json:"attestation_2,omitempty"`
+	Attestation1 *IndexedAttestation `protobuf:"bytes,1,opt,name=attestation_1,json=attestation1,proto3" json:"attestation_1,omitempty"`
+	Attestation2 *IndexedAttestation `protobuf:"bytes,2,opt,name=attestation_2,json=attestation2,proto3" json:"attestation_2,omitempty"`
 }
 
 func (x *AttesterSlashing) Reset() {
@@ -618,14 +618,14 @@ func (*AttesterSlashing) Descriptor() ([]byte, []int) {
 
 func (x *AttesterSlashing) GetAttestation_1() *IndexedAttestation {
 	if x != nil {
-		return x.Attestation_1
+		return x.Attestation1
 	}
 	return nil
 }
 
 func (x *AttesterSlashing) GetAttestation_2() *IndexedAttestation {
 	if x != nil {
-		return x.Attestation_2
+		return x.Attestation2
 	}
 	return nil
 }

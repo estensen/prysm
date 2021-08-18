@@ -26,13 +26,13 @@ func TestProcessProposerSlashings_UnmatchedHeaderSlots(t *testing.T) {
 	currentSlot := types.Slot(0)
 	slashings := []*ethpb.ProposerSlashing{
 		{
-			Header_1: &ethpb.SignedBeaconBlockHeader{
+			Header1: &ethpb.SignedBeaconBlockHeader{
 				Header: &ethpb.BeaconBlockHeader{
 					ProposerIndex: 1,
 					Slot:          params.BeaconConfig().SlotsPerEpoch + 1,
 				},
 			},
-			Header_2: &ethpb.SignedBeaconBlockHeader{
+			Header2: &ethpb.SignedBeaconBlockHeader{
 				Header: &ethpb.BeaconBlockHeader{
 					ProposerIndex: 1,
 					Slot:          0,
@@ -59,13 +59,13 @@ func TestProcessProposerSlashings_SameHeaders(t *testing.T) {
 	currentSlot := types.Slot(0)
 	slashings := []*ethpb.ProposerSlashing{
 		{
-			Header_1: &ethpb.SignedBeaconBlockHeader{
+			Header1: &ethpb.SignedBeaconBlockHeader{
 				Header: &ethpb.BeaconBlockHeader{
 					ProposerIndex: 1,
 					Slot:          0,
 				},
 			},
-			Header_2: &ethpb.SignedBeaconBlockHeader{
+			Header2: &ethpb.SignedBeaconBlockHeader{
 				Header: &ethpb.BeaconBlockHeader{
 					ProposerIndex: 1,
 					Slot:          0,
@@ -98,7 +98,7 @@ func TestProcessProposerSlashings_ValidatorNotSlashable(t *testing.T) {
 	currentSlot := types.Slot(0)
 	slashings := []*ethpb.ProposerSlashing{
 		{
-			Header_1: &ethpb.SignedBeaconBlockHeader{
+			Header1: &ethpb.SignedBeaconBlockHeader{
 				Header: &ethpb.BeaconBlockHeader{
 					ProposerIndex: 0,
 					Slot:          0,
@@ -106,7 +106,7 @@ func TestProcessProposerSlashings_ValidatorNotSlashable(t *testing.T) {
 				},
 				Signature: bytesutil.PadTo([]byte("A"), 96),
 			},
-			Header_2: &ethpb.SignedBeaconBlockHeader{
+			Header2: &ethpb.SignedBeaconBlockHeader{
 				Header: &ethpb.BeaconBlockHeader{
 					ProposerIndex: 0,
 					Slot:          0,
@@ -163,8 +163,8 @@ func TestProcessProposerSlashings_AppliesCorrectStatus(t *testing.T) {
 
 	slashings := []*ethpb.ProposerSlashing{
 		{
-			Header_1: header1,
-			Header_2: header2,
+			Header1: header1,
+			Header2: header2,
 		},
 	}
 
@@ -207,13 +207,13 @@ func TestVerifyProposerSlashing(t *testing.T) {
 			name: "same header, same slot as state",
 			args: args{
 				slashing: &ethpb.ProposerSlashing{
-					Header_1: testutil.HydrateSignedBeaconHeader(&ethpb.SignedBeaconBlockHeader{
+					Header1: testutil.HydrateSignedBeaconHeader(&ethpb.SignedBeaconBlockHeader{
 						Header: &ethpb.BeaconBlockHeader{
 							ProposerIndex: 1,
 							Slot:          currentSlot,
 						},
 					}),
-					Header_2: testutil.HydrateSignedBeaconHeader(&ethpb.SignedBeaconBlockHeader{
+					Header2: testutil.HydrateSignedBeaconHeader(&ethpb.SignedBeaconBlockHeader{
 						Header: &ethpb.BeaconBlockHeader{
 							ProposerIndex: 1,
 							Slot:          currentSlot,
@@ -228,13 +228,13 @@ func TestVerifyProposerSlashing(t *testing.T) {
 			name: "same header, different signatures",
 			args: args{
 				slashing: &ethpb.ProposerSlashing{
-					Header_1: testutil.HydrateSignedBeaconHeader(&ethpb.SignedBeaconBlockHeader{
+					Header1: testutil.HydrateSignedBeaconHeader(&ethpb.SignedBeaconBlockHeader{
 						Header: &ethpb.BeaconBlockHeader{
 							ProposerIndex: 1,
 						},
 						Signature: sig1,
 					}),
-					Header_2: testutil.HydrateSignedBeaconHeader(&ethpb.SignedBeaconBlockHeader{
+					Header2: testutil.HydrateSignedBeaconHeader(&ethpb.SignedBeaconBlockHeader{
 						Header: &ethpb.BeaconBlockHeader{
 							ProposerIndex: 1,
 						},
@@ -249,7 +249,7 @@ func TestVerifyProposerSlashing(t *testing.T) {
 			name: "slashing in future epoch",
 			args: args{
 				slashing: &ethpb.ProposerSlashing{
-					Header_1: &ethpb.SignedBeaconBlockHeader{
+					Header1: &ethpb.SignedBeaconBlockHeader{
 						Header: &ethpb.BeaconBlockHeader{
 							ProposerIndex: 1,
 							Slot:          65,
@@ -258,7 +258,7 @@ func TestVerifyProposerSlashing(t *testing.T) {
 							ParentRoot:    bytesutil.PadTo([]byte("foo"), 32),
 						},
 					},
-					Header_2: &ethpb.SignedBeaconBlockHeader{
+					Header2: &ethpb.SignedBeaconBlockHeader{
 						Header: &ethpb.BeaconBlockHeader{
 							ProposerIndex: 1,
 							Slot:          65,
@@ -276,18 +276,18 @@ func TestVerifyProposerSlashing(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 
-			sk := sks[tt.args.slashing.Header_1.Header.ProposerIndex]
-			d, err := helpers.Domain(tt.args.beaconState.Fork(), helpers.SlotToEpoch(tt.args.slashing.Header_1.Header.Slot), params.BeaconConfig().DomainBeaconProposer, tt.args.beaconState.GenesisValidatorRoot())
+			sk := sks[tt.args.slashing.Header1.Header.ProposerIndex]
+			d, err := helpers.Domain(tt.args.beaconState.Fork(), helpers.SlotToEpoch(tt.args.slashing.Header1.Header.Slot), params.BeaconConfig().DomainBeaconProposer, tt.args.beaconState.GenesisValidatorRoot())
 			require.NoError(t, err)
-			if tt.args.slashing.Header_1.Signature == nil {
-				sr, err := helpers.ComputeSigningRoot(tt.args.slashing.Header_1.Header, d)
+			if tt.args.slashing.Header1.Signature == nil {
+				sr, err := helpers.ComputeSigningRoot(tt.args.slashing.Header1.Header, d)
 				require.NoError(t, err)
-				tt.args.slashing.Header_1.Signature = sk.Sign(sr[:]).Marshal()
+				tt.args.slashing.Header1.Signature = sk.Sign(sr[:]).Marshal()
 			}
-			if tt.args.slashing.Header_2.Signature == nil {
-				sr, err := helpers.ComputeSigningRoot(tt.args.slashing.Header_2.Header, d)
+			if tt.args.slashing.Header2.Signature == nil {
+				sr, err := helpers.ComputeSigningRoot(tt.args.slashing.Header2.Header, d)
 				require.NoError(t, err)
-				tt.args.slashing.Header_2.Signature = sk.Sign(sr[:]).Marshal()
+				tt.args.slashing.Header2.Signature = sk.Sign(sr[:]).Marshal()
 			}
 			if err := blocks.VerifyProposerSlashing(tt.args.beaconState, tt.args.slashing); (err != nil || tt.wantErr != "") && err.Error() != tt.wantErr {
 				t.Errorf("VerifyProposerSlashing() error = %v, wantErr %v", err, tt.wantErr)

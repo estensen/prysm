@@ -79,14 +79,14 @@ func VerifyAttesterSlashing(ctx context.Context, beaconState state.ReadOnlyBeaco
 	if slashing == nil {
 		return errors.New("nil slashing")
 	}
-	if slashing.Attestation_1 == nil || slashing.Attestation_2 == nil {
+	if slashing.Attestation1 == nil || slashing.Attestation2 == nil {
 		return errors.New("nil attestation")
 	}
-	if slashing.Attestation_1.Data == nil || slashing.Attestation_2.Data == nil {
+	if slashing.Attestation1.Data == nil || slashing.Attestation2.Data == nil {
 		return errors.New("nil attestation data")
 	}
-	att1 := slashing.Attestation_1
-	att2 := slashing.Attestation_2
+	att1 := slashing.Attestation1
+	att2 := slashing.Attestation2
 	data1 := att1.Data
 	data2 := att2.Data
 	if !IsSlashableAttestationData(data1, data2) {
@@ -127,10 +127,10 @@ func IsSlashableAttestationData(data1, data2 *ethpb.AttestationData) bool {
 }
 
 func slashableAttesterIndices(slashing *ethpb.AttesterSlashing) []uint64 {
-	if slashing == nil || slashing.Attestation_1 == nil || slashing.Attestation_2 == nil {
+	if slashing == nil || slashing.Attestation1 == nil || slashing.Attestation2 == nil {
 		return nil
 	}
-	indices1 := slashing.Attestation_1.AttestingIndices
-	indices2 := slashing.Attestation_2.AttestingIndices
+	indices1 := slashing.Attestation1.AttestingIndices
+	indices2 := slashing.Attestation2.AttestingIndices
 	return sliceutil.IntersectionUint64(indices1, indices2)
 }

@@ -219,12 +219,12 @@ func (s *Service) submitAttesterSlashings(ctx context.Context, slashings []*ethp
 func (s *Service) submitProposerSlashing(ctx context.Context, slashing *ethpb.ProposerSlashing) {
 	ctx, span := trace.StartSpan(ctx, "detection.submitProposerSlashing")
 	defer span.End()
-	if slashing != nil && slashing.Header_1 != nil && slashing.Header_2 != nil {
+	if slashing != nil && slashing.Header1 != nil && slashing.Header2 != nil {
 		log.WithFields(logrus.Fields{
-			"header1Slot":        slashing.Header_1.Header.Slot,
-			"header2Slot":        slashing.Header_2.Header.Slot,
-			"proposerIdxHeader1": slashing.Header_1.Header.ProposerIndex,
-			"proposerIdxHeader2": slashing.Header_2.Header.ProposerIndex,
+			"header1Slot":        slashing.Header1.Header.Slot,
+			"header2Slot":        slashing.Header2.Header.Slot,
+			"proposerIdxHeader1": slashing.Header1.Header.ProposerIndex,
+			"proposerIdxHeader2": slashing.Header2.Header.ProposerIndex,
 		}).Info("Found a proposer slashing! Submitting to beacon node")
 		s.cfg.ProposerSlashingsFeed.Send(slashing)
 	}

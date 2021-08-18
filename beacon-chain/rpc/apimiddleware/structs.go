@@ -128,11 +128,11 @@ type peerResponseJSON struct {
 
 // peerCountResponseJSON is used in /node/peer_count API endpoint.
 type peerCountResponseJSON struct {
-	Data peerCountResponse_PeerCountJson `json:"data"`
+	Data peerCountResponsePeerCountJSON `json:"data"`
 }
 
-// peerCountResponse_PeerCountJson is used in /node/peer_count API endpoint.
-type peerCountResponse_PeerCountJson struct {
+// peerCountResponsePeerCountJSON is used in /node/peer_count API endpoint.
+type peerCountResponsePeerCountJSON struct {
 	Disconnected  string `json:"disconnected"`
 	Connecting    string `json:"connecting"`
 	Connected     string `json:"connected"`
@@ -293,13 +293,13 @@ type eth1DataJSON struct {
 }
 
 type proposerSlashingJSON struct {
-	Header_1 *signedBeaconBlockHeaderJSON `json:"signed_header_1"`
-	Header_2 *signedBeaconBlockHeaderJSON `json:"signed_header_2"`
+	Header1 *signedBeaconBlockHeaderJSON `json:"signed_header_1"`
+	Header2 *signedBeaconBlockHeaderJSON `json:"signed_header_2"`
 }
 
 type attesterSlashingJSON struct {
-	Attestation_1 *indexedAttestationJSON `json:"attestation_1"`
-	Attestation_2 *indexedAttestationJSON `json:"attestation_2"`
+	Attestation1 *indexedAttestationJSON `json:"attestation_1"`
+	Attestation2 *indexedAttestationJSON `json:"attestation_2"`
 }
 
 type indexedAttestationJSON struct {
@@ -323,11 +323,11 @@ type attestationDataJSON struct {
 }
 
 type depositJSON struct {
-	Proof []string          `json:"proof" hex:"true"`
-	Data  *deposit_DataJson `json:"data"`
+	Proof []string         `json:"proof" hex:"true"`
+	Data  *depositDataJSON `json:"data"`
 }
 
-type deposit_DataJson struct {
+type depositDataJSON struct {
 	PublicKey             string `json:"pubkey" hex:"true"`
 	WithdrawalCredentials string `json:"withdrawal_credentials" hex:"true"`
 	Amount                string `json:"amount"`

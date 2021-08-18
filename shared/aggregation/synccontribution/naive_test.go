@@ -1,4 +1,4 @@
-package sync_contribution
+package synccontribution
 
 import (
 	"fmt"

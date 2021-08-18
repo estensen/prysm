@@ -225,7 +225,7 @@ func TestAltairBeaconBlockBody_Graffiti(t *testing.T) {
 
 func TestAltairBeaconBlockBody_ProposerSlashings(t *testing.T) {
 	ps := []*v1alpha1.ProposerSlashing{
-		{Header_1: &v1alpha1.SignedBeaconBlockHeader{
+		{Header1: &v1alpha1.SignedBeaconBlockHeader{
 			Signature: []byte{0x11, 0x20},
 		}},
 	}
@@ -238,7 +238,7 @@ func TestAltairBeaconBlockBody_ProposerSlashings(t *testing.T) {
 
 func TestAltairBeaconBlockBody_AttesterSlashings(t *testing.T) {
 	as := []*v1alpha1.AttesterSlashing{
-		{Attestation_1: &v1alpha1.IndexedAttestation{Signature: []byte{0x11}}},
+		{Attestation1: &v1alpha1.IndexedAttestation{Signature: []byte{0x11}}},
 	}
 	body := &ethpb.BeaconBlockBodyAltair{AttesterSlashings: as}
 	wbb, err := wrapper.WrappedAltairBeaconBlockBody(body)

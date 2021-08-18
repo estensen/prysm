@@ -14,10 +14,10 @@ import (
 
 func proposerSlashingForValIdx(valIdx types.ValidatorIndex) *ethpb.ProposerSlashing {
 	return &ethpb.ProposerSlashing{
-		Header_1: &ethpb.SignedBeaconBlockHeader{
+		Header1: &ethpb.SignedBeaconBlockHeader{
 			Header: &ethpb.BeaconBlockHeader{ProposerIndex: valIdx},
 		},
-		Header_2: &ethpb.SignedBeaconBlockHeader{
+		Header2: &ethpb.SignedBeaconBlockHeader{
 			Header: &ethpb.BeaconBlockHeader{ProposerIndex: valIdx},
 		},
 	}
@@ -171,7 +171,7 @@ func TestPool_InsertProposerSlashing(t *testing.T) {
 			}
 			assert.Equal(t, len(tt.want), len(p.pendingProposerSlashing))
 			for i := range p.pendingAttesterSlashing {
-				assert.Equal(t, p.pendingProposerSlashing[i].Header_1.Header.ProposerIndex, tt.want[i].Header_1.Header.ProposerIndex)
+				assert.Equal(t, p.pendingProposerSlashing[i].Header1.Header.ProposerIndex, tt.want[i].Header1.Header.ProposerIndex)
 				assert.DeepEqual(t, tt.want[i], p.pendingProposerSlashing[i], "Proposer slashing at index %d does not match expected", i)
 			}
 		})
@@ -193,7 +193,7 @@ func TestPool_InsertProposerSlashing_SigFailsVerify_ClearPool(t *testing.T) {
 	// We mess up the signature of the second slashing.
 	badSig := make([]byte, 96)
 	copy(badSig, "muahaha")
-	slashings[1].Header_1.Signature = badSig
+	slashings[1].Header1.Signature = badSig
 	p := &Pool{
 		pendingProposerSlashing: make([]*ethpb.ProposerSlashing, 0),
 	}
@@ -430,8 +430,8 @@ func TestPool_PendingProposerSlashings_Slashed(t *testing.T) {
 				pendingProposerSlashing: tt.fields.pending,
 			}
 			result := p.PendingProposerSlashings(context.Background(), beaconState, tt.fields.all /*noLimit*/)
-			t.Log(tt.want[0].Header_1.Header.ProposerIndex)
-			t.Log(result[0].Header_1.Header.ProposerIndex)
+			t.Log(tt.want[0].Header1.Header.ProposerIndex)
+			t.Log(result[0].Header1.Header.ProposerIndex)
 			assert.DeepEqual(t, tt.want, result)
 		})
 	}

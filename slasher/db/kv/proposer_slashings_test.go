@@ -18,12 +18,12 @@ func TestStore_ProposerSlashingNilBucket(t *testing.T) {
 	ctx := context.Background()
 
 	ps := &ethpb.ProposerSlashing{
-		Header_1: testutil.HydrateSignedBeaconHeader(&ethpb.SignedBeaconBlockHeader{
+		Header1: testutil.HydrateSignedBeaconHeader(&ethpb.SignedBeaconBlockHeader{
 			Header: &ethpb.BeaconBlockHeader{
 				ProposerIndex: 1,
 			},
 		}),
-		Header_2: testutil.HydrateSignedBeaconHeader(&ethpb.SignedBeaconBlockHeader{
+		Header2: testutil.HydrateSignedBeaconHeader(&ethpb.SignedBeaconBlockHeader{
 			Header: &ethpb.BeaconBlockHeader{
 				ProposerIndex: 1,
 			},
@@ -51,12 +51,12 @@ func TestStore_SaveProposerSlashing(t *testing.T) {
 		{
 			ss: types.Active,
 			ps: &ethpb.ProposerSlashing{
-				Header_1: testutil.HydrateSignedBeaconHeader(&ethpb.SignedBeaconBlockHeader{
+				Header1: testutil.HydrateSignedBeaconHeader(&ethpb.SignedBeaconBlockHeader{
 					Header: &ethpb.BeaconBlockHeader{
 						ProposerIndex: 1,
 					},
 				}),
-				Header_2: testutil.HydrateSignedBeaconHeader(&ethpb.SignedBeaconBlockHeader{
+				Header2: testutil.HydrateSignedBeaconHeader(&ethpb.SignedBeaconBlockHeader{
 					Header: &ethpb.BeaconBlockHeader{
 						ProposerIndex: 1,
 					},
@@ -66,12 +66,12 @@ func TestStore_SaveProposerSlashing(t *testing.T) {
 		{
 			ss: types.Included,
 			ps: &ethpb.ProposerSlashing{
-				Header_1: testutil.HydrateSignedBeaconHeader(&ethpb.SignedBeaconBlockHeader{
+				Header1: testutil.HydrateSignedBeaconHeader(&ethpb.SignedBeaconBlockHeader{
 					Header: &ethpb.BeaconBlockHeader{
 						ProposerIndex: 2,
 					},
 				}),
-				Header_2: testutil.HydrateSignedBeaconHeader(&ethpb.SignedBeaconBlockHeader{
+				Header2: testutil.HydrateSignedBeaconHeader(&ethpb.SignedBeaconBlockHeader{
 					Header: &ethpb.BeaconBlockHeader{
 						ProposerIndex: 2,
 					},
@@ -81,12 +81,12 @@ func TestStore_SaveProposerSlashing(t *testing.T) {
 		{
 			ss: types.Reverted,
 			ps: &ethpb.ProposerSlashing{
-				Header_1: testutil.HydrateSignedBeaconHeader(&ethpb.SignedBeaconBlockHeader{
+				Header1: testutil.HydrateSignedBeaconHeader(&ethpb.SignedBeaconBlockHeader{
 					Header: &ethpb.BeaconBlockHeader{
 						ProposerIndex: 3,
 					},
 				}),
-				Header_2: testutil.HydrateSignedBeaconHeader(&ethpb.SignedBeaconBlockHeader{
+				Header2: testutil.HydrateSignedBeaconHeader(&ethpb.SignedBeaconBlockHeader{
 					Header: &ethpb.BeaconBlockHeader{
 						ProposerIndex: 3,
 					},
@@ -128,12 +128,12 @@ func TestStore_UpdateProposerSlashingStatus(t *testing.T) {
 		{
 			ss: types.Active,
 			ps: &ethpb.ProposerSlashing{
-				Header_1: testutil.HydrateSignedBeaconHeader(&ethpb.SignedBeaconBlockHeader{
+				Header1: testutil.HydrateSignedBeaconHeader(&ethpb.SignedBeaconBlockHeader{
 					Header: &ethpb.BeaconBlockHeader{
 						ProposerIndex: 1,
 					},
 				}),
-				Header_2: testutil.HydrateSignedBeaconHeader(&ethpb.SignedBeaconBlockHeader{
+				Header2: testutil.HydrateSignedBeaconHeader(&ethpb.SignedBeaconBlockHeader{
 					Header: &ethpb.BeaconBlockHeader{
 						ProposerIndex: 1,
 					},
@@ -143,12 +143,12 @@ func TestStore_UpdateProposerSlashingStatus(t *testing.T) {
 		{
 			ss: types.Active,
 			ps: &ethpb.ProposerSlashing{
-				Header_1: testutil.HydrateSignedBeaconHeader(&ethpb.SignedBeaconBlockHeader{
+				Header1: testutil.HydrateSignedBeaconHeader(&ethpb.SignedBeaconBlockHeader{
 					Header: &ethpb.BeaconBlockHeader{
 						ProposerIndex: 2,
 					},
 				}),
-				Header_2: testutil.HydrateSignedBeaconHeader(&ethpb.SignedBeaconBlockHeader{
+				Header2: testutil.HydrateSignedBeaconHeader(&ethpb.SignedBeaconBlockHeader{
 					Header: &ethpb.BeaconBlockHeader{
 						ProposerIndex: 2,
 					},
@@ -158,12 +158,12 @@ func TestStore_UpdateProposerSlashingStatus(t *testing.T) {
 		{
 			ss: types.Active,
 			ps: &ethpb.ProposerSlashing{
-				Header_1: testutil.HydrateSignedBeaconHeader(&ethpb.SignedBeaconBlockHeader{
+				Header1: testutil.HydrateSignedBeaconHeader(&ethpb.SignedBeaconBlockHeader{
 					Header: &ethpb.BeaconBlockHeader{
 						ProposerIndex: 3,
 					},
 				}),
-				Header_2: testutil.HydrateSignedBeaconHeader(&ethpb.SignedBeaconBlockHeader{
+				Header2: testutil.HydrateSignedBeaconHeader(&ethpb.SignedBeaconBlockHeader{
 					Header: &ethpb.BeaconBlockHeader{
 						ProposerIndex: 3,
 					},
@@ -199,36 +199,36 @@ func TestStore_SaveProposerSlashings(t *testing.T) {
 
 	ps := []*ethpb.ProposerSlashing{
 		{
-			Header_1: testutil.HydrateSignedBeaconHeader(&ethpb.SignedBeaconBlockHeader{
+			Header1: testutil.HydrateSignedBeaconHeader(&ethpb.SignedBeaconBlockHeader{
 				Header: &ethpb.BeaconBlockHeader{
 					ProposerIndex: 1,
 				},
 			}),
-			Header_2: testutil.HydrateSignedBeaconHeader(&ethpb.SignedBeaconBlockHeader{
+			Header2: testutil.HydrateSignedBeaconHeader(&ethpb.SignedBeaconBlockHeader{
 				Header: &ethpb.BeaconBlockHeader{
 					ProposerIndex: 1,
 				},
 			}),
 		},
 		{
-			Header_1: testutil.HydrateSignedBeaconHeader(&ethpb.SignedBeaconBlockHeader{
+			Header1: testutil.HydrateSignedBeaconHeader(&ethpb.SignedBeaconBlockHeader{
 				Header: &ethpb.BeaconBlockHeader{
 					ProposerIndex: 2,
 				},
 			}),
-			Header_2: testutil.HydrateSignedBeaconHeader(&ethpb.SignedBeaconBlockHeader{
+			Header2: testutil.HydrateSignedBeaconHeader(&ethpb.SignedBeaconBlockHeader{
 				Header: &ethpb.BeaconBlockHeader{
 					ProposerIndex: 2,
 				},
 			}),
 		},
 		{
-			Header_1: testutil.HydrateSignedBeaconHeader(&ethpb.SignedBeaconBlockHeader{
+			Header1: testutil.HydrateSignedBeaconHeader(&ethpb.SignedBeaconBlockHeader{
 				Header: &ethpb.BeaconBlockHeader{
 					ProposerIndex: 3,
 				},
 			}),
-			Header_2: testutil.HydrateSignedBeaconHeader(&ethpb.SignedBeaconBlockHeader{
+			Header2: testutil.HydrateSignedBeaconHeader(&ethpb.SignedBeaconBlockHeader{
 				Header: &ethpb.BeaconBlockHeader{
 					ProposerIndex: 3,
 				},
@@ -240,7 +240,7 @@ func TestStore_SaveProposerSlashings(t *testing.T) {
 	proposerSlashings, err := db.ProposalSlashingsByStatus(ctx, types.Active)
 	require.NoError(t, err, "Failed to get proposer slashings")
 	sort.SliceStable(proposerSlashings, func(i, j int) bool {
-		return proposerSlashings[i].Header_1.Header.ProposerIndex < proposerSlashings[j].Header_1.Header.ProposerIndex
+		return proposerSlashings[i].Header1.Header.ProposerIndex < proposerSlashings[j].Header1.Header.ProposerIndex
 	})
 	if proposerSlashings == nil || !sszutil.DeepEqual(proposerSlashings, ps) {
 		diff, _ := messagediff.PrettyDiff(proposerSlashings, ps)

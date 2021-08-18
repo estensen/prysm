@@ -315,8 +315,8 @@ func (s *Store) CheckDoubleBlockProposals(
 					return err
 				}
 				proposerSlashings = append(proposerSlashings, &ethpb.ProposerSlashing{
-					Header_1: existingProposalWrapper.SignedBeaconBlockHeader,
-					Header_2: proposal.SignedBeaconBlockHeader,
+					Header1: existingProposalWrapper.SignedBeaconBlockHeader,
+					Header2: proposal.SignedBeaconBlockHeader,
 				})
 			}
 		}

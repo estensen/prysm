@@ -210,7 +210,7 @@ func TestStore_ExistingBlockProposals(t *testing.T) {
 	require.NoError(t, err)
 	require.Equal(t, len(proposals), len(doubleProposals))
 	for i, existing := range doubleProposals {
-		require.DeepEqual(t, doubleProposals[i].Header_1, existing.Header_1)
+		require.DeepEqual(t, doubleProposals[i].Header1, existing.Header1)
 	}
 }
 

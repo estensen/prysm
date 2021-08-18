@@ -59,8 +59,8 @@ func setupValidAttesterSlashing(t *testing.T) (*ethpb.AttesterSlashing, state.Be
 	att2.Signature = aggregateSig.Marshal()
 
 	slashing := &ethpb.AttesterSlashing{
-		Attestation_1: att1,
-		Attestation_2: att2,
+		Attestation1: att1,
+		Attestation2: att2,
 	}
 
 	currentSlot := 2 * params.BeaconConfig().SlotsPerEpoch
@@ -123,10 +123,10 @@ func TestValidateAttesterSlashing_CanFilter(t *testing.T) {
 	topic := p2p.GossipTypeMapping[reflect.TypeOf(&ethpb.AttesterSlashing{})]
 	buf := new(bytes.Buffer)
 	_, err := p.Encoding().EncodeGossip(buf, &ethpb.AttesterSlashing{
-		Attestation_1: testutil.HydrateIndexedAttestation(&ethpb.IndexedAttestation{
+		Attestation1: testutil.HydrateIndexedAttestation(&ethpb.IndexedAttestation{
 			AttestingIndices: []uint64{3},
 		}),
-		Attestation_2: testutil.HydrateIndexedAttestation(&ethpb.IndexedAttestation{
+		Attestation2: testutil.HydrateIndexedAttestation(&ethpb.IndexedAttestation{
 			AttestingIndices: []uint64{3},
 		}),
 	})
@@ -142,10 +142,10 @@ func TestValidateAttesterSlashing_CanFilter(t *testing.T) {
 
 	buf = new(bytes.Buffer)
 	_, err = p.Encoding().EncodeGossip(buf, &ethpb.AttesterSlashing{
-		Attestation_1: testutil.HydrateIndexedAttestation(&ethpb.IndexedAttestation{
+		Attestation1: testutil.HydrateIndexedAttestation(&ethpb.IndexedAttestation{
 			AttestingIndices: []uint64{4, 3},
 		}),
-		Attestation_2: testutil.HydrateIndexedAttestation(&ethpb.IndexedAttestation{
+		Attestation2: testutil.HydrateIndexedAttestation(&ethpb.IndexedAttestation{
 			AttestingIndices: []uint64{3, 4},
 		}),
 	})
@@ -164,7 +164,7 @@ func TestValidateAttesterSlashing_ContextTimeout(t *testing.T) {
 	p := p2ptest.NewTestP2P(t)
 
 	slashing, state := setupValidAttesterSlashing(t)
-	slashing.Attestation_1.Data.Target.Epoch = 100000000
+	slashing.Attestation1.Data.Target.Epoch = 100000000
 
 	ctx, cancel := context.WithTimeout(context.Background(), 100*time.Millisecond)
 	defer cancel()
