@@ -22,10 +22,10 @@ type validatorContainerJSON struct {
 	Index     string         `json:"index"`
 	Balance   string         `json:"balance"`
 	Status    string         `json:"status"`
-	Validator *validatorJson `json:"validator"`
+	Validator *validatorJSON `json:"validator"`
 }
 
-type validatorJson struct {
+type validatorJSON struct {
 	PublicKey                  string `json:"pubkey"`
 	WithdrawalCredentials      string `json:"withdrawal_credentials"`
 	EffectiveBalance           string `json:"effective_balance"`
@@ -36,8 +36,8 @@ type validatorJson struct {
 	WithdrawableEpoch          string `json:"withdrawable_epoch"`
 }
 
-// ApiVerifyValidators ensures the Ethereum API returns correct validator data.
-var ApiVerifyValidators = e2etypes.Evaluator{
+// APIVerifyValidators ensures the Ethereum API returns correct validator data.
+var APIVerifyValidators = e2etypes.Evaluator{
 	Name:       "api_verify_validators_epoch_%d",
 	Policy:     policies.OnEpoch(1),
 	Evaluation: apiVerifyValidators,

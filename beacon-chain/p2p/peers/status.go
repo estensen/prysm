@@ -132,7 +132,7 @@ func (p *Status) Add(record *enr.Record, pid peer.ID, address ma.Multiaddr, dire
 			peerData.Enr = record
 		}
 		if !sameIP(prevAddress, address) {
-			p.addIpToTracker(pid)
+			p.addIPToTracker(pid)
 		}
 		return
 	}
@@ -146,7 +146,7 @@ func (p *Status) Add(record *enr.Record, pid peer.ID, address ma.Multiaddr, dire
 		peerData.Enr = record
 	}
 	p.store.SetPeerData(pid, peerData)
-	p.addIpToTracker(pid)
+	p.addIPToTracker(pid)
 }
 
 // Address returns the multiaddress of the given remote peer.
@@ -791,7 +791,7 @@ func (p *Status) isfromBadIP(pid peer.ID) bool {
 	return false
 }
 
-func (p *Status) addIpToTracker(pid peer.ID) {
+func (p *Status) addIPToTracker(pid peer.ID) {
 	data, ok := p.store.PeerData(pid)
 	if !ok {
 		return

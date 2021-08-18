@@ -319,17 +319,17 @@ func TestService_InterceptAddrDial_Public(t *testing.T) {
 	}
 
 	//test with public allow filter, with a public address added to the deny list
-	invalidPublicIp := "212.67.10.122"
-	validPublicIp := "91.65.69.69"
+	invalidPublicIP := "212.67.10.122"
+	validPublicIP := "91.65.69.69"
 	s.addrFilter, err = configureFilter(&Config{AllowListCIDR: "public", DenyListCIDR: []string{"212.67.89.112/16"}})
 	require.NoError(t, err)
-	multiAddress, err = ma.NewMultiaddr(fmt.Sprintf("/ip4/%s/tcp/%d", validPublicIp, 3000))
+	multiAddress, err = ma.NewMultiaddr(fmt.Sprintf("/ip4/%s/tcp/%d", validPublicIP, 3000))
 	require.NoError(t, err)
 	valid = s.InterceptAddrDial("", multiAddress)
 	if !valid {
 		t.Errorf("Expected multiaddress with ip %s to not be rejected since it is a public address that is not in the deny list", ip)
 	}
-	multiAddress, err = ma.NewMultiaddr(fmt.Sprintf("/ip4/%s/tcp/%d", invalidPublicIp, 3000))
+	multiAddress, err = ma.NewMultiaddr(fmt.Sprintf("/ip4/%s/tcp/%d", invalidPublicIP, 3000))
 	require.NoError(t, err)
 	valid = s.InterceptAddrDial("", multiAddress)
 	if valid {

@@ -101,7 +101,7 @@ func (f *BeaconEndpointFactory) Create(path string) (*gateway.Endpoint, error) {
 		endpoint.RequestQueryParams = []gateway.QueryParam{{Name: "slot"}, {Name: "committee_index"}}
 		endpoint.GetResponse = &attestationsPoolResponseJSON{}
 		endpoint.PostRequest = &submitAttestationRequestJSON{}
-		endpoint.Err = &submitAttestationsErrorJson{}
+		endpoint.Err = &submitAttestationsErrorJSON{}
 		endpoint.Hooks = gateway.HookCollection{
 			OnPreDeserializeRequestBodyIntoContainer: []gateway.Hook{wrapAttestationsArray},
 		}

@@ -1798,7 +1798,7 @@ type DepositContract struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ChainId uint64 `protobuf:"varint,1,opt,name=chain_id,json=chainId,proto3" json:"chain_id,omitempty"`
+	ChainID uint64 `protobuf:"varint,1,opt,name=chain_id,json=chainId,proto3" json:"chain_id,omitempty"`
 	Address string `protobuf:"bytes,2,opt,name=address,proto3" json:"address,omitempty"`
 }
 
@@ -1836,7 +1836,7 @@ func (*DepositContract) Descriptor() ([]byte, []int) {
 
 func (x *DepositContract) GetChainId() uint64 {
 	if x != nil {
-		return x.ChainId
+		return x.ChainID
 	}
 	return 0
 }

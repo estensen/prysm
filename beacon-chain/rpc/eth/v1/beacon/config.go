@@ -74,7 +74,7 @@ func (bs *Server) GetDepositContract(ctx context.Context, _ *emptypb.Empty) (*et
 
 	return &ethpb.DepositContractResponse{
 		Data: &ethpb.DepositContract{
-			ChainId: params.BeaconConfig().DepositChainID,
+			ChainID: params.BeaconConfig().DepositChainID,
 			Address: params.BeaconConfig().DepositContractAddress,
 		},
 	}, nil

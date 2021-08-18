@@ -81,7 +81,7 @@ func TestWrapSignedAggregateAndProofArray(t *testing.T) {
 		endpoint := gateway.Endpoint{
 			PostRequest: &submitAggregateAndProofsRequestJSON{},
 		}
-		unwrappedAggs := []*signedAggregateAttestationAndProofJson{{Signature: "sig"}}
+		unwrappedAggs := []*signedAggregateAttestationAndProofJSON{{Signature: "sig"}}
 		unwrappedAggsJSON, err := json.Marshal(unwrappedAggs)
 		require.NoError(t, err)
 

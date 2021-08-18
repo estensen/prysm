@@ -312,7 +312,7 @@ func TestGetDepositContract(t *testing.T) {
 	s := Server{}
 	resp, err := s.GetDepositContract(context.Background(), &emptypb.Empty{})
 	require.NoError(t, err)
-	assert.Equal(t, uint64(chainId), resp.Data.ChainId)
+	assert.Equal(t, uint64(chainId), resp.Data.ChainID)
 	assert.Equal(t, address, resp.Data.Address)
 }
 

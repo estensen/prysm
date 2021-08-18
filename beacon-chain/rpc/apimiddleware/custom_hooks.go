@@ -51,7 +51,7 @@ func wrapValidatorIndicesArray(endpoint gateway.Endpoint, _ http.ResponseWriter,
 // We make it more proto-friendly by wrapping it in a struct with a 'data' field.
 func wrapSignedAggregateAndProofArray(endpoint gateway.Endpoint, _ http.ResponseWriter, req *http.Request) gateway.ErrorJSON {
 	if _, ok := endpoint.PostRequest.(*submitAggregateAndProofsRequestJSON); ok {
-		data := make([]*signedAggregateAttestationAndProofJson, 0)
+		data := make([]*signedAggregateAttestationAndProofJSON, 0)
 		if err := json.NewDecoder(req.Body).Decode(&data); err != nil {
 			return gateway.InternalServerErrorWithMessage(err, "could not decode body")
 		}

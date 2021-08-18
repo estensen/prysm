@@ -20,14 +20,14 @@ import (
 type sszConfig struct {
 	sszPath      string
 	fileName     string
-	responseJSON sszResponseJson
+	responseJSON sszResponseJSON
 }
 
 func handleGetBeaconStateSSZ(m *gateway.APIProxyMiddleware, endpoint gateway.Endpoint, w http.ResponseWriter, req *http.Request) (handled bool) {
 	config := sszConfig{
 		sszPath:      "/eth/v1/debug/beacon/states/{state_id}/ssz",
 		fileName:     "beacon_state.ssz",
-		responseJSON: &beaconStateSSZResponseJson{},
+		responseJSON: &beaconStateSSZResponseJSON{},
 	}
 	return handleGetSSZ(m, endpoint, w, req, config)
 }
@@ -36,7 +36,7 @@ func handleGetBeaconBlockSSZ(m *gateway.APIProxyMiddleware, endpoint gateway.End
 	config := sszConfig{
 		sszPath:      "/eth/v1/beacon/blocks/{block_id}/ssz",
 		fileName:     "beacon_block.ssz",
-		responseJSON: &blockSSZResponseJson{},
+		responseJSON: &blockSSZResponseJSON{},
 	}
 	return handleGetSSZ(m, endpoint, w, req, config)
 }
@@ -191,16 +191,16 @@ func receiveEvents(eventChan <-chan *sse.Event, w http.ResponseWriter, req *http
 
 			switch string(msg.Event) {
 			case events.HeadTopic:
-				data = &eventHeadJson{}
+				data = &eventHeadJSON{}
 			case events.BlockTopic:
-				data = &receivedBlockDataJson{}
+				data = &receivedBlockDataJSON{}
 			case events.AttestationTopic:
 				data = &attestationJSON{}
 
 				// Data received in the event does not fit the expected event stream output.
 				// We extract the underlying attestation from event data
 				// and assign the attestation back to event data for further processing.
-				eventData := &aggregatedAttReceivedDataJson{}
+				eventData := &aggregatedAttReceivedDataJSON{}
 				if err := json.Unmarshal(msg.Data, eventData); err != nil {
 					return gateway.InternalServerError(err)
 				}
@@ -212,11 +212,11 @@ func receiveEvents(eventChan <-chan *sse.Event, w http.ResponseWriter, req *http
 			case events.VoluntaryExitTopic:
 				data = &signedVoluntaryExitJSON{}
 			case events.FinalizedCheckpointTopic:
-				data = &eventFinalizedCheckpointJson{}
+				data = &eventFinalizedCheckpointJSON{}
 			case events.ChainReorgTopic:
-				data = &eventChainReorgJson{}
+				data = &eventChainReorgJSON{}
 			case "error":
-				data = &eventErrorJson{}
+				data = &eventErrorJSON{}
 			default:
 				return &gateway.DefaultErrorJSON{
 					Message: fmt.Sprintf("Event type '%s' not supported", string(msg.Event)),
