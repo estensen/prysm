@@ -425,7 +425,7 @@ func (q *blocksQueue) onProcessSkippedEvent(ctx context.Context) eventHandlerFn 
 				delete(q.staleEpochs, helpers.SlotToEpoch(startSlot))
 				fork, err := q.blocksFetcher.findFork(ctx, startSlot)
 				if err == nil {
-					return stateSkipped, q.resetFromFork(ctx, fork)
+					return stateSkipped, q.resetFromFork(fork)
 				}
 				log.WithFields(logrus.Fields{
 					"epoch": helpers.SlotToEpoch(startSlot),

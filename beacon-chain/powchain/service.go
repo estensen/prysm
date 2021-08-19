@@ -383,7 +383,7 @@ func (s *Service) AreAllDepositsProcessed() (bool, error) {
 
 // refers to the latest eth1 block which follows the condition: eth1_timestamp +
 // SECONDS_PER_ETH1_BLOCK * ETH1_FOLLOW_DISTANCE <= current_unix_time
-func (s *Service) followBlockHeight(ctx context.Context) (uint64, error) {
+func (s *Service) followBlockHeight() (uint64, error) {
 	latestValidBlock := uint64(0)
 	if s.latestEth1Data.BlockHeight > params.BeaconConfig().Eth1FollowDistance {
 		latestValidBlock = s.latestEth1Data.BlockHeight - params.BeaconConfig().Eth1FollowDistance
@@ -862,7 +862,7 @@ func (s *Service) logTillChainStart() {
 // instead of making multiple RPC requests to the ETH1 endpoint.
 func (s *Service) cacheHeadersForEth1DataVote(ctx context.Context) error {
 	// Find the end block to request from.
-	end, err := s.followBlockHeight(ctx)
+	end, err := s.followBlockHeight()
 	if err != nil {
 		return err
 	}

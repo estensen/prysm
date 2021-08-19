@@ -281,7 +281,7 @@ func (s *Service) processPastLogs(ctx context.Context) error {
 		}
 		return nil
 	}
-	latestFollowHeight, err := s.followBlockHeight(ctx)
+	latestFollowHeight, err := s.followBlockHeight()
 	if err != nil {
 		return err
 	}
@@ -388,7 +388,7 @@ func (s *Service) requestBatchedHeadersAndLogs(ctx context.Context) error {
 	// We request for the nth block behind the current head, in order to have
 	// stabilized logs when we retrieve it from the 1.0 chain.
 
-	requestedBlock, err := s.followBlockHeight(ctx)
+	requestedBlock, err := s.followBlockHeight()
 	if err != nil {
 		return err
 	}
