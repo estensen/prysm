@@ -117,7 +117,7 @@ func (dc *DepositCache) InsertDepositContainers(ctx context.Context, ctrs []*dbp
 
 // InsertFinalizedDeposits inserts deposits up to eth1DepositIndex (inclusive) into the finalized deposits cache.
 func (dc *DepositCache) InsertFinalizedDeposits(ctx context.Context, eth1DepositIndex int64) {
-	ctx, span := trace.StartSpan(ctx, "DepositsCache.InsertFinalizedDeposits")
+	_, span := trace.StartSpan(ctx, "DepositsCache.InsertFinalizedDeposits")
 	defer span.End()
 	dc.depositsLock.Lock()
 	defer dc.depositsLock.Unlock()

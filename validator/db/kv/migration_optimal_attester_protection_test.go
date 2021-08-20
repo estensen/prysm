@@ -1,7 +1,6 @@
 package kv
 
 import (
-	"context"
 	"fmt"
 	"testing"
 
@@ -95,7 +94,6 @@ func Test_migrateOptimalAttesterProtectionUp(t *testing.T) {
 		{
 			name: "partial data saved for both types still completes the migration successfully",
 			setup: func(t *testing.T, validatorDB *Store) {
-				ctx := context.Background()
 				pubKey := [48]byte{1}
 				history := newDeprecatedAttestingHistory(0)
 				// Attest all epochs from genesis to 50.
@@ -120,7 +118,7 @@ func Test_migrateOptimalAttesterProtectionUp(t *testing.T) {
 				require.NoError(t, err)
 
 				// Run the migration.
-				require.NoError(t, validatorDB.migrateOptimalAttesterProtectionUp(ctx))
+				require.NoError(t, validatorDB.migrateOptimalAttesterProtectionUp())
 
 				// Then delete the migration completed key.
 				err = validatorDB.update(func(tx *bolt.Tx) error {
@@ -183,7 +181,7 @@ func Test_migrateOptimalAttesterProtectionUp(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			validatorDB := setupDB(t, nil)
 			tt.setup(t, validatorDB)
-			require.NoError(t, validatorDB.migrateOptimalAttesterProtectionUp(context.Background()))
+			require.NoError(t, validatorDB.migrateOptimalAttesterProtectionUp())
 			tt.eval(t, validatorDB)
 		})
 	}
@@ -292,7 +290,7 @@ func Test_migrateOptimalAttesterProtectionDown(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			validatorDB := setupDB(t, nil)
 			tt.setup(t, validatorDB)
-			require.NoError(t, validatorDB.migrateOptimalAttesterProtectionDown(context.Background()))
+			require.NoError(t, validatorDB.migrateOptimalAttesterProtectionDown())
 			tt.eval(t, validatorDB)
 		})
 	}

@@ -2,7 +2,6 @@ package kv
 
 import (
 	"bytes"
-	"context"
 
 	types "github.com/prysmaticlabs/eth2-types"
 	"github.com/prysmaticlabs/prysm/shared/bytesutil"
@@ -17,7 +16,7 @@ var migrationOptimalAttesterProtectionKey = []byte("optimal_attester_protection_
 // stored attesting history as large, 2Mb arrays per validator, we need to perform
 // this migration differently than the rest, ensuring we perform each expensive bolt
 // update in its own transaction to prevent having everything on the heap.
-func (s *Store) migrateOptimalAttesterProtectionUp(ctx context.Context) error {
+func (s *Store) migrateOptimalAttesterProtectionUp() error {
 	publicKeyBytes := make([][]byte, 0)
 	attestingHistoryBytes := make([][]byte, 0)
 	numKeys := 0
@@ -112,7 +111,7 @@ func (s *Store) migrateOptimalAttesterProtectionUp(ctx context.Context) error {
 }
 
 // Migrate attester protection from the more optimal format to the old format in the DB.
-func (s *Store) migrateOptimalAttesterProtectionDown(ctx context.Context) error {
+func (s *Store) migrateOptimalAttesterProtectionDown() error {
 	// First we extract the public keys we are migrating down for.
 	pubKeys := make([][48]byte, 0)
 	err := s.view(func(tx *bolt.Tx) error {

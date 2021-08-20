@@ -42,7 +42,7 @@ func Wrap(db iface.Database) (iface.Database, error) {
 }
 
 func (e Exporter) publish(ctx context.Context, topic string, msg block.SignedBeaconBlock) error {
-	ctx, span := trace.StartSpan(ctx, "kafka.publish")
+	_, span := trace.StartSpan(ctx, "kafka.publish")
 	defer span.End()
 
 	var err error
