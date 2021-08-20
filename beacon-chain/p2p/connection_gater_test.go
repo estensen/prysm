@@ -18,6 +18,11 @@ import (
 	"github.com/prysmaticlabs/prysm/shared/testutil/require"
 )
 
+const (
+	publicIP  = "212.67.10.122"
+	privateIP = "192.168.1.0"
+)
+
 func TestPeer_AtMaxLimit(t *testing.T) {
 	// create host and remote peer
 	ipAddr, pkey := createAddrAndPrivKey(t)
@@ -79,7 +84,7 @@ func TestService_InterceptBannedIP(t *testing.T) {
 	var err error
 	s.addrFilter, err = configureFilter(&Config{})
 	require.NoError(t, err)
-	ip := "212.67.10.122"
+	ip := publicIP
 	multiAddress, err := ma.NewMultiaddr(fmt.Sprintf("/ip4/%s/tcp/%d", ip, 3000))
 	require.NoError(t, err)
 
@@ -109,7 +114,7 @@ func TestService_RejectInboundPeersBeyondLimit(t *testing.T) {
 	var err error
 	s.addrFilter, err = configureFilter(&Config{})
 	require.NoError(t, err)
-	ip := "212.67.10.122"
+	ip := publicIP
 	multiAddress, err := ma.NewMultiaddr(fmt.Sprintf("/ip4/%s/tcp/%d", ip, 3000))
 	require.NoError(t, err)
 
@@ -281,7 +286,7 @@ func TestService_InterceptAddrDial_Allow(t *testing.T) {
 	cidr := "212.67.89.112/16"
 	s.addrFilter, err = configureFilter(&Config{AllowListCIDR: cidr})
 	require.NoError(t, err)
-	ip := "212.67.10.122"
+	ip := publicIP
 	multiAddress, err := ma.NewMultiaddr(fmt.Sprintf("/ip4/%s/tcp/%d", ip, 3000))
 	require.NoError(t, err)
 	valid := s.InterceptAddrDial("", multiAddress)
@@ -299,8 +304,8 @@ func TestService_InterceptAddrDial_Public(t *testing.T) {
 	}
 	var err error
 	//test with public filter
-	cidr := "public"
-	ip := "212.67.10.122"
+	cidr := public
+	ip := publicIP
 	s.addrFilter, err = configureFilter(&Config{AllowListCIDR: cidr})
 	require.NoError(t, err)
 	multiAddress, err := ma.NewMultiaddr(fmt.Sprintf("/ip4/%s/tcp/%d", ip, 3000))
@@ -310,7 +315,7 @@ func TestService_InterceptAddrDial_Public(t *testing.T) {
 		t.Errorf("Expected multiaddress with ip %s to not be rejected since we allow public addresses", ip)
 	}
 
-	ip = "192.168.1.0" //this is private and should fail
+	ip = privateIP //this is private and should fail
 	multiAddress, err = ma.NewMultiaddr(fmt.Sprintf("/ip4/%s/tcp/%d", ip, 3000))
 	require.NoError(t, err)
 	valid = s.InterceptAddrDial("", multiAddress)
@@ -319,9 +324,9 @@ func TestService_InterceptAddrDial_Public(t *testing.T) {
 	}
 
 	//test with public allow filter, with a public address added to the deny list
-	invalidPublicIP := "212.67.10.122"
+	invalidPublicIP := publicIP
 	validPublicIP := "91.65.69.69"
-	s.addrFilter, err = configureFilter(&Config{AllowListCIDR: "public", DenyListCIDR: []string{"212.67.89.112/16"}})
+	s.addrFilter, err = configureFilter(&Config{AllowListCIDR: public, DenyListCIDR: []string{"212.67.89.112/16"}})
 	require.NoError(t, err)
 	multiAddress, err = ma.NewMultiaddr(fmt.Sprintf("/ip4/%s/tcp/%d", validPublicIP, 3000))
 	require.NoError(t, err)
@@ -347,10 +352,10 @@ func TestService_InterceptAddrDial_Private(t *testing.T) {
 	}
 	var err error
 	//test with private filter
-	cidr := "private"
+	cidr := private
 	s.addrFilter, err = configureFilter(&Config{DenyListCIDR: []string{cidr}})
 	require.NoError(t, err)
-	ip := "212.67.10.122"
+	ip := publicIP
 	multiAddress, err := ma.NewMultiaddr(fmt.Sprintf("/ip4/%s/tcp/%d", ip, 3000))
 	require.NoError(t, err)
 	valid := s.InterceptAddrDial("", multiAddress)
@@ -358,7 +363,7 @@ func TestService_InterceptAddrDial_Private(t *testing.T) {
 		t.Errorf("Expected multiaddress with ip %s to be allowed since we are only denying private addresses", ip)
 	}
 
-	ip = "192.168.1.0"
+	ip = privateIP
 	multiAddress, err = ma.NewMultiaddr(fmt.Sprintf("/ip4/%s/tcp/%d", ip, 3000))
 	require.NoError(t, err)
 	valid = s.InterceptAddrDial("", multiAddress)
@@ -376,10 +381,10 @@ func TestService_InterceptAddrDial_AllowPrivate(t *testing.T) {
 	}
 	var err error
 	//test with private filter
-	cidr := "private"
+	cidr := private
 	s.addrFilter, err = configureFilter(&Config{AllowListCIDR: cidr})
 	require.NoError(t, err)
-	ip := "212.67.10.122"
+	ip := publicIP
 	multiAddress, err := ma.NewMultiaddr(fmt.Sprintf("/ip4/%s/tcp/%d", ip, 3000))
 	require.NoError(t, err)
 	valid := s.InterceptAddrDial("", multiAddress)
@@ -387,7 +392,7 @@ func TestService_InterceptAddrDial_AllowPrivate(t *testing.T) {
 		t.Errorf("Expected multiaddress with ip %s to be denied since we are only allowing private addresses", ip)
 	}
 
-	ip = "192.168.1.0"
+	ip = privateIP
 	multiAddress, err = ma.NewMultiaddr(fmt.Sprintf("/ip4/%s/tcp/%d", ip, 3000))
 	require.NoError(t, err)
 	valid = s.InterceptAddrDial("", multiAddress)
@@ -405,10 +410,10 @@ func TestService_InterceptAddrDial_DenyPublic(t *testing.T) {
 	}
 	var err error
 	//test with private filter
-	cidr := "public"
+	cidr := public
 	s.addrFilter, err = configureFilter(&Config{DenyListCIDR: []string{cidr}})
 	require.NoError(t, err)
-	ip := "212.67.10.122"
+	ip := publicIP
 	multiAddress, err := ma.NewMultiaddr(fmt.Sprintf("/ip4/%s/tcp/%d", ip, 3000))
 	require.NoError(t, err)
 	valid := s.InterceptAddrDial("", multiAddress)
@@ -416,7 +421,7 @@ func TestService_InterceptAddrDial_DenyPublic(t *testing.T) {
 		t.Errorf("Expected multiaddress with ip %s to be denied since we are denying public addresses", ip)
 	}
 
-	ip = "192.168.1.0"
+	ip = privateIP
 	multiAddress, err = ma.NewMultiaddr(fmt.Sprintf("/ip4/%s/tcp/%d", ip, 3000))
 	require.NoError(t, err)
 	valid = s.InterceptAddrDial("", multiAddress)
@@ -434,10 +439,10 @@ func TestService_InterceptAddrDial_AllowConflict(t *testing.T) {
 	}
 	var err error
 	//test with private filter
-	cidr := "public"
+	cidr := public
 	s.addrFilter, err = configureFilter(&Config{DenyListCIDR: []string{cidr, "192.168.0.0/16"}})
 	require.NoError(t, err)
-	ip := "212.67.10.122"
+	ip := publicIP
 	multiAddress, err := ma.NewMultiaddr(fmt.Sprintf("/ip4/%s/tcp/%d", ip, 3000))
 	require.NoError(t, err)
 	valid := s.InterceptAddrDial("", multiAddress)
@@ -445,7 +450,7 @@ func TestService_InterceptAddrDial_AllowConflict(t *testing.T) {
 		t.Errorf("Expected multiaddress with ip %s to be denied since we are denying public addresses", ip)
 	}
 
-	ip = "192.168.1.0"
+	ip = privateIP
 	multiAddress, err = ma.NewMultiaddr(fmt.Sprintf("/ip4/%s/tcp/%d", ip, 3000))
 	require.NoError(t, err)
 	valid = s.InterceptAddrDial("", multiAddress)

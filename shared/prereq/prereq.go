@@ -11,6 +11,10 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
+const (
+	darwin = "darwin"
+)
+
 type platform struct {
 	os           string
 	arch         string
@@ -38,7 +42,7 @@ func supportedPlatforms() []platform {
 	return []platform{
 		{os: "linux", arch: "amd64"},
 		{os: "linux", arch: "arm64"},
-		{os: "darwin", arch: "amd64", majorVersion: 10, minorVersion: 14},
+		{os: darwin, arch: "amd64", majorVersion: 10, minorVersion: 14},
 		{os: "windows", arch: "amd64"},
 	}
 }
@@ -70,7 +74,7 @@ func meetsMinPlatformReqs(ctx context.Context) (bool, error) {
 	for _, platform := range okPlatforms {
 		if runtimeOS == platform.os && runtimeArch == platform.arch {
 			// If MacOS we make sure it meets the minimum version cutoff
-			if runtimeOS == "darwin" {
+			if runtimeOS == darwin {
 				versionStr, err := execShellOutput(ctx, "uname", "-r")
 				if err != nil {
 					return false, errors.Wrap(err, "error obtaining MacOS version")

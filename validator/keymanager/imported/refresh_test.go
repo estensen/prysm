@@ -15,12 +15,15 @@ import (
 	keystorev4 "github.com/wealdtech/go-eth2-wallet-encryptor-keystorev4"
 )
 
+const (
+	walletPassword = "Passw03rdz293**%#2"
+)
+
 func TestImportedKeymanager_reloadAccountsFromKeystore_MismatchedNumKeys(t *testing.T) {
-	password := "Passw03rdz293**%#2"
 	wallet := &mock.Wallet{
 		Files:            make(map[string]map[string][]byte),
 		AccountPasswords: make(map[string]string),
-		WalletPassword:   password,
+		WalletPassword:   walletPassword,
 	}
 	dr := &Keymanager{
 		wallet: wallet,
@@ -47,11 +50,10 @@ func TestImportedKeymanager_reloadAccountsFromKeystore_MismatchedNumKeys(t *test
 }
 
 func TestImportedKeymanager_reloadAccountsFromKeystore(t *testing.T) {
-	password := "Passw03rdz293**%#2"
 	wallet := &mock.Wallet{
 		Files:            make(map[string]map[string][]byte),
 		AccountPasswords: make(map[string]string),
-		WalletPassword:   password,
+		WalletPassword:   walletPassword,
 	}
 	dr := &Keymanager{
 		wallet:              wallet,

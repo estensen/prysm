@@ -22,6 +22,10 @@ import (
 	bolt "go.etcd.io/bbolt"
 )
 
+const (
+	deleteError = "cannot delete genesis, finalized, or head state"
+)
+
 func TestState_CanSaveRetrieve(t *testing.T) {
 	db := setupDB(t)
 
@@ -353,7 +357,7 @@ func TestStore_DeleteGenesisState(t *testing.T) {
 	require.NoError(t, err)
 	require.NoError(t, st.SetSlot(100))
 	require.NoError(t, db.SaveState(ctx, st, genesisBlockRoot))
-	wantedErr := "cannot delete genesis, finalized, or head state"
+	wantedErr := deleteError
 	assert.ErrorContains(t, wantedErr, db.DeleteState(ctx, genesisBlockRoot))
 }
 
@@ -379,7 +383,7 @@ func TestStore_DeleteFinalizedState(t *testing.T) {
 	require.NoError(t, db.SaveState(ctx, finalizedState, finalizedBlockRoot))
 	finalizedCheckpoint := &ethpb.Checkpoint{Root: finalizedBlockRoot[:]}
 	require.NoError(t, db.SaveFinalizedCheckpoint(ctx, finalizedCheckpoint))
-	wantedErr := "cannot delete genesis, finalized, or head state"
+	wantedErr := deleteError
 	assert.ErrorContains(t, wantedErr, db.DeleteState(ctx, finalizedBlockRoot))
 }
 
@@ -402,7 +406,7 @@ func TestStore_DeleteHeadState(t *testing.T) {
 	require.NoError(t, st.SetSlot(100))
 	require.NoError(t, db.SaveState(ctx, st, headBlockRoot))
 	require.NoError(t, db.SaveHeadBlockRoot(ctx, headBlockRoot))
-	wantedErr := "cannot delete genesis, finalized, or head state"
+	wantedErr := deleteError
 	assert.ErrorContains(t, wantedErr, db.DeleteState(ctx, headBlockRoot))
 }
 

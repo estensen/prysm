@@ -18,6 +18,11 @@ import (
 	"github.com/prysmaticlabs/prysm/beacon-chain/cache"
 )
 
+const (
+	udp4 = "udp4"
+	udp6 = "udp6"
+)
+
 // Listener defines the discovery V5 network interface that is used
 // to communicate with other peers.
 type Listener interface {
@@ -104,9 +109,9 @@ func (s *Service) createListener(
 	// by default we will listen to all interfaces.
 	var bindIP net.IP
 	switch udpVersionFromIP(ipAddr) {
-	case "udp4":
+	case udp4:
 		bindIP = net.IPv4zero
-	case "udp6":
+	case udp6:
 		bindIP = net.IPv6zero
 	default:
 		return nil, errors.New("invalid ip provided")
@@ -432,7 +437,7 @@ func multiAddrFromString(address string) (ma.Multiaddr, error) {
 
 func udpVersionFromIP(ipAddr net.IP) string {
 	if ipAddr.To4() != nil {
-		return "udp4"
+		return udp4
 	}
-	return "udp6"
+	return udp6
 }

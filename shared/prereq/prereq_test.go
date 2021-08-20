@@ -9,14 +9,21 @@ import (
 	logTest "github.com/sirupsen/logrus/hooks/test"
 )
 
+const (
+	linux     = "linux"
+	amd64     = "amd64"
+	arm64     = "arm64"
+	tigerLion = "tiger.lion"
+)
+
 func TestMeetsMinPlatformReqs(t *testing.T) {
 	// Linux
-	runtimeOS = "linux"
-	runtimeArch = "amd64"
+	runtimeOS = linux
+	runtimeArch = amd64
 	meetsReqs, err := meetsMinPlatformReqs(context.Background())
 	require.Equal(t, true, meetsReqs)
 	require.NoError(t, err)
-	runtimeArch = "arm64"
+	runtimeArch = arm64
 	meetsReqs, err = meetsMinPlatformReqs(context.Background())
 	require.Equal(t, true, meetsReqs)
 	require.NoError(t, err)
@@ -32,7 +39,7 @@ func TestMeetsMinPlatformReqs(t *testing.T) {
 		return "", errors.New("error while running command")
 	}
 	runtimeOS = "darwin"
-	runtimeArch = "amd64"
+	runtimeArch = amd64
 	meetsReqs, err = meetsMinPlatformReqs(context.Background())
 	require.Equal(t, false, meetsReqs)
 	require.ErrorContains(t, "error obtaining MacOS version", err)
@@ -63,7 +70,7 @@ func TestMeetsMinPlatformReqs(t *testing.T) {
 
 	// Handling abnormal response
 	execShellOutput = func(ctx context.Context, command string, args ...string) (string, error) {
-		return "tiger.lion", nil
+		return tigerLion, nil
 	}
 	meetsReqs, err = meetsMinPlatformReqs(context.Background())
 	require.Equal(t, false, meetsReqs)
@@ -71,11 +78,11 @@ func TestMeetsMinPlatformReqs(t *testing.T) {
 
 	// Windows
 	runtimeOS = "windows"
-	runtimeArch = "amd64"
+	runtimeArch = amd64
 	meetsReqs, err = meetsMinPlatformReqs(context.Background())
 	require.Equal(t, true, meetsReqs)
 	require.NoError(t, err)
-	runtimeArch = "arm64"
+	runtimeArch = arm64
 	meetsReqs, err = meetsMinPlatformReqs(context.Background())
 	require.Equal(t, false, meetsReqs)
 	require.NoError(t, err)
@@ -103,18 +110,18 @@ func TestParseVersion(t *testing.T) {
 }
 
 func TestWarnIfNotSupported(t *testing.T) {
-	runtimeOS = "linux"
-	runtimeArch = "amd64"
+	runtimeOS = linux
+	runtimeArch = amd64
 	hook := logTest.NewGlobal()
 	WarnIfPlatformNotSupported(context.Background())
 	require.LogsDoNotContain(t, hook, "Failed to detect host platform")
 	require.LogsDoNotContain(t, hook, "platform is not supported")
 
 	execShellOutput = func(ctx context.Context, command string, args ...string) (string, error) {
-		return "tiger.lion", nil
+		return tigerLion, nil
 	}
 	runtimeOS = "darwin"
-	runtimeArch = "amd64"
+	runtimeArch = amd64
 	hook = logTest.NewGlobal()
 	WarnIfPlatformNotSupported(context.Background())
 	require.LogsContain(t, hook, "Failed to detect host platform")

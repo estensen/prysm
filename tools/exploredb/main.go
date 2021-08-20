@@ -20,7 +20,6 @@ import (
 	"github.com/dustin/go-humanize"
 	types "github.com/prysmaticlabs/eth2-types"
 	"github.com/prysmaticlabs/prysm/beacon-chain/db/kv"
-	"github.com/prysmaticlabs/prysm/beacon-chain/state"
 	ethpb "github.com/prysmaticlabs/prysm/proto/prysm/v1alpha1"
 	"github.com/prysmaticlabs/prysm/shared/bytesutil"
 	"github.com/prysmaticlabs/prysm/shared/params"
@@ -32,6 +31,8 @@ import (
 const (
 	MaxUint64         = ^uint64(0)
 	maxSlotsToDisplay = 2000000
+	state             = "state"
+	stateSummary      = "state-summary"
 )
 
 var (
@@ -95,8 +96,8 @@ func main() {
 		printBucketStats(dbNameWithPath)
 	case "bucket-content":
 		switch *bucketName {
-		case "state",
-			"state-summary":
+		case state,
+			stateSummary:
 			printBucketContents(dbNameWithPath, *rowLimit, *bucketName)
 		default:
 			log.Fatal("Oops, given bucket is supported for now.")
@@ -149,12 +150,12 @@ func printBucketContents(dbNameWithPath string, rowLimit uint64, bucketName stri
 	groupSize := uint64(128)
 	doneC := make(chan bool)
 	switch bucketName {
-	case "state":
+	case state:
 		stateC := make(chan *modifiedState, groupSize)
 		go readStates(ctx, db, stateC, keys, sizes)
 		go printStates(stateC, doneC)
 
-	case "state-summary":
+	case stateSummary:
 		stateSummaryC := make(chan *modifiedStateSummary, groupSize)
 		go readStateSummary(ctx, db, stateSummaryC, keys, sizes)
 		go printStateSummary(stateSummaryC, doneC)
@@ -369,8 +370,8 @@ func printStateSummary(stateSummaryC <-chan *modifiedStateSummary, doneC chan<- 
 
 func checkValidatorMigration(dbNameWithPath, destDbNameWithPath string) {
 	// get the keys within the supplied limit for the given bucket.
-	sourceStateKeys, _ := keysOfBucket(dbNameWithPath, []byte("state"), MaxUint64)
-	destStateKeys, _ := keysOfBucket(destDbNameWithPath, []byte("state"), MaxUint64)
+	sourceStateKeys, _ := keysOfBucket(dbNameWithPath, []byte(state), MaxUint64)
+	destStateKeys, _ := keysOfBucket(destDbNameWithPath, []byte(state), MaxUint64)
 
 	if len(destStateKeys) < len(sourceStateKeys) {
 		log.Fatalf("destination keys are lesser then source keys (%d/%d)", len(sourceStateKeys), len(destStateKeys))

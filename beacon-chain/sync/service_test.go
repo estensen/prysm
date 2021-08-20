@@ -22,6 +22,10 @@ import (
 	"github.com/prysmaticlabs/prysm/shared/testutil/require"
 )
 
+const (
+	topic = "/eth2/%x/beacon_block"
+)
+
 func TestService_StatusZeroEpoch(t *testing.T) {
 	bState, err := v1.InitializeFromProto(&statepb.BeaconState{Slot: 0})
 	require.NoError(t, err)
@@ -58,7 +62,6 @@ func TestSyncHandlers_WaitToSync(t *testing.T) {
 		chainStarted: abool.New(),
 	}
 
-	topic := "/eth2/%x/beacon_block"
 	go r.registerHandlers()
 	time.Sleep(100 * time.Millisecond)
 	i := r.cfg.StateNotifier.StateFeed().Send(&feed.Event{
@@ -137,7 +140,6 @@ func TestSyncHandlers_WaitTillSynced(t *testing.T) {
 		chainStarted: abool.New(),
 	}
 
-	topic := "/eth2/%x/beacon_block"
 	go r.registerHandlers()
 	time.Sleep(100 * time.Millisecond)
 	i := r.cfg.StateNotifier.StateFeed().Send(&feed.Event{

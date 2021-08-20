@@ -31,6 +31,10 @@ import (
 	"google.golang.org/protobuf/proto"
 )
 
+const (
+	foo = "foo"
+)
+
 func TestSubscribe_ReceivesValidMessage(t *testing.T) {
 	p2pService := p2ptest.NewTestP2P(t)
 	r := Service{
@@ -285,14 +289,14 @@ func Test_wrapAndReportValidation(t *testing.T) {
 		{
 			name: "validator Before chainstart",
 			args: args{
-				topic: "foo",
+				topic: foo,
 				v: func(ctx context.Context, id peer.ID, message *pubsub.Message) pubsub.ValidationResult {
 					return pubsub.ValidationAccept
 				},
 				msg: &pubsub.Message{
 					Message: &pubsubpb.Message{
 						Topic: func() *string {
-							s := "foo"
+							s := foo
 							return &s
 						}(),
 					},
@@ -304,7 +308,7 @@ func Test_wrapAndReportValidation(t *testing.T) {
 		{
 			name: "validator panicked",
 			args: args{
-				topic: "foo",
+				topic: foo,
 				v: func(ctx context.Context, id peer.ID, message *pubsub.Message) pubsub.ValidationResult {
 					panic("oh no!")
 				},
@@ -312,7 +316,7 @@ func Test_wrapAndReportValidation(t *testing.T) {
 				msg: &pubsub.Message{
 					Message: &pubsubpb.Message{
 						Topic: func() *string {
-							s := "foo"
+							s := foo
 							return &s
 						}(),
 					},
@@ -323,7 +327,7 @@ func Test_wrapAndReportValidation(t *testing.T) {
 		{
 			name: "validator OK",
 			args: args{
-				topic: "foo",
+				topic: foo,
 				v: func(ctx context.Context, id peer.ID, message *pubsub.Message) pubsub.ValidationResult {
 					return pubsub.ValidationAccept
 				},
@@ -331,7 +335,7 @@ func Test_wrapAndReportValidation(t *testing.T) {
 				msg: &pubsub.Message{
 					Message: &pubsubpb.Message{
 						Topic: func() *string {
-							s := "foo"
+							s := foo
 							return &s
 						}(),
 					},
@@ -342,7 +346,7 @@ func Test_wrapAndReportValidation(t *testing.T) {
 		{
 			name: "nil topic",
 			args: args{
-				topic: "foo",
+				topic: foo,
 				v: func(ctx context.Context, id peer.ID, message *pubsub.Message) pubsub.ValidationResult {
 					return pubsub.ValidationAccept
 				},

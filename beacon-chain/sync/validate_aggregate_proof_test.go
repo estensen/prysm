@@ -30,6 +30,10 @@ import (
 	"github.com/prysmaticlabs/prysm/shared/testutil/require"
 )
 
+const (
+	notInComitteeErr = "validator index 1000 is not within the committee"
+)
+
 func TestVerifyIndexInCommittee_CanVerify(t *testing.T) {
 	ctx := context.Background()
 	params.UseMinimalConfig()
@@ -51,8 +55,7 @@ func TestVerifyIndexInCommittee_CanVerify(t *testing.T) {
 	require.NoError(t, err)
 	require.NoError(t, validateIndexInCommittee(ctx, s, att, types.ValidatorIndex(indices[0])))
 
-	wanted := "validator index 1000 is not within the committee"
-	assert.ErrorContains(t, wanted, validateIndexInCommittee(ctx, s, att, 1000))
+	assert.ErrorContains(t, notInComitteeErr, validateIndexInCommittee(ctx, s, att, 1000))
 }
 
 func TestVerifyIndexInCommittee_ExistsInBeaconCommittee(t *testing.T) {
@@ -74,8 +77,7 @@ func TestVerifyIndexInCommittee_ExistsInBeaconCommittee(t *testing.T) {
 
 	require.NoError(t, validateIndexInCommittee(ctx, s, att, committee[0]))
 
-	wanted := "validator index 1000 is not within the committee"
-	assert.ErrorContains(t, wanted, validateIndexInCommittee(ctx, s, att, 1000))
+	assert.ErrorContains(t, notInComitteeErr, validateIndexInCommittee(ctx, s, att, 1000))
 }
 
 func TestVerifySelection_NotAnAggregator(t *testing.T) {

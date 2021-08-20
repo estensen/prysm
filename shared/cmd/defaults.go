@@ -25,6 +25,10 @@ import (
 	"github.com/prysmaticlabs/prysm/shared/fileutil"
 )
 
+const (
+	windows = "windows"
+)
+
 // DefaultDataDir is the default data directory to use for the databases and other
 // persistence requirements.
 func DefaultDataDir() string {
@@ -33,7 +37,7 @@ func DefaultDataDir() string {
 	if home != "" {
 		if runtime.GOOS == "darwin" {
 			return filepath.Join(home, "Library", "Eth2")
-		} else if runtime.GOOS == "windows" {
+		} else if runtime.GOOS == windows {
 			return filepath.Join(home, "AppData", "Local", "Eth2")
 		} else {
 			return filepath.Join(home, ".eth2")
@@ -47,7 +51,7 @@ func DefaultDataDir() string {
 // This is used to resolve issue with weak default path (for Windows users) in existing installations.
 // For full details see: https://github.com/prysmaticlabs/prysm/issues/5660.
 func FixDefaultDataDir(prevDataDir, curDataDir string) error {
-	if runtime.GOOS != "windows" {
+	if runtime.GOOS != windows {
 		return nil
 	}
 

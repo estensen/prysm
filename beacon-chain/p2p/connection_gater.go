@@ -22,6 +22,9 @@ const (
 	// High watermark buffer signifies the buffer till which
 	// we will handle inbound requests.
 	highWatermarkBuffer = 10
+
+	public  = "public"
+	private = "private"
 )
 
 // InterceptPeerDial tests whether we're permitted to Dial the specified peer.
@@ -101,9 +104,9 @@ func configureFilter(cfg *Config) (*multiaddr.Filters, error) {
 	addrFilter := multiaddr.NewFilters()
 	var privErr error
 	switch {
-	case cfg.AllowListCIDR == "public":
+	case cfg.AllowListCIDR == public:
 		cfg.DenyListCIDR = append(cfg.DenyListCIDR, privateCIDRList...)
-	case cfg.AllowListCIDR == "private":
+	case cfg.AllowListCIDR == private:
 		addrFilter, privErr = privateCIDRFilter(addrFilter, multiaddr.ActionAccept)
 		if privErr != nil {
 			return nil, privErr
@@ -123,13 +126,13 @@ func configureFilter(cfg *Config) (*multiaddr.Filters, error) {
 			// private addresses and add them to the filter. Likewise, if the deny
 			// list is "public", then we add all private address to the accept filter,
 			switch {
-			case cidr == "private":
+			case cidr == private:
 				addrFilter, privErr = privateCIDRFilter(addrFilter, multiaddr.ActionDeny)
 				if privErr != nil {
 					return nil, privErr
 				}
 				continue
-			case cidr == "public":
+			case cidr == public:
 				addrFilter, privErr = privateCIDRFilter(addrFilter, multiaddr.ActionAccept)
 				if privErr != nil {
 					return nil, privErr

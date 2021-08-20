@@ -21,6 +21,12 @@ import (
 	"google.golang.org/protobuf/types/known/emptypb"
 )
 
+const (
+	head      = "head"
+	finalized = "finalized"
+	genesis   = "genesis"
+)
+
 // blockIDParseError represents an error scenario where a block ID could not be parsed.
 type blockIDParseError struct {
 	message string
@@ -250,7 +256,7 @@ func (bs *Server) GetBlockRoot(ctx context.Context, req *ethpb.BlockRequest) (*e
 	var root []byte
 	var err error
 	switch string(req.BlockId) {
-	case "head":
+	case head:
 		root, err = bs.ChainInfoFetcher.HeadRoot(ctx)
 		if err != nil {
 			return nil, status.Errorf(codes.Internal, "Could not retrieve head block: %v", err)
@@ -258,10 +264,10 @@ func (bs *Server) GetBlockRoot(ctx context.Context, req *ethpb.BlockRequest) (*e
 		if root == nil {
 			return nil, status.Errorf(codes.NotFound, "No head root was found")
 		}
-	case "finalized":
+	case finalized:
 		finalized := bs.ChainInfoFetcher.FinalizedCheckpt()
 		root = finalized.Root
-	case "genesis":
+	case genesis:
 		blk, err := bs.BeaconDB.GenesisBlock(ctx)
 		if err != nil {
 			return nil, status.Errorf(codes.Internal, "Could not retrieve blocks for genesis slot: %v", err)
@@ -356,19 +362,19 @@ func (bs *Server) blockFromBlockID(ctx context.Context, blockID []byte) (block.S
 	var err error
 	var blk block.SignedBeaconBlock
 	switch string(blockID) {
-	case "head":
+	case head:
 		blk, err = bs.ChainInfoFetcher.HeadBlock(ctx)
 		if err != nil {
 			return nil, errors.Wrap(err, "could not retrieve head block")
 		}
-	case "finalized":
+	case finalized:
 		finalized := bs.ChainInfoFetcher.FinalizedCheckpt()
 		finalizedRoot := bytesutil.ToBytes32(finalized.Root)
 		blk, err = bs.BeaconDB.Block(ctx, finalizedRoot)
 		if err != nil {
 			return nil, errors.New("could not get finalized block from db")
 		}
-	case "genesis":
+	case genesis:
 		blk, err = bs.BeaconDB.GenesisBlock(ctx)
 		if err != nil {
 			return nil, errors.Wrap(err, "could not retrieve blocks for genesis slot")

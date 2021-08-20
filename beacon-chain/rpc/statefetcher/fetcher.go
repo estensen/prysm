@@ -17,6 +17,13 @@ import (
 	"github.com/prysmaticlabs/prysm/shared/bytesutil"
 )
 
+const (
+	head      = "head"
+	finalized = "finalized"
+	genesis   = "genesis"
+	justified = "justified"
+)
+
 // StateIDParseError represents an error scenario where a state ID could not be parsed.
 type StateIDParseError struct {
 	message string
@@ -97,23 +104,23 @@ func (p *StateProvider) State(ctx context.Context, stateID []byte) (state.Beacon
 
 	stateIDString := strings.ToLower(string(stateID))
 	switch stateIDString {
-	case "head":
+	case head:
 		s, err = p.ChainInfoFetcher.HeadState(ctx)
 		if err != nil {
 			return nil, errors.Wrap(err, "could not get head state")
 		}
-	case "genesis":
+	case genesis:
 		s, err = p.BeaconDB.GenesisState(ctx)
 		if err != nil {
 			return nil, errors.Wrap(err, "could not get genesis state")
 		}
-	case "finalized":
+	case finalized:
 		checkpoint := p.ChainInfoFetcher.FinalizedCheckpt()
 		s, err = p.StateGenService.StateByRoot(ctx, bytesutil.ToBytes32(checkpoint.Root))
 		if err != nil {
 			return nil, errors.Wrap(err, "could not get finalized state")
 		}
-	case "justified":
+	case justified:
 		checkpoint := p.ChainInfoFetcher.CurrentJustifiedCheckpt()
 		s, err = p.StateGenService.StateByRoot(ctx, bytesutil.ToBytes32(checkpoint.Root))
 		if err != nil {
@@ -146,13 +153,13 @@ func (p *StateProvider) State(ctx context.Context, stateID []byte) (state.Beacon
 func (p *StateProvider) StateRoot(ctx context.Context, stateID []byte) (root []byte, err error) {
 	stateIDString := strings.ToLower(string(stateID))
 	switch stateIDString {
-	case "head":
+	case head:
 		root, err = p.headStateRoot(ctx)
-	case "genesis":
+	case genesis:
 		root, err = p.genesisStateRoot(ctx)
-	case "finalized":
+	case finalized:
 		root, err = p.finalizedStateRoot(ctx)
-	case "justified":
+	case justified:
 		root, err = p.justifiedStateRoot(ctx)
 	default:
 		if len(stateID) == 32 {

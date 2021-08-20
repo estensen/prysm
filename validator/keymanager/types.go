@@ -9,6 +9,12 @@ import (
 	"github.com/prysmaticlabs/prysm/shared/event"
 )
 
+const (
+	derived = "derived"
+	direct  = "direct"
+	remote  = "remote"
+)
+
 // IKeymanager defines a general keymanager interface for Prysm wallets.
 type IKeymanager interface {
 	// FetchValidatingPublicKeys fetches the list of active public keys that should be used to validate with.
@@ -45,11 +51,11 @@ const (
 func (k Kind) String() string {
 	switch k {
 	case Derived:
-		return "derived"
+		return derived
 	case Imported:
-		return "direct"
+		return direct
 	case Remote:
-		return "remote"
+		return remote
 	default:
 		return fmt.Sprintf("%d", int(k))
 	}
@@ -58,11 +64,11 @@ func (k Kind) String() string {
 // ParseKind from a raw string, returning a keymanager kind.
 func ParseKind(k string) (Kind, error) {
 	switch k {
-	case "derived":
+	case derived:
 		return Derived, nil
-	case "direct":
+	case direct:
 		return Imported, nil
-	case "remote":
+	case remote:
 		return Remote, nil
 	default:
 		return 0, fmt.Errorf("%s is not an allowed keymanager", k)

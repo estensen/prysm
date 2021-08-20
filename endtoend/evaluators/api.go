@@ -114,133 +114,154 @@ func assertValidator(v *validatorContainerJSON) error {
 	valid := false
 	var field, expected, actual string
 
+	const (
+		balance                         = "Balance"
+		activeOngoing                   = "active_ongoing"
+		status                          = "Status"
+		publicKey                       = "PublicKey"
+		validatorPublicKey1             = "0x8931cd39ec3133b6ec91f26eec4de555cd7966086b1993dfe69c2b16e80adc62ce82d353b3356d8cc249e4e2d4254122"
+		validatorPublicKey2             = "0x8b4ff71ee947785f545c017bbb9ce84c3f6a90097368cf79663b2e11acc53e18e8f7159919784f4d28282cb39a7113f7"
+		withdrawalCredentials           = "WithdrawalCredentials"
+		validatorWithdrawalCredentials1 = "0x00b5a389a138ec5069e430a91ec2884660fbb77a4bffdefd03f5e5769c2ba1a9"
+		validatorWithdrawalCredentials2 = "0x00b9ea0e53f64def81fe2e783a8bb02e57fb519f56a7224f93f2d37e1572417d"
+		effectiveBalance                = "EffectiveBalance"
+		slashed                         = "Slashed"
+		maxVal                          = "18446744073709551615"
+		activationEpoch                 = "ActivationEpoch"
+		activationEligibilityEpoch      = "ActivationEligibilityEpoch"
+		trueStr                         = "true"
+		withdrawableEpoch               = "WithdrawableEpoch"
+		exitEpoch                       = "ExitEpoch"
+	)
+
 	switch v.Index {
 	case "100":
 		if v.Balance != "32000000000" {
-			field = "Balance"
+			field = balance
 			expected = "32000000000"
 			actual = v.Balance
 			break
 		}
-		if v.Status != "active_ongoing" {
-			field = "Status"
-			expected = "active_ongoing"
+		if v.Status != activeOngoing {
+			field = status
+			expected = activeOngoing
 			actual = v.Status
+
 			break
 		}
 		if v.Validator == nil {
 			return errors.New("validator is nil")
 		}
-		if v.Validator.PublicKey != "0x8931cd39ec3133b6ec91f26eec4de555cd7966086b1993dfe69c2b16e80adc62ce82d353b3356d8cc249e4e2d4254122" {
-			field = "PublicKey"
-			expected = "0x8931cd39ec3133b6ec91f26eec4de555cd7966086b1993dfe69c2b16e80adc62ce82d353b3356d8cc249e4e2d4254122"
+		if v.Validator.PublicKey != validatorPublicKey1 {
+			field = publicKey
+			expected = validatorPublicKey1
 			actual = v.Validator.PublicKey
 			break
 		}
-		if v.Validator.WithdrawalCredentials != "0x00b5a389a138ec5069e430a91ec2884660fbb77a4bffdefd03f5e5769c2ba1a9" {
-			field = "WithdrawalCredentials"
-			expected = "0x00b5a389a138ec5069e430a91ec2884660fbb77a4bffdefd03f5e5769c2ba1a9"
+		if v.Validator.WithdrawalCredentials != validatorWithdrawalCredentials1 {
+			field = withdrawalCredentials
+			expected = validatorWithdrawalCredentials1
 			actual = v.Validator.WithdrawalCredentials
 			break
 		}
 		if v.Validator.EffectiveBalance != "32000000000" {
-			field = "EffectiveBalance"
+			field = effectiveBalance
 			expected = "32000000000"
 			actual = v.Validator.EffectiveBalance
 			break
 		}
 		if v.Validator.Slashed {
-			field = "Slashed"
+			field = slashed
 			expected = "32000000000"
-			actual = "true"
+			actual = trueStr
 			break
 		}
 		if v.Validator.ActivationEligibilityEpoch != "0" {
-			field = "ActivationEligibilityEpoch"
+			field = activationEligibilityEpoch
 			expected = "0"
 			actual = v.Validator.ActivationEligibilityEpoch
 			break
 		}
 		if v.Validator.ActivationEpoch != "0" {
-			field = "ActivationEpoch"
+			field = activationEpoch
 			expected = "0"
 			actual = v.Validator.ActivationEpoch
 			break
 		}
-		if v.Validator.ExitEpoch != "18446744073709551615" {
-			field = "ExitEpoch"
-			expected = "18446744073709551615"
+		if v.Validator.ExitEpoch != maxVal {
+			field = exitEpoch
+			expected = maxVal
 			actual = v.Validator.ExitEpoch
 			break
 		}
-		if v.Validator.WithdrawableEpoch != "18446744073709551615" {
-			field = "WithdrawableEpoch"
-			expected = "18446744073709551615"
+		if v.Validator.WithdrawableEpoch != maxVal {
+			field = withdrawableEpoch
+			expected = maxVal
 			actual = v.Validator.WithdrawableEpoch
 			break
 		}
 		valid = true
 	case "200":
 		if v.Balance != "32000000000" {
-			field = "Balance"
+			field = balance
 			expected = "32000000000"
 			actual = v.Balance
 			break
 		}
-		if v.Status != "active_ongoing" {
-			field = "Status"
-			expected = "active_ongoing"
+		if v.Status != activeOngoing {
+			field = status
+			expected = activeOngoing
 			actual = v.Status
 			break
 		}
 		if v.Validator == nil {
 			return errors.New("validator is nil")
 		}
-		if v.Validator.PublicKey != "0x8b4ff71ee947785f545c017bbb9ce84c3f6a90097368cf79663b2e11acc53e18e8f7159919784f4d28282cb39a7113f7" {
-			field = "PublicKey"
-			expected = "0x8b4ff71ee947785f545c017bbb9ce84c3f6a90097368cf79663b2e11acc53e18e8f7159919784f4d28282cb39a7113f7"
+		if v.Validator.PublicKey != validatorPublicKey2 {
+			field = publicKey
+			expected = validatorPublicKey2
 			actual = v.Validator.PublicKey
 			break
 		}
-		if v.Validator.WithdrawalCredentials != "0x00b9ea0e53f64def81fe2e783a8bb02e57fb519f56a7224f93f2d37e1572417d" {
-			field = "WithdrawalCredentials"
-			expected = "0x00b9ea0e53f64def81fe2e783a8bb02e57fb519f56a7224f93f2d37e1572417d"
+		if v.Validator.WithdrawalCredentials != validatorWithdrawalCredentials2 {
+			field = withdrawalCredentials
+			expected = validatorWithdrawalCredentials2
 			actual = v.Validator.WithdrawalCredentials
 			break
 		}
 		if v.Validator.EffectiveBalance != "32000000000" {
-			field = "EffectiveBalance"
+			field = effectiveBalance
 			expected = "32000000000"
 			actual = v.Validator.EffectiveBalance
 			break
 		}
 		if v.Validator.Slashed {
-			field = "Slashed"
+			field = slashed
 			expected = "32000000000"
-			actual = "true"
+			actual = trueStr
 			break
 		}
 		if v.Validator.ActivationEligibilityEpoch != "0" {
-			field = "ActivationEligibilityEpoch"
+			field = activationEligibilityEpoch
 			expected = "0"
 			actual = v.Validator.ActivationEligibilityEpoch
 			break
 		}
 		if v.Validator.ActivationEpoch != "0" {
-			field = "ActivationEpoch"
+			field = activationEpoch
 			expected = "0"
 			actual = v.Validator.ActivationEpoch
 			break
 		}
-		if v.Validator.ExitEpoch != "18446744073709551615" {
-			field = "ExitEpoch"
-			expected = "18446744073709551615"
+		if v.Validator.ExitEpoch != maxVal {
+			field = exitEpoch
+			expected = maxVal
 			actual = v.Validator.ExitEpoch
 			break
 		}
-		if v.Validator.WithdrawableEpoch != "18446744073709551615" {
-			field = "WithdrawableEpoch"
-			expected = "18446744073709551615"
+		if v.Validator.WithdrawableEpoch != maxVal {
+			field = withdrawableEpoch
+			expected = maxVal
 			actual = v.Validator.WithdrawableEpoch
 			break
 		}

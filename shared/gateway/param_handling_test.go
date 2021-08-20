@@ -10,6 +10,11 @@ import (
 	"github.com/prysmaticlabs/prysm/shared/testutil/require"
 )
 
+const (
+	bar = "bar"
+	baz = "baz"
+)
+
 func TestHandleURLParameters(t *testing.T) {
 	var body bytes.Buffer
 
@@ -23,7 +28,7 @@ func TestHandleURLParameters(t *testing.T) {
 
 	t.Run("with_params", func(t *testing.T) {
 		muxVars := make(map[string]string)
-		muxVars["bar_param"] = "bar"
+		muxVars["bar_param"] = bar
 		muxVars["quux_param"] = "quux"
 		request := httptest.NewRequest("GET", "http://foo.example/bar/baz/quux", &body)
 		request = mux.SetURLVars(request, muxVars)
@@ -35,7 +40,7 @@ func TestHandleURLParameters(t *testing.T) {
 
 	t.Run("with_literal", func(t *testing.T) {
 		muxVars := make(map[string]string)
-		muxVars["bar_param"] = "bar"
+		muxVars["bar_param"] = bar
 		request := httptest.NewRequest("GET", "http://foo.example/bar/baz", &body)
 		request = mux.SetURLVars(request, muxVars)
 
@@ -62,30 +67,30 @@ func TestHandleQueryParameters(t *testing.T) {
 	t.Run("regular_params", func(t *testing.T) {
 		request := httptest.NewRequest("GET", "http://foo.example?bar=bar&baz=baz", &body)
 
-		errJSON := HandleQueryParameters(request, []QueryParam{{Name: "bar"}, {Name: "baz"}})
+		errJSON := HandleQueryParameters(request, []QueryParam{{Name: bar}, {Name: baz}})
 		require.Equal(t, true, errJSON == nil)
 		query := request.URL.Query()
-		v, ok := query["bar"]
+		v, ok := query[bar]
 		require.Equal(t, true, ok, "query param not found")
 		require.Equal(t, 1, len(v), "wrong number of query param values")
-		assert.Equal(t, "bar", v[0])
-		v, ok = query["baz"]
+		assert.Equal(t, bar, v[0])
+		v, ok = query[baz]
 		require.Equal(t, true, ok, "query param not found")
 		require.Equal(t, 1, len(v), "wrong number of query param values")
-		assert.Equal(t, "baz", v[0])
+		assert.Equal(t, baz, v[0])
 	})
 
 	t.Run("hex_and_enum_params", func(t *testing.T) {
 		request := httptest.NewRequest("GET", "http://foo.example?hex=0x626172&baz=baz", &body)
 
-		errJSON := HandleQueryParameters(request, []QueryParam{{Name: "hex", Hex: true}, {Name: "baz", Enum: true}})
+		errJSON := HandleQueryParameters(request, []QueryParam{{Name: "hex", Hex: true}, {Name: baz, Enum: true}})
 		require.Equal(t, true, errJSON == nil)
 		query := request.URL.Query()
 		v, ok := query["hex"]
 		require.Equal(t, true, ok, "query param not found")
 		require.Equal(t, 1, len(v), "wrong number of query param values")
 		assert.Equal(t, "YmFy", v[0])
-		v, ok = query["baz"]
+		v, ok = query[baz]
 		require.Equal(t, true, ok, "query param not found")
 		require.Equal(t, 1, len(v), "wrong number of query param values")
 		assert.Equal(t, "BAZ", v[0])
