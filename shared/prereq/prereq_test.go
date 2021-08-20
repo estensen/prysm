@@ -38,7 +38,7 @@ func TestMeetsMinPlatformReqs(t *testing.T) {
 	execShellOutput = func(ctx context.Context, command string, args ...string) (string, error) {
 		return "", errors.New("error while running command")
 	}
-	runtimeOS = "darwin"
+	runtimeOS = darwin
 	runtimeArch = amd64
 	meetsReqs, err = meetsMinPlatformReqs(context.Background())
 	require.Equal(t, false, meetsReqs)
@@ -120,7 +120,7 @@ func TestWarnIfNotSupported(t *testing.T) {
 	execShellOutput = func(ctx context.Context, command string, args ...string) (string, error) {
 		return tigerLion, nil
 	}
-	runtimeOS = "darwin"
+	runtimeOS = darwin
 	runtimeArch = amd64
 	hook = logTest.NewGlobal()
 	WarnIfPlatformNotSupported(context.Background())
