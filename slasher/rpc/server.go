@@ -223,7 +223,6 @@ func (s *Server) IsSlashableAttestationNoUpdate(ctx context.Context, req *ethpb.
 	}
 	// "lint:ignore" comments are ignored by staticcheck
 	// https://github.com/golangci/golangci-lint/issues/741
-	// Ignore for entire file until it has been fixed
 	//nolint:staticcheck // SA1019: ignore usage of deprecated functions and structs
 	//lint:ignore SA1019 ignore usage of deprecated functions and structs
 	sl.Slashable = true
@@ -238,6 +237,9 @@ func (s *Server) IsSlashableBlockNoUpdate(ctx context.Context, req *ethpb.Beacon
 	if err != nil {
 		return sl, status.Errorf(codes.Internal, "could not detect proposer slashing for block: %v: %v", req, err)
 	}
+	// "lint:ignore" comments are ignored by staticcheck
+	// https://github.com/golangci/golangci-lint/issues/741
+	//nolint:staticcheck // SA1019: ignore usage of deprecated functions and structs
 	//lint:ignore SA1019 ignore usage of deprecated functions and structs
 	sl.Slashable = slash
 	return sl, nil

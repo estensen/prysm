@@ -679,7 +679,6 @@ func (bs *Server) GetValidatorPerformance(
 	// Convert the list of validator public keys to validator indices and add to the indices set.
 	// "lint:ignore" comments are ignored by staticcheck
 	// https://github.com/golangci/golangci-lint/issues/741
-	// Ignore for entire file until it has been fixed
 	//nolint:staticcheck // SA1019: ignore usage of deprecated functions and structs
 	//lint:ignore SA1019 ignore usage of deprecated functions and structs
 	responseCap := len(req.Indices) + len(req.PublicKeys)
@@ -687,6 +686,10 @@ func (bs *Server) GetValidatorPerformance(
 	missingValidators := make([][]byte, 0, responseCap)
 
 	filtered := map[types.ValidatorIndex]bool{} // Track filtered validators to prevent duplication in the response.
+	// Convert the list of validator public keys to validator indices and add to the indices set.
+	// "lint:ignore" comments are ignored by staticcheck
+	// https://github.com/golangci/golangci-lint/issues/741
+	//nolint:staticcheck // SA1019: ignore usage of deprecated functions and structs
 	//lint:ignore SA1019 ignore usage of deprecated functions and structs
 	for _, pubKey := range req.PublicKeys {
 		// Skip empty public key.
