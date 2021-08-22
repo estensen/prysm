@@ -76,7 +76,7 @@ func TestDebounce_SingleHandlerInvocation(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	interval := time.Second
 	timesHandled := 0
-	go Debounce(ctx, interval, eventsChan, func(event interface{}) {
+	go Debounce(ctx, interval, eventsChan, func(_ interface{}) {
 		timesHandled++
 	})
 	for i := 0; i < 100; i++ {
@@ -94,7 +94,7 @@ func TestDebounce_MultipleHandlerInvocation(t *testing.T) {
 	ctx, cancel := context.WithCancel(context.Background())
 	interval := time.Second
 	timesHandled := 0
-	go Debounce(ctx, interval, eventsChan, func(event interface{}) {
+	go Debounce(ctx, interval, eventsChan, func(_ interface{}) {
 		timesHandled++
 	})
 	for i := 0; i < 100; i++ {

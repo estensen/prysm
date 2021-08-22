@@ -835,7 +835,7 @@ func TestServer_StreamIndexedAttestations_ContextCanceled(t *testing.T) {
 	mockStream.EXPECT().Context().Return(ctx).AnyTimes()
 	go func(tt *testing.T) {
 		err := server.StreamIndexedAttestations(&emptypb.Empty{}, mockStream)
-		assert.ErrorContains(t, "Context canceled", err)
+		assert.ErrorContains(tt, "Context canceled", err)
 		<-exitRoutine
 	}(t)
 	cancel()

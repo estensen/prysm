@@ -133,7 +133,7 @@ func (s *Service) validateBeaconBlockPubSub(ctx context.Context, pid peer.ID, ms
 	// Otherwise queue it for processing in the right slot.
 	if isBlockQueueable(genesisTime, blk.Block().Slot(), receivedTime) {
 		s.pendingQueueLock.Lock()
-		if err := s.insertBlockToPendingQueue(blk.Block().Slot(), blk, blockRoot); err != nil {
+		if err := s.insertBlockToPendingQueue(blk, blockRoot); err != nil {
 			s.pendingQueueLock.Unlock()
 			log.WithError(err).WithField("blockSlot", blk.Block().Slot()).Debug("Ignored block")
 			return pubsub.ValidationIgnore
@@ -146,7 +146,7 @@ func (s *Service) validateBeaconBlockPubSub(ctx context.Context, pid peer.ID, ms
 	// Handle block when the parent is unknown.
 	if !s.cfg.DB.HasBlock(ctx, bytesutil.ToBytes32(blk.Block().ParentRoot())) {
 		s.pendingQueueLock.Lock()
-		if err := s.insertBlockToPendingQueue(blk.Block().Slot(), blk, blockRoot); err != nil {
+		if err := s.insertBlockToPendingQueue(blk, blockRoot); err != nil {
 			s.pendingQueueLock.Unlock()
 			log.WithError(err).WithField("blockSlot", blk.Block().Slot()).Debug("Ignored block")
 			return pubsub.ValidationIgnore

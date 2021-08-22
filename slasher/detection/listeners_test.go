@@ -48,10 +48,10 @@ func TestService_DetectIncomingBlocks(t *testing.T) {
 	exitRoutine := make(chan bool)
 	blocksChan := make(chan *ethpb.SignedBeaconBlock)
 	ctx, cancel := context.WithCancel(context.Background())
-	go func(tt *testing.T) {
+	go func() {
 		ds.detectIncomingBlocks(ctx, blocksChan)
 		<-exitRoutine
-	}(t)
+	}()
 	blocksChan <- blk
 	cancel()
 	exitRoutine <- true
@@ -81,10 +81,10 @@ func TestService_DetectIncomingAttestations(t *testing.T) {
 	exitRoutine := make(chan bool)
 	attsChan := make(chan *ethpb.IndexedAttestation)
 	ctx, cancel := context.WithCancel(context.Background())
-	go func(tt *testing.T) {
+	go func() {
 		ds.detectIncomingAttestations(ctx, attsChan)
 		<-exitRoutine
-	}(t)
+	}()
 	attsChan <- att
 	cancel()
 	exitRoutine <- true

@@ -797,8 +797,9 @@ func Test_LogsContainDoNotContain(t *testing.T) {
 
 func TestAssert_NotEmpty(t *testing.T) {
 	type args struct {
-		tb     *assertions.TBMock
-		input  interface{}
+		tb    *assertions.TBMock
+		input interface{}
+		//nolint:structcheck,unused
 		actual interface{}
 		msgs   []interface{}
 	}

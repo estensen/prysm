@@ -73,7 +73,7 @@ func TestHashProtoFuzz(t *testing.T) {
 	f := fuzz.New().NilChance(.2)
 	defer func(tt *testing.T) {
 		if r := recover(); r != nil {
-			t.Log("cannot hash nil proto")
+			tt.Log("cannot hash nil proto")
 		}
 	}(t)
 

@@ -38,6 +38,7 @@ type equalityTest struct {
 	value int
 }
 
+//nolint:structcheck
 type comparisonTest struct {
 	name               string
 	topic1             string

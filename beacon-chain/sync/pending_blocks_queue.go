@@ -328,9 +328,9 @@ func (s *Service) deleteBlockFromPendingQueue(slot types.Slot, b block.SignedBea
 	return nil
 }
 
-// Insert block to the list in the pending queue using the slot as key.
+// Insert block to the list in the pending queue.
 // Note: this helper is not thread safe.
-func (s *Service) insertBlockToPendingQueue(slot types.Slot, b block.SignedBeaconBlock, r [32]byte) error {
+func (s *Service) insertBlockToPendingQueue(b block.SignedBeaconBlock, r [32]byte) error {
 	mutexasserts.AssertRWMutexLocked(&s.pendingQueueLock)
 
 	if s.seenPendingBlocks[r] {

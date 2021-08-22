@@ -46,10 +46,10 @@ func TestService_SubscribeDetectedProposerSlashings(t *testing.T) {
 	slashingsChan := make(chan *ethpb.ProposerSlashing)
 	ctx, cancel := context.WithCancel(context.Background())
 	client.EXPECT().SubmitProposerSlashing(gomock.Any(), slashing)
-	go func(tt *testing.T) {
+	go func() {
 		bs.subscribeDetectedProposerSlashings(ctx, slashingsChan)
 		<-exitRoutine
-	}(t)
+	}()
 	slashingsChan <- slashing
 	cancel()
 	exitRoutine <- true
@@ -91,10 +91,10 @@ func TestService_SubscribeDetectedAttesterSlashings(t *testing.T) {
 	slashingsChan := make(chan *ethpb.AttesterSlashing)
 	ctx, cancel := context.WithCancel(context.Background())
 	client.EXPECT().SubmitAttesterSlashing(gomock.Any(), slashing)
-	go func(tt *testing.T) {
+	go func() {
 		bs.subscribeDetectedAttesterSlashings(ctx, slashingsChan)
 		<-exitRoutine
-	}(t)
+	}()
 	slashingsChan <- slashing
 	cancel()
 	exitRoutine <- true

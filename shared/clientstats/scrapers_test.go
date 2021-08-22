@@ -18,6 +18,7 @@ func init() {
 	logrus.SetLevel(logrus.DebugLevel)
 }
 
+//nolint:structcheck,unused
 type mockRT struct {
 	body       string
 	status     string

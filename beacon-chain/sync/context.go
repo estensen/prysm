@@ -10,7 +10,7 @@ import (
 
 // writes peer's current context for the expected payload to the stream.
 func writeContextToStream(stream network.Stream, chain blockchain.ChainInfoFetcher) error {
-	rpcCtx, err := rpcContext(stream, chain)
+	rpcCtx, err := rpcContext(stream)
 	if err != nil {
 		return err
 	}
@@ -24,7 +24,7 @@ func writeContextToStream(stream network.Stream, chain blockchain.ChainInfoFetch
 
 // reads any attached context-bytes to the payload.
 func readContextFromStream(stream network.Stream, chain blockchain.ChainInfoFetcher) ([]byte, error) {
-	rpcCtx, err := rpcContext(stream, chain)
+	rpcCtx, err := rpcContext(stream)
 	if err != nil {
 		return nil, err
 	}
@@ -40,7 +40,7 @@ func readContextFromStream(stream network.Stream, chain blockchain.ChainInfoFetc
 }
 
 // retrieve expected context depending on rpc topic schema version.
-func rpcContext(stream network.Stream, chain blockchain.ChainInfoFetcher) ([]byte, error) {
+func rpcContext(stream network.Stream) ([]byte, error) {
 	_, _, version, err := p2p.TopicDeconstructor(string(stream.Protocol()))
 	if err != nil {
 		return nil, err
