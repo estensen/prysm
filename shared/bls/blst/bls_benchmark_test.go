@@ -46,6 +46,11 @@ func BenchmarkSignature_AggregateVerify(b *testing.B) {
 	b.ResetTimer()
 	b.ReportAllocs()
 	for i := 0; i < b.N; i++ {
+		// "lint:ignore" comments are ignored by staticcheck
+		// https://github.com/golangci/golangci-lint/issues/741
+		// Ignore for entire file until it has been fixed
+		//nolint:staticcheck // SA1019: ignore usage of deprecated functions and structs
+		//lint:ignore SA1019 ignore usage of deprecated functions and structs
 		if !aggregated.AggregateVerify(pks, msgs) {
 			b.Fatal("could not verify aggregate sig")
 		}

@@ -135,8 +135,24 @@ func logHead(endpt string, head *pb.ChainHead) {
 func logParticipation(endpt string, p *pb.ValidatorParticipation) {
 	log.WithFields(
 		logrus.Fields{
-			"VotedEther":        p.VotedEther,
-			"TotalEther":        p.EligibleEther,
+			// Convert the list of validator public keys to validator indices and add to the indices set.
+			// "lint:ignore" comments are ignored by staticcheck
+			// https://github.com/golangci/golangci-lint/issues/741
+			// Ignore for entire file until it has been fixed
+			//nolint:staticcheck // SA1019: ignore usage of deprecated functions and structs
+			//lint:ignore SA1019 ignore usage of deprecated functions and structs
+			"VotedEther": p.VotedEther,
+			// "lint:ignore" comments are ignored by staticcheck
+			// https://github.com/golangci/golangci-lint/issues/741
+			// Ignore for entire file until it has been fixed
+			//nolint:staticcheck // SA1019: ignore usage of deprecated functions and structs
+			//lint:ignore SA1019 ignore usage of deprecated functions and structs
+			"TotalEther": p.EligibleEther,
+			// "lint:ignore" comments are ignored by staticcheck
+			// https://github.com/golangci/golangci-lint/issues/741
+			// Ignore for entire file until it has been fixed
+			//nolint:staticcheck // SA1019: ignore usage of deprecated functions and structs
+			//lint:ignore SA1019 ignore usage of deprecated functions and structs
 			"ParticipationRate": p.GlobalParticipationRate,
 		}).Info("Participation rate from beacon node ", endpt)
 }

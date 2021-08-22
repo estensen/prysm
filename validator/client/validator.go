@@ -137,6 +137,12 @@ func (v *validator) WaitForChainStart(ctx context.Context) error {
 	ctx, span := trace.StartSpan(ctx, "validator.WaitForChainStart")
 	defer span.End()
 	// First, check if the beacon chain has started.
+
+	// "lint:ignore" comments are ignored by staticcheck
+	// https://github.com/golangci/golangci-lint/issues/741
+	// Ignore for entire file until it has been fixed
+	//nolint:staticcheck // SA1019: ignore usage of deprecated functions and structs
+	//lint:ignore SA1019 ignore usage of deprecated functions and structs
 	stream, err := v.validatorClient.WaitForChainStart(ctx, &emptypb.Empty{})
 	if err != nil {
 		return errors.Wrap(
@@ -599,6 +605,7 @@ func (v *validator) subscribeToSubnets(ctx context.Context, res *ethpb.DutiesRes
 // validator assignments are unknown. Otherwise returns a valid ValidatorRole map.
 func (v *validator) RolesAt(ctx context.Context, slot types.Slot) (map[[48]byte][]iface.ValidatorRole, error) {
 	rolesAt := make(map[[48]byte][]iface.ValidatorRole)
+	//lint:ignore SA1019 ignore usage of deprecated functions and structs
 	for _, duty := range v.duties.Duties {
 		var roles []iface.ValidatorRole
 

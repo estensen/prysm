@@ -124,6 +124,12 @@ func insertDoubleAttestationIntoPool(conns ...*grpc.ClientConn) error {
 
 	var committeeIndex types.CommitteeIndex
 	var committee []types.ValidatorIndex
+	// Convert the list of validator public keys to validator indices and add to the indices set.
+	// "lint:ignore" comments are ignored by staticcheck
+	// https://github.com/golangci/golangci-lint/issues/741
+	// Ignore for entire file until it has been fixed
+	//nolint:staticcheck // SA1019: ignore usage of deprecated functions and structs
+	//lint:ignore SA1019 ignore usage of deprecated functions and structs
 	for _, duty := range duties.Duties {
 		if duty.AttesterSlot == chainHead.HeadSlot-1 {
 			committeeIndex = duty.CommitteeIndex

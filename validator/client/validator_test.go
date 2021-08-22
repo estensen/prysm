@@ -571,9 +571,17 @@ func TestUpdateDuties_OK(t *testing.T) {
 
 	testutil.WaitTimeout(&wg, 3*time.Second)
 
+	// "lint:ignore" comments are ignored by staticcheck
+	// https://github.com/golangci/golangci-lint/issues/741
+	// Ignore for entire file until it has been fixed
+	//nolint:staticcheck // SA1019: ignore usage of deprecated functions and structs
+	//lint:ignore SA1019 ignore usage of deprecated functions and structs
 	assert.Equal(t, params.BeaconConfig().SlotsPerEpoch+1, v.duties.Duties[0].ProposerSlots[0], "Unexpected validator assignments")
+	//lint:ignore SA1019 ignore usage of deprecated functions and structs
 	assert.Equal(t, params.BeaconConfig().SlotsPerEpoch, v.duties.Duties[0].AttesterSlot, "Unexpected validator assignments")
+	//lint:ignore SA1019 ignore usage of deprecated functions and structs
 	assert.Equal(t, resp.Duties[0].CommitteeIndex, v.duties.Duties[0].CommitteeIndex, "Unexpected validator assignments")
+	//lint:ignore SA1019 ignore usage of deprecated functions and structs
 	assert.Equal(t, resp.Duties[0].ValidatorIndex, v.duties.Duties[0].ValidatorIndex, "Unexpected validator assignments")
 }
 

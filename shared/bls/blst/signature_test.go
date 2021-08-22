@@ -37,6 +37,11 @@ func TestAggregateVerify(t *testing.T) {
 		msgs = append(msgs, msg)
 	}
 	aggSig := AggregateSignatures(sigs)
+	// "lint:ignore" comments are ignored by staticcheck
+	// https://github.com/golangci/golangci-lint/issues/741
+	// Ignore for entire file until it has been fixed
+	//nolint:staticcheck // SA1019: ignore usage of deprecated functions and structs
+	//lint:ignore SA1019 ignore usage of deprecated functions and structs
 	assert.Equal(t, true, aggSig.AggregateVerify(pubkeys, msgs), "Signature did not verify")
 }
 

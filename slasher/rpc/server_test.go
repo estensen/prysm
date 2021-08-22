@@ -175,6 +175,12 @@ func TestServer_IsSlashableAttestationNoUpdate(t *testing.T) {
 	require.Equal(t, 0, len(slashings.AttesterSlashings), "Found slashings while no slashing should have been found on first attestation")
 	sl, err := server.IsSlashableAttestationNoUpdate(ctx, incomingAtt)
 	require.NoError(t, err, "Got error while trying to detect slashing")
+
+	// "lint:ignore" comments are ignored by staticcheck
+	// https://github.com/golangci/golangci-lint/issues/741
+	// Ignore for entire file until it has been fixed
+	//nolint:staticcheck // SA1019: ignore usage of deprecated functions and structs
+	//lint:ignore SA1019 deprecated function should be kept in tests until it's remove
 	require.Equal(t, true, sl.Slashable, "Attestation should be found to be slashable")
 }
 

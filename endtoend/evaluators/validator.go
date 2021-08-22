@@ -90,6 +90,12 @@ func validatorsParticipating(conns ...*grpc.ClientConn) error {
 		return errors.Wrap(err, "failed to get validator participation")
 	}
 
+	// Convert the list of validator public keys to validator indices and add to the indices set.
+	// "lint:ignore" comments are ignored by staticcheck
+	// https://github.com/golangci/golangci-lint/issues/741
+	// Ignore for entire file until it has been fixed
+	//nolint:staticcheck // SA1019: ignore usage of deprecated functions and structs
+	//lint:ignore SA1019 ignore usage of deprecated functions and structs
 	partRate := participation.Participation.GlobalParticipationRate
 	expected := float32(expectedParticipation)
 	if partRate < expected {

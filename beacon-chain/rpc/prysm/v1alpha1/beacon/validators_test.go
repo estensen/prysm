@@ -1352,6 +1352,11 @@ func TestServer_GetValidatorQueue_PendingActivation(t *testing.T) {
 	wantChurn, err := helpers.ValidatorChurnLimit(activeValidatorCount)
 	require.NoError(t, err)
 	assert.Equal(t, wantChurn, res.ChurnLimit)
+	// "lint:ignore" comments are ignored by staticcheck
+	// https://github.com/golangci/golangci-lint/issues/741
+	// Ignore for entire file until it has been fixed
+	//nolint:staticcheck // SA1019: ignore usage of deprecated functions and structs
+	//lint:ignore SA1019 ignore usage of deprecated functions and structs
 	assert.DeepEqual(t, wanted, res.ActivationPublicKeys)
 	wantedActiveIndices := []types.ValidatorIndex{2, 1, 0}
 	assert.DeepEqual(t, wantedActiveIndices, res.ActivationValidatorIndices)
@@ -1394,6 +1399,7 @@ func TestServer_GetValidatorQueue_ExitedValidatorLeavesQueue(t *testing.T) {
 	wantChurn, err := helpers.ValidatorChurnLimit(activeValidatorCount)
 	require.NoError(t, err)
 	assert.Equal(t, wantChurn, res.ChurnLimit)
+	//lint:ignore SA1019 ignore usage of deprecated functions and structs
 	assert.DeepEqual(t, wanted, res.ExitPublicKeys)
 	wantedExitIndices := []types.ValidatorIndex{1}
 	assert.DeepEqual(t, wantedExitIndices, res.ExitValidatorIndices)
@@ -1403,6 +1409,7 @@ func TestServer_GetValidatorQueue_ExitedValidatorLeavesQueue(t *testing.T) {
 	require.NoError(t, headState.SetSlot(params.BeaconConfig().SlotsPerEpoch.Mul(uint64(validators[1].ExitEpoch+1))))
 	res, err = bs.GetValidatorQueue(context.Background(), &emptypb.Empty{})
 	require.NoError(t, err)
+	//lint:ignore SA1019 ignore usage of deprecated functions and structs
 	assert.Equal(t, 0, len(res.ExitPublicKeys))
 }
 
@@ -1454,6 +1461,7 @@ func TestServer_GetValidatorQueue_PendingExit(t *testing.T) {
 	wantChurn, err := helpers.ValidatorChurnLimit(activeValidatorCount)
 	require.NoError(t, err)
 	assert.Equal(t, wantChurn, res.ChurnLimit)
+	//lint:ignore SA1019 ignore usage of deprecated functions and structs
 	assert.DeepEqual(t, wanted, res.ExitPublicKeys)
 }
 
