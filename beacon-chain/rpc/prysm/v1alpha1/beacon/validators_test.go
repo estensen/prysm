@@ -184,7 +184,7 @@ func TestServer_ListValidatorBalances_PaginationOutOfRange(t *testing.T) {
 	beaconDB := dbTest.SetupDB(t)
 	ctx := context.Background()
 
-	_, _, headState := setupValidators(t, beaconDB, 100)
+	_, headState := setupValidators(t, beaconDB, 100)
 	b := testutil.NewBeaconBlock()
 	gRoot, err := b.Block.HashTreeRoot()
 	require.NoError(t, err)
@@ -232,7 +232,7 @@ func TestServer_ListValidatorBalances_Pagination_Default(t *testing.T) {
 	beaconDB := dbTest.SetupDB(t)
 	ctx := context.Background()
 
-	_, _, headState := setupValidators(t, beaconDB, 100)
+	_, headState := setupValidators(t, beaconDB, 100)
 	b := testutil.NewBeaconBlock()
 	gRoot, err := b.Block.HashTreeRoot()
 	require.NoError(t, err)
@@ -315,7 +315,7 @@ func TestServer_ListValidatorBalances_Pagination_CustomPageSizes(t *testing.T) {
 	ctx := context.Background()
 
 	count := 1000
-	_, _, headState := setupValidators(t, beaconDB, count)
+	_, headState := setupValidators(t, beaconDB, count)
 	b := testutil.NewBeaconBlock()
 	gRoot, err := b.Block.HashTreeRoot()
 	require.NoError(t, err)
@@ -382,7 +382,7 @@ func TestServer_ListValidatorBalances_OutOfRange(t *testing.T) {
 	beaconDB := dbTest.SetupDB(t)
 
 	ctx := context.Background()
-	_, _, headState := setupValidators(t, beaconDB, 1)
+	_, headState := setupValidators(t, beaconDB, 1)
 	b := testutil.NewBeaconBlock()
 	gRoot, err := b.Block.HashTreeRoot()
 	require.NoError(t, err)
@@ -644,7 +644,7 @@ func TestServer_ListValidatorBalances_UnknownValidatorInResponse(t *testing.T) {
 	beaconDB := dbTest.SetupDB(t)
 	ctx := context.Background()
 
-	_, _, headState := setupValidators(t, beaconDB, 4)
+	_, headState := setupValidators(t, beaconDB, 4)
 	b := testutil.NewBeaconBlock()
 	gRoot, err := b.Block.HashTreeRoot()
 	require.NoError(t, err)
@@ -688,7 +688,7 @@ func TestServer_ListValidatorBalances_UnknownValidatorInResponse(t *testing.T) {
 func TestServer_ListValidators_NoPagination(t *testing.T) {
 	beaconDB := dbTest.SetupDB(t)
 
-	validators, _, headState := setupValidators(t, beaconDB, 100)
+	validators, headState := setupValidators(t, beaconDB, 100)
 	want := make([]*ethpb.Validators_ValidatorContainer, len(validators))
 	for i := 0; i < len(validators); i++ {
 		want[i] = &ethpb.Validators_ValidatorContainer{
@@ -721,7 +721,7 @@ func TestServer_ListValidators_NoPagination(t *testing.T) {
 func TestServer_ListValidators_StategenNotUsed(t *testing.T) {
 	beaconDB := dbTest.SetupDB(t)
 
-	validators, _, headState := setupValidators(t, beaconDB, 100)
+	validators, headState := setupValidators(t, beaconDB, 100)
 	want := make([]*ethpb.Validators_ValidatorContainer, len(validators))
 	for i := 0; i < len(validators); i++ {
 		want[i] = &ethpb.Validators_ValidatorContainer{
@@ -748,7 +748,7 @@ func TestServer_ListValidators_StategenNotUsed(t *testing.T) {
 func TestServer_ListValidators_IndicesPubKeys(t *testing.T) {
 	beaconDB := dbTest.SetupDB(t)
 
-	validators, _, headState := setupValidators(t, beaconDB, 100)
+	validators, headState := setupValidators(t, beaconDB, 100)
 	indicesWanted := []types.ValidatorIndex{2, 7, 11, 17}
 	pubkeyIndicesWanted := []types.ValidatorIndex{3, 5, 9, 15}
 	allIndicesWanted := append(indicesWanted, pubkeyIndicesWanted...)
@@ -796,7 +796,7 @@ func TestServer_ListValidators_Pagination(t *testing.T) {
 	beaconDB := dbTest.SetupDB(t)
 
 	count := 100
-	_, _, headState := setupValidators(t, beaconDB, count)
+	_, headState := setupValidators(t, beaconDB, count)
 
 	bs := &Server{
 		BeaconDB: beaconDB,
@@ -934,7 +934,7 @@ func TestServer_ListValidators_PaginationOutOfRange(t *testing.T) {
 	beaconDB := dbTest.SetupDB(t)
 
 	count := 1
-	validators, _, headState := setupValidators(t, beaconDB, count)
+	validators, headState := setupValidators(t, beaconDB, count)
 
 	bs := &Server{
 		HeadFetcher: &mock.ChainService{
@@ -971,7 +971,7 @@ func TestServer_ListValidators_ExceedsMaxPageSize(t *testing.T) {
 func TestServer_ListValidators_DefaultPageSize(t *testing.T) {
 	beaconDB := dbTest.SetupDB(t)
 
-	validators, _, headState := setupValidators(t, beaconDB, 1000)
+	validators, headState := setupValidators(t, beaconDB, 1000)
 	want := make([]*ethpb.Validators_ValidatorContainer, len(validators))
 	for i := 0; i < len(validators); i++ {
 		want[i] = &ethpb.Validators_ValidatorContainer{
@@ -1940,7 +1940,7 @@ func BenchmarkListValidatorBalances(b *testing.B) {
 	ctx := context.Background()
 
 	count := 1000
-	_, _, headState := setupValidators(b, beaconDB, count)
+	_, headState := setupValidators(b, beaconDB, count)
 	bs := &Server{
 		HeadFetcher: &mock.ChainService{
 			State: headState,
@@ -1955,7 +1955,7 @@ func BenchmarkListValidatorBalances(b *testing.B) {
 	}
 }
 
-func setupValidators(t testing.TB, _ db.Database, count int) ([]*ethpb.Validator, []uint64, state.BeaconState) {
+func setupValidators(t testing.TB, _ db.Database, count int) ([]*ethpb.Validator, state.BeaconState) {
 	balances := make([]uint64, count)
 	validators := make([]*ethpb.Validator, 0, count)
 	for i := 0; i < count; i++ {
@@ -1970,7 +1970,7 @@ func setupValidators(t testing.TB, _ db.Database, count int) ([]*ethpb.Validator
 	require.NoError(t, err)
 	require.NoError(t, s.SetValidators(validators))
 	require.NoError(t, s.SetBalances(balances))
-	return validators, balances, s
+	return validators, s
 }
 
 func TestServer_GetIndividualVotes_RequestFutureSlot(t *testing.T) {
