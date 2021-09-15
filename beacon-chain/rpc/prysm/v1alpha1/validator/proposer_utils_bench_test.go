@@ -49,7 +49,10 @@ func BenchmarkProposerAtts_sortByProfitability(b *testing.B) {
 		for i, att := range atts {
 			attsCopy[i] = ethpb.CopyAttestation(att)
 		}
-		attsCopy.sortByProfitability()
+		_, err := attsCopy.sortByProfitability()
+		if err != nil {
+			b.Error(err)
+		}
 	}
 
 	for _, tt := range tests {
