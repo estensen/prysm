@@ -144,7 +144,7 @@ func metricsTest(conns ...*grpc.ClientConn) error {
 				topic2 = fmt.Sprintf(topic2, forkDigest)
 			}
 			if err = metricCheckComparison(pageContent, topic1, topic2, test.expectedComparison); err != nil {
-				return err
+				return errors.Wrapf(err, "failed %s check", test.name)
 			}
 		}
 	}
