@@ -133,6 +133,7 @@ func TestBeaconState_NoDeadlock(t *testing.T) {
 }
 
 func TestInitializeFromProtoUnsafe(t *testing.T) {
+	//nolint:structcheck
 	type test struct {
 		name  string
 		state *ethpb.BeaconStateAltair

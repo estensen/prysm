@@ -19,9 +19,7 @@ func init() {
 }
 
 type mockRT struct {
-	body       string
-	status     string
-	statusCode int
+	body string
 }
 
 func (rt *mockRT) RoundTrip(req *http.Request) (*http.Response, error) {
